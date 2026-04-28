@@ -1,4 +1,4 @@
-<h1>Hypotrochoid</h1>
+<h1>Spirograph_v1</h1>
 
-Hypotrochoid sample C# WinForm application.
+Spirograph_v1 sample C# WinForm application.
 
