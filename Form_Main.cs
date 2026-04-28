@@ -63,6 +63,15 @@ namespace Spirograph_v1
         // Debounce timer for coalescing rapid Invalidator() calls (UI thread)
         private System.Windows.Forms.Timer _debounceTimer;
 
+        // UI timer to poll latest iteration reported by background render
+        private System.Windows.Forms.Timer _uiProgressTimer;
+
+        // Latest iteration value supplied by background render (atomic)
+        private volatile int _latestIteration;
+
+        // Flag to mark we are already performing the closing handshake
+        private bool _isClosing;
+
         // Regex pattern for a valid Windows filename (no path, just the name)
         // - Disallows \ / : * ? " < > | 
         // - No leading/trailing spaces
@@ -283,7 +292,19 @@ namespace Spirograph_v1
         // Ensure background render is cancelled and given a short time to finish when closing.
         protected override async void OnFormClosing(FormClosingEventArgs e)
         {
-            base.OnFormClosing(e);
+            // Non-blocking, deterministic shutdown handshake:
+            // - On first invocation cancel and wait (bounded) for background render.
+            // - Set e.Cancel = true so message loop continues while waiting.
+            // - When waiting completes, call Close() again to allow normal teardown.
+            if (_isClosing)
+            {
+                // Second invocation after handshake; allow normal closing.
+                base.OnFormClosing(e);
+                return;
+            }
+
+            _isClosing = true;
+            e.Cancel = true;
 
             // Cancel any running render promptly.
             lock (_renderLock)
@@ -310,13 +331,29 @@ namespace Spirograph_v1
             {
                 try
                 {
-                    await Task.WhenAny(running, Task.Delay(2000)).ConfigureAwait(true);
+                    await Task.WhenAny(running, Task.Delay(2000));
                 }
                 catch
                 {
                     // Swallow - shutting down
                 }
             }
+
+            // Stop and dispose UI progress timer so it won't try to touch controls after teardown.
+            try
+            {
+                if (_uiProgressTimer != null)
+                {
+                    _uiProgressTimer.Stop();
+                    _uiProgressTimer.Tick -= UiProgressTimer_Tick;
+                    _uiProgressTimer.Dispose();
+                    _uiProgressTimer = null;
+                }
+            }
+            catch { }
+
+            // Now re-enter close sequence; this time OnFormClosing sees _isClosing true and will permit closing.
+            Close();
 
         }   // OnFormClosing()
 
@@ -603,6 +640,14 @@ namespace Spirograph_v1
             };
             _debounceTimer.Tick += DebounceTimer_Tick;
 
+            // Initialize UI progress poller (reads latest iteration from background without cross-thread marshals)
+            _uiProgressTimer = new System.Windows.Forms.Timer
+            {
+                Interval = 100 // ms
+            };
+            _uiProgressTimer.Tick += UiProgressTimer_Tick;
+            _uiProgressTimer.Start();
+
             _isSetup = false;
 
         }   // Setup()
@@ -639,66 +684,58 @@ namespace Spirograph_v1
 
                 var cts = _renderCts;
 
-                // Create a Progress<int> on UI thread that defends against control disposal.
-                // Keep handler minimal and swallow exceptions during shutdown.
-                var progress = new Progress<int>(i =>
-                {
-                    try
-                    {
-                        if (lblIterationCount == null)          return;
-                        if (lblIterationCount .IsDisposed)      return;
-                        if (!lblIterationCount.IsHandleCreated) return;
-
-                        // Safely update label
-                        lblIterationCount.Text = i.ToString();
-                    }
-                    catch
-                    {
-                        // During app shutdown the UI context may be unavailable/disconnected.
-                        // Swallow the error: main fix is to cancel background work on shutdown.
-                    }
-                });
+                // Create a SafeProgress that simply stores the iteration value atomically.
+                // The UI timer will poll _latestIteration and update the label on the UI thread.
+                var safeProgress = new SafeProgress(v => Interlocked.Exchange(ref _latestIteration, v));
 
                 // Start background render and keep a reference so shutdown can await it.
-                var render = Task.Run(() => RenderSpirographToBitmap(A, B, C, iterations, width, height, progress, cts.Token), cts.Token);
+                var render = Task.Run(() => RenderSpirographToBitmap(A, B, C, iterations, width, height, safeProgress, cts.Token), cts.Token);
                 _renderTask = render;
 
                 render.ContinueWith(t =>
                 {
                     // Continuation runs on UI thread
-                    if (t.IsCanceled)
-                    {
-                        // no-op; canceled by a new render request
-                        return;
-                    }
-                    if (t.IsFaulted)
-                    {
-                        var ex = t.Exception?.GetBaseException();
-                        MessageBox.Show($"An error occurred while rendering:\n\n{ex?.Message}",
-                                        "Render Error",
-                                        MessageBoxButtons.OK,
-                                        MessageBoxIcon.Error);
-                        return;
-                    }
-
-                    // Successful render; assign bitmap to pictureBox.Image, disposing previous image.
                     try
                     {
-                        var bitmap = t.Result;
-                        var oldImg  = pictureBox.Image;
-                        pictureBox.Image = bitmap;
+                        if (t.IsCanceled)
+                        {
+                            // no-op; canceled by a new render request
+                            return;
+                        }
+                        if (t.IsFaulted)
+                        {
+                            var ex = t.Exception?.GetBaseException();
+                            MessageBox.Show($"An error occurred while rendering:\n\n{ex?.Message}",
+                                            "Render Error",
+                                            MessageBoxButtons.OK,
+                                            MessageBoxIcon.Error);
+                            return;
+                        }
 
-                        oldImg?.Dispose();
+                        // Successful render; assign bitmap to pictureBox.Image, disposing previous image.
+                        try
+                        {
+                            var bitmap = t.Result;
+                            var oldImg  = pictureBox.Image;
+                            pictureBox.Image = bitmap;
 
-                        _isComplete = true;
-                        Invalidate();
+                            oldImg?.Dispose();
+
+                            _isComplete = true;
+                            Invalidate();
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show($"An error occurred while updating the image:\n\n{ex.Message}",
+                                             "Render Update Error",
+                                             MessageBoxButtons.OK,
+                                             MessageBoxIcon.Error);
+                        }
                     }
-                    catch (Exception ex)
+                    finally
                     {
-                        MessageBox.Show($"An error occurred while updating the image:\n\n{ex.Message}",
-                                         "Render Update Error",
-                                         MessageBoxButtons.OK,
-                                         MessageBoxIcon.Error);
+                        // Dispose the SafeProgress so further background Report calls are no-ops.
+                        safeProgress.Dispose();
                     }
 
                 },
@@ -820,6 +857,69 @@ namespace Spirograph_v1
         //{
         //    Debug.Print("Form_Main_ResizeBegin");
         //}
+
+        #endregion
+
+
+        /// <summary>
+        /// UI timer tick handler: poll the latest iteration posted by background worker and update label.
+        /// Runs on UI thread.
+        /// </summary>
+        private void UiProgressTimer_Tick(object sender, EventArgs e)
+        {
+            try
+            {
+                if (lblIterationCount == null) return;
+                if (lblIterationCount.IsDisposed) return;
+                if (!lblIterationCount.IsHandleCreated) return;
+
+                // Atomically read and reset the latest iteration value.
+                int value = Interlocked.Exchange(ref _latestIteration, 0);
+
+                if (value > 0)
+                {
+                    lblIterationCount.Text = value.ToString();
+                }
+            }
+            catch
+            {
+                // Swallow – UI may be tearing down.
+            }
+        }
+
+        #region -- SafeProgress helper --
+
+        // SafeProgress does not post into SynchronizationContext.
+        // It simply calls a provided Action<int> (must be thread-safe)
+        // so background threads don't attempt COM context transitions.
+        private sealed class SafeProgress : IProgress<int>, IDisposable
+        {
+            private readonly Action<int> _action;
+            private int _disposed; // 0 == false, 1 == true
+
+            public SafeProgress(Action<int> action)
+            {
+                _action = action ?? throw new ArgumentNullException(nameof(action));
+            }
+
+            public void Report(int value)
+            {
+                if (Interlocked.CompareExchange(ref _disposed, 0, 0) == 1) return;
+                try
+                {
+                    _action(value);
+                }
+                catch
+                {
+                    // Swallow: keep reporting robust during teardown.
+                }
+            }
+
+            public void Dispose()
+            {
+                Interlocked.Exchange(ref _disposed, 1);
+            }
+        }
 
         #endregion
 
