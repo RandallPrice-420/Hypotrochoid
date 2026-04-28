@@ -4,7 +4,7 @@ using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 
 
-namespace Draw_Hypotrochoid
+namespace Spirograph_v1
 {
     public class FloatTrackBar : Control
     {
@@ -129,4 +129,4 @@ namespace Draw_Hypotrochoid
 
     }   // FloatTrackBar()
 
-}   // namespace Draw_Hypotrochoid
+}   // Spirograph_v1

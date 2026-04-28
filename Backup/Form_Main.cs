@@ -57,9 +57,6 @@ namespace Spirograph_v1
         private CancellationTokenSource _renderCts;
         private readonly object         _renderLock = new object();
 
-        // Track currently running render Task so shutdown can wait/cancel deterministically
-        private Task _renderTask;
-
         // Debounce timer for coalescing rapid Invalidator() calls (UI thread)
         private System.Windows.Forms.Timer _debounceTimer;
 
@@ -166,24 +163,6 @@ namespace Spirograph_v1
         }   // CreateFilename()
 
 
-        // Debounce timer tick handler - runs on UI thread
-        private void DebounceTimer_Tick(object sender, EventArgs e)
-        {
-            try
-            {
-                _debounceTimer.Stop();
-
-                if (IsDisposed || Disposing) return;
-
-                StartRenderAsync();
-            }
-            catch
-            {
-                // Swallow exceptions from timer handler to avoid crashing message loop.
-            }
-        }
-
-
         private Color GetRandomColor()
         {
             Color _color = Color.FromArgb(_random.Next(256), _random.Next(256),_random.Next(256));
@@ -280,47 +259,6 @@ namespace Spirograph_v1
         }   // LCM()
 
 
-        // Ensure background render is cancelled and given a short time to finish when closing.
-        protected override async void OnFormClosing(FormClosingEventArgs e)
-        {
-            base.OnFormClosing(e);
-
-            // Cancel any running render promptly.
-            lock (_renderLock)
-            {
-                try
-                {
-                    _renderCts?.Cancel();
-                }
-                catch
-                {
-                    // Swallow - shutting down
-                }
-            }
-
-            // Give the running render a bounded time to complete/observe cancellation.
-            Task running = null;
-
-            lock (_renderLock)
-            {
-                running = _renderTask;
-            }
-
-            if (running != null)
-            {
-                try
-                {
-                    await Task.WhenAny(running, Task.Delay(2000)).ConfigureAwait(true);
-                }
-                catch
-                {
-                    // Swallow - shutting down
-                }
-            }
-
-        }   // OnFormClosing()
-
-
         protected override void OnPaint(PaintEventArgs e)
         {
             // Keep form paint light — rendering runs in background and updates pictureBox.Image.
@@ -357,26 +295,12 @@ namespace Spirograph_v1
 
                     int localIter = 0;
 
-                    // Report progress less frequently to reduce cross-thread marshals
-                    int reportEvery = Math.Max(1, iterations / 200); // ~200 updates max
-
                     while (t <= max_t)
                     {
                         token.ThrowIfCancellationRequested();
 
                         localIter++;
-
-                        if ((localIter % reportEvery) == 0)
-                        {
-                            try
-                            {
-                                progress?.Report(localIter);
-                            }
-                            catch
-                            {
-                                // Swallow: progress targets may be tearing down
-                            }
-                        }
+                        progress?.Report(localIter);
 
                         t += dt;
 
@@ -455,7 +379,7 @@ namespace Spirograph_v1
                     AutoUpgradeEnabled = true,
                     CheckFileExists    = false,
                     CheckPathExists    = false,
-                    OverwritePrompt    = false,
+                    OverwritePrompt    = true,
                     RestoreDirectory   = true,
                     FilterIndex        = 5,
                     Filter             = "Bitmap Image|*.bmp|"
@@ -637,72 +561,60 @@ namespace Spirograph_v1
 
                 _isComplete = false;
 
-                var cts = _renderCts;
-
-                // Create a Progress<int> on UI thread that defends against control disposal.
-                // Keep handler minimal and swallow exceptions during shutdown.
-                var progress = new Progress<int>(i =>
+                var cts      = _renderCts;
+                var        progress = new Progress<int>(i =>
                 {
+                    // Update UI iteration label (Progress posts to UI thread)
                     try
                     {
-                        if (lblIterationCount == null)          return;
-                        if (lblIterationCount .IsDisposed)      return;
-                        if (!lblIterationCount.IsHandleCreated) return;
-
-                        // Safely update label
                         lblIterationCount.Text = i.ToString();
                     }
                     catch
-                    {
-                        // During app shutdown the UI context may be unavailable/disconnected.
-                        // Swallow the error: main fix is to cancel background work on shutdown.
-                    }
+                    { /* swallow in case control disposed */ }
                 });
 
-                // Start background render and keep a reference so shutdown can await it.
-                var render = Task.Run(() => RenderSpirographToBitmap(A, B, C, iterations, width, height, progress, cts.Token), cts.Token);
-                _renderTask = render;
-
-                render.ContinueWith(t =>
-                {
-                    // Continuation runs on UI thread
-                    if (t.IsCanceled)
+                // Start background render
+                Task.Run(() => RenderSpirographToBitmap(A, B, C, iterations, width, height, progress, cts.Token), cts.Token)
+                    .ContinueWith(t =>
                     {
-                        // no-op; canceled by a new render request
-                        return;
-                    }
-                    if (t.IsFaulted)
-                    {
-                        var ex = t.Exception?.GetBaseException();
-                        MessageBox.Show($"An error occurred while rendering:\n\n{ex?.Message}",
-                                        "Render Error",
-                                        MessageBoxButtons.OK,
-                                        MessageBoxIcon.Error);
-                        return;
-                    }
+                        // Continuation runs on UI thread
+                        if (t.IsCanceled)
+                        {
+                            // no-op; canceled by a new render request
+                            return;
+                        }
+                        if (t.IsFaulted)
+                        {
+                            var ex = t.Exception?.GetBaseException();
+                            MessageBox.Show($"An error occurred while rendering:\n\n{ex?.Message}",
+                                            "Render Error",
+                                            MessageBoxButtons.OK,
+                                            MessageBoxIcon.Error);
+                            return;
+                        }
 
-                    // Successful render; assign bitmap to pictureBox.Image, disposing previous image.
-                    try
-                    {
-                        var bitmap = t.Result;
-                        var oldImg  = pictureBox.Image;
-                        pictureBox.Image = bitmap;
+                        // Successful render; assign bitmap to pictureBox.Image, disposing previous image.
+                        try
+                        {
+                            var bitmap = t.Result;
+                            var oldImg  = pictureBox.Image;
+                            pictureBox.Image = bitmap;
 
-                        oldImg?.Dispose();
+                            oldImg?.Dispose();
 
-                        _isComplete = true;
-                        Invalidate();
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show($"An error occurred while updating the image:\n\n{ex.Message}",
-                                         "Render Update Error",
-                                         MessageBoxButtons.OK,
-                                         MessageBoxIcon.Error);
-                    }
+                            _isComplete = true;
+                            Invalidate();
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show($"An error occurred while updating the image:\n\n{ex.Message}",
+                                             "Render Update Error",
+                                             MessageBoxButtons.OK,
+                                             MessageBoxIcon.Error);
+                        }
 
-                },
-                TaskScheduler.FromCurrentSynchronizationContext());
+                    },
+                    TaskScheduler.FromCurrentSynchronizationContext());
 
             }   // lock (...)
 
@@ -823,7 +735,28 @@ namespace Spirograph_v1
 
         #endregion
 
+        // Debounce timer tick handler - runs on UI thread
+        private void DebounceTimer_Tick(object sender, EventArgs e)
+        {
+            try
+            {
+                _debounceTimer.Stop();
 
+                if (IsDisposed || Disposing)
+                    return;
+
+                StartRenderAsync();
+            }
+            catch
+            {
+                // Swallow exceptions from timer handler to avoid crashing message loop.
+            }
+        }
+
+        private void Form_Main_Load(object sender, EventArgs e)
+        {
+
+        }
     }   // class Form_Main
 
 }   // Spirograph_v1

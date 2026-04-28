@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace Draw_Hypotrochoid
+namespace Spirograph_v1
 {
     static class Program
     {

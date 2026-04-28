@@ -257,7 +257,6 @@
             this.Name = "Form_Main";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Spirograph-v1";
-            //this.Load += new System.EventHandler(this.Form_Main_Load);
             this.ResizeEnd += new System.EventHandler(this.Form_Main_ResizeEnd);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
             this.groupBox_Radius.ResumeLayout(false);

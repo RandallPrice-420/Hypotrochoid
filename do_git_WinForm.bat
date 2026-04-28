@@ -17,8 +17,8 @@ set GIT_CURL_VERBOSE=1
 rem ----------------------------------------------------------------------------
 rem  Configure some git settings.
 rem ----------------------------------------------------------------------------
-set project_name=Hypotrochoid
-set local_directory=C:/Repos/WinForm/%project_name%
+set project_name=Spirograph_v1
+set local_directory=C:\Repos\WinForm\%project_name%
 set remote_origin=https://github.com/RandallPrice-420/%project_name%
 
 rem ----------------------------------------------------------------------------
