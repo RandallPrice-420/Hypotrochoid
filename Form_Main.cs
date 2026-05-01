@@ -6,10 +6,11 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+
+using Spirograph_v1.Controls.TrackBar;
 
 
 namespace Spirograph_v1
@@ -17,14 +18,14 @@ namespace Spirograph_v1
     public partial class Form_Main : Form
     {
         /// --------------------------------------------------------------------
-        /// /// Private Properties:
+        /// Private Properties:
         /// -------------------
         ///   _default_A
         ///   _default_B
         ///   _default_C
-        ///   _trackBar_Radius 
-        ///   _trackBar_InnerCircle
-        ///   _trackBar_OuterCircle
+        ///   TrackBar_Radius 
+        ///   TrackBar_InnerCircle
+        ///   TrackBar_OuterCircle
         ///   _color_Pereset_1
         ///   _color_Pereset_2
         ///   _iterations
@@ -36,26 +37,23 @@ namespace Spirograph_v1
 
         #region .  Private Properties  .
 
-        private readonly int _default_A  =  80;
-        private readonly int _default_B  =  14;
-        private readonly int _default_C  = 100;
-        private readonly int _iterations =   0;
+        private readonly int  _default_A  =  80;
+        private readonly int  _default_B  =  14;
+        private readonly int  _default_C  = 100;
 
-        private FloatTrackBar _trackBar_Radius      = new FloatTrackBar();
-        private FloatTrackBar _trackBar_InnerCircle = new FloatTrackBar();
-        private FloatTrackBar _trackBar_OuterCircle = new FloatTrackBar();
+        //private RPTrackBar    RPTrackBar_InnerCircle = new();
+        //private RPTrackBar    RPTrackBar_OuterCircle = new();
 
-        private Color[] _color_Pereset_1;
-        private Color[] _color_Pereset_2;
+        private Color[]       _color_Pereset_1;
+        private Color[]       _color_Pereset_2;
 
-        private bool   _isSetup;
-        private bool   _isComplete;
-        private Color  _penColor;
-        private Random _random;
+        private bool          _isSetup;
+        private Color         _penColor;
+        private Random        _random;
 
         // Rendering control
         private CancellationTokenSource _renderCts;
-        private readonly object         _renderLock = new object();
+        private readonly object         _renderLock = new();
 
         // Track currently running render Task so shutdown can wait/cancel deterministically
         private Task _renderTask;
@@ -71,13 +69,6 @@ namespace Spirograph_v1
 
         // Flag to mark we are already performing the closing handshake
         private bool _isClosing;
-
-        // Regex pattern for a valid Windows filename (no path, just the name)
-        // - Disallows \ / : * ? " < > | 
-        // - No leading/trailing spaces
-        // - At least one character
-        private static readonly Regex _fileNameRegex = new Regex(@"^(?!\s)(?!.*\s$)(?!.*[\\/:*?""<>|]).+$",
-                                                                 RegexOptions.Compiled);
 
         #endregion
 
@@ -109,6 +100,24 @@ namespace Spirograph_v1
         }   // Form_Main()
 
 
+
+
+        // -------------------------------------------------------------------------
+        // Private Methods:
+        // ----------------
+        //   Form_Main_ResizeEnd()
+        //   BtnColor_Click()
+        // -------------------------------------------------------------------------
+
+
+        #region .  Form_Main_ResizeEnd()  .
+        // -------------------------------------------------------------------------
+        //   Method.......:  Form_Main_ResizeEnd()
+        //   Description..:  Handles the ResizeEnd event of the main form.
+        //   Parameters...:  sender - The source of the event.
+        //                   e - The event data.
+        //   Returns......:  Nothing
+        // -------------------------------------------------------------------------
         private void Form_Main_ResizeEnd(object sender, EventArgs e)
         {
             Debug.Print("Form_Main_ResizeEnd");
@@ -116,13 +125,22 @@ namespace Spirograph_v1
             Invalidator();
 
         }   // Form_Main_ResizeEnd()
+        #endregion
 
 
         #region .  Button Events  .
 
+        #region .  BtnColor_Click()  .
+        // -------------------------------------------------------------------------
+        //   Method.......:  BtnColor_Click()
+        //   Description..:  Handles the Click event of the BtnColor control.
+        //   Parameters...:  sender - The source of the event.
+        //                   e - The event data.
+        //   Returns......:  Nothing
+        // -------------------------------------------------------------------------
         private void BtnColor_Click(object sender, EventArgs e)
         {
-            ColorDialog colorDialog = new ColorDialog
+            ColorDialog colorDialog = new()
             {
                 AllowFullOpen = true,
                 AnyColor      = true,
@@ -139,8 +157,17 @@ namespace Spirograph_v1
             }
 
         }   // BtnColor_Click()
+        #endregion
 
 
+        #region .  BtnQuit_Click()  .
+        // -------------------------------------------------------------------------
+        //   Method.......:  BtnQuit_Click()
+        //   Description..:  Handles the Click event of the BtnQuit control.
+        //   Parameters...:  sender - The source of the event.
+        //                   e - The event data.
+        //   Returns......:  Nothing
+        // -------------------------------------------------------------------------
         private void BtnQuit_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show("Are you sure you want to quit?", "Confirm Quit",
@@ -151,30 +178,76 @@ namespace Spirograph_v1
             }
 
         }   // BtnQuit_Click()
+        #endregion
 
 
+        #region .  BtnRedraw_Click()  .
+        // -------------------------------------------------------------------------
+        //   Method.......:  BtnRedraw_Click()
+        //   Description..:  Handles the Click event of the BtnRedraw control.
+        //   Parameters...:  sender - The source of the event.
+        //                   e - The event data.
+        //   Returns......:  Nothing
+        // -------------------------------------------------------------------------
+        private void BtnRedraw_Click(object sender, EventArgs e)
+        {
+            Invalidator();
+
+        }   // BtnRedraw_Click()
+        #endregion
+
+
+        #region .  BtnSave_Click()  .
+        // -------------------------------------------------------------------------
+        //   Method.......:  BtnSave_Click()
+        //   Description..:  Handles the Click event of the BtnSave control.
+        //   Parameters...:  sender - The source of the event.
+        //                   e - The event data.
+        //   Returns......:  Nothing
+        // -------------------------------------------------------------------------
         private void BtnSave_Click(object sender, EventArgs e)
         {
             SaveSpirographImage();
 
         }   // BtnSave_Click()
+        #endregion
 
         #endregion
 
 
+        #region .  CreateFilename()  .
+        // -------------------------------------------------------------------------
+        //   Method.......:  CreateFilename()
+        //   Description..:  Creates a filename for the spirograph image.
+        //   Parameters...:  None
+        //   Returns......:  A string representing the filename.
+        // -------------------------------------------------------------------------
         private string CreateFilename()
         {
-            string a = _trackBar_Radius     .Value.ToString();
-            string b = _trackBar_InnerCircle.Value.ToString();
-            string c = _trackBar_OuterCircle.Value.ToString();
+            string a = _default_A.ToString();
+            //string b = RPTrackBar_InnerCircle.Value.ToString();
+            //string c = RPTrackBar_OuterCircle.Value.ToString();
+            string b = RPSlider_InnerCircle.Value.ToString();
+            string c = RPSlider_OuterCircle.Value.ToString();
 
             string fileName = $"Spirograph_{a}-{b}-{c}_{DateTime.Now:yyyy-MM-dd_HH-mm-ss}.png";
 
             return fileName;
 
         }   // CreateFilename()
+        #endregion
 
 
+        #region .  DebounceTimer_Tick()  .
+        // -------------------------------------------------------------------------
+        //   Method.......:  DebounceTimer_Tick()
+        //   Description..:  Handles the Tick event of the DebounceTimer control.
+        //                   Used to debounce rapid calls to Invalidator() and
+        //                   coalesce them into a single render. Runs on UI thread.
+        //   Parameters...:  sender - The source of the event.
+        //                   e - The event data.
+        //   Returns......:  Nothing
+        // -------------------------------------------------------------------------
         // Debounce timer tick handler - runs on UI thread
         private void DebounceTimer_Tick(object sender, EventArgs e)
         {
@@ -182,7 +255,8 @@ namespace Spirograph_v1
             {
                 _debounceTimer.Stop();
 
-                if (IsDisposed || Disposing) return;
+                if (IsDisposed || Disposing)
+                    return;
 
                 StartRenderAsync();
             }
@@ -190,9 +264,19 @@ namespace Spirograph_v1
             {
                 // Swallow exceptions from timer handler to avoid crashing message loop.
             }
-        }
+
+        }   // DebounceTimer_Tick()
+        #endregion
 
 
+        #region .  GetRandomColor()  .
+        // -------------------------------------------------------------------------
+        //   Method.......:  GetRandomColor()
+        //   Description..:  Generates a random color, but not one that matches the
+        //                   default background color.
+        //   Parameters...:  None
+        //   Returns......:  A Color object representing the random color.
+        // -------------------------------------------------------------------------
         private Color GetRandomColor()
         {
             Color _color = Color.FromArgb(_random.Next(256), _random.Next(256),_random.Next(256));
@@ -205,6 +289,7 @@ namespace Spirograph_v1
             return _color;
 
         }   // GetRandomColor()
+        #endregion
 
 
         #region .  GCD()  .
@@ -226,7 +311,7 @@ namespace Spirograph_v1
         /// </remarks>
         /// <returns>long: The greatest common divisor (GCD) of the two numbers.</returns>
         /// ------------------------------------------------------------------------
-        private long GCD(long a, long b)
+        private static long GCD(long a, long b)
         {
             // Make a >= b.
             a = Math.Abs(a);
@@ -255,8 +340,6 @@ namespace Spirograph_v1
 
         private void Invalidator()
         {
-            _isComplete = false;
-
             // Debounce rapid calls to avoid cancelling/starting many renders.
             if (_debounceTimer != null)
             {
@@ -265,7 +348,7 @@ namespace Spirograph_v1
             }
             else
             {
-                // Fallback: immediate render if timer not initialized for some reason
+                // Fallback:  immediate render if timer not initialized for some reason.
                 StartRenderAsync();
             }
 
@@ -274,19 +357,38 @@ namespace Spirograph_v1
         }   // Invalidator()
 
 
-        private bool IsValidFileName(string fileName)
+
+        #region .  IsValidFileName()  .
+        // -------------------------------------------------------------------------
+        //   Method.......:  IsValidFileName()
+        //   Description..:  Checks if a given string is a valid file name.
+        //   Parameters...:  string fileName - The file name to validate.
+        //   Returns......:  bool - True if the file name is valid, false otherwise.
+        // -------------------------------------------------------------------------
+        private static bool IsValidFileName(string fileName)
         {
             return fileName.IndexOfAny(Path.GetInvalidFileNameChars()) == -1;
 
         }   // IsValidFileName()
+        #endregion
 
 
+
+        #region .  LCM()  .
+        // -------------------------------------------------------------------------
+        //   Method.......:  LCM()
+        //   Description..:  Returns the least common multiple (LCM) of 2 numbers.
+        //   Parameters...:  long a - The first number.
+        //                   long b - The second number.
+        //   Returns......:  long   - The least common multiple (LCM) of the 2 numbers.
+        // -------------------------------------------------------------------------
         // Return the least common multiple (LCM) of two numbers.
-        private long LCM(long a, long b)
+        private static long LCM(long a, long b)
         {
             return a * b / GCD(a, b);
 
         }   // LCM()
+        #endregion
 
 
         // Ensure background render is cancelled and given a short time to finish when closing.
@@ -370,16 +472,32 @@ namespace Spirograph_v1
         /// Renders a spirograph to a new Bitmap. Runs on a background thread.
         /// Reports iteration counts via progress and observes cancellation.
         /// </summary>
+
+        #region .  RenderSpirographToBitmap()  .
+        // -------------------------------------------------------------------------
+        //   Method.......:  RenderSpirographToBitmap()
+        //   Description..:  Renders a spirograph image to a new Bitmap. Runs on a
+        //                   background thread.
+        //   Parameters...:  A - Inner circle radius
+        //                   B - Outer circle radius
+        //                   C - Pen offset
+        //                   iterations - Number of iterations
+        //                   width - Bitmap width
+        //                   height - Bitmap height
+        //                   progress - Progress reporter
+        //                   token - Cancellation token
+        //   Returns......:  Bitmap containing the rendered spirograph
+        // -------------------------------------------------------------------------
         private Bitmap RenderSpirographToBitmap(int A, int B, int C, int iterations, int width, int height, IProgress<int> progress, CancellationToken token)
         {
-            Bitmap bitmap = new Bitmap(width, height);
+            Bitmap bitmap = new(width, height);
 
             try
             {
                 using (Graphics gr = Graphics.FromImage(bitmap))
                 {
                     gr.SmoothingMode = SmoothingMode.AntiAlias;
-                    gr.Clear(pictureBox.BackColor);
+                    gr.Clear(PictureBox.BackColor);
 
                     int    cx    = width / 2;
                     int    cy    = height / 2;
@@ -390,7 +508,7 @@ namespace Spirograph_v1
                     double yPrev = cy + Y(t, A, B, C);
 
                     // Build points while optionally reporting progress.
-                    List<PointF> pointsList = new List<PointF> { new PointF((float)xPrev, (float)yPrev) };
+                    List<PointF> pointsList = [new PointF((float)xPrev, (float)yPrev)];
 
                     int localIter = 0;
 
@@ -423,8 +541,8 @@ namespace Spirograph_v1
                     }
 
                     // Prepare pens once and reuse
-                    Color[]   penColors = { Color.Red, Color.Green, Color.Blue };
-                    List<Pen> pens      = new List<Pen>(penColors.Length);
+                    Color[]   penColors = [Color.Red, Color.Green, Color.Blue];
+                    List<Pen> pens      = new(penColors.Length);
 
                     try
                     {
@@ -467,171 +585,223 @@ namespace Spirograph_v1
             }
 
         }   // RenderSpirographToBitmap()
+        #endregion
 
 
+        #region .  InnerCircleValueChanged()  .
+        // -------------------------------------------------------------------------
+        //   Method.......:  InnerCircleValueChanged()
+        //   Description..:  Handles the event when the inner circle value changes.
+        //   Parameters...:  sender - The source of the event.
+        //                    e - The event data.
+        //   Returns......:  None
+        // -------------------------------------------------------------------------
+        private void InnerCircleValueChanged(object sender, EventArgs e)
+        {
+            if (_isSetup)
+                return;
+
+            Invalidator();
+
+        }   // InnerCircleValueChanged()
+        #endregion
+
+
+        #region .  OuterCircleValueChanged()  .
+        // -------------------------------------------------------------------------
+        //   Method.......:  OuterCircleValueChanged()
+        //   Description..:  Handles the event when the outer circle value changes.
+        //   Parameters...:  sender - The source of the event.
+        //                    e - The event data.
+        //   Returns......:  None
+        // -------------------------------------------------------------------------
+        private void OuterCircleValueChanged(object sender, EventArgs e)
+        {
+            if (_isSetup)
+                return;
+
+            Invalidator();
+
+        }   // OuterCircleValueChanged()
+        #endregion
+
+
+        #region .  SaveSpirographImage()  .
+        // -------------------------------------------------------------------------
+        //   Method.......:  SaveSpirographImage()
+        //   Description..:  Saves the current spirograph image to a file.
+        //   Parameters...:  None
+        //   Returns......:  Nothing
+        // -------------------------------------------------------------------------
         private void SaveSpirographImage()
         {
-            int width  = pictureBox.Size.Width;
-            int height = pictureBox.Size.Height;
+            int width  = PictureBox.Size.Width;
+            int height = PictureBox.Size.Height;
 
-            using (Bitmap bitmap = new Bitmap(width, height))
+            using Bitmap bitmap = new(width, height);
+
+            // Read the control into the bitmap container.
+            PictureBox.DrawToBitmap(bitmap, new Rectangle(0, 0, width, height));
+
+            string directoryPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures), "Spirograph_Images") + "\\";
+            string fileName      = CreateFilename();
+
+            // Displays a SaveFileDialog so the user can save the Image.
+            using SaveFileDialog saveFileDialog = new()
             {
-                // Read the control into the bitmap container.
-                pictureBox.DrawToBitmap(bitmap, new Rectangle(0, 0, width, height));
+                Title              = "Save Spirograph Image File",
+                InitialDirectory   = directoryPath,
+                FileName           = fileName,
+                AddExtension       = true,
+                AutoUpgradeEnabled = true,
+                CheckFileExists    = false,
+                CheckPathExists    = false,
+                OverwritePrompt    = false,
+                RestoreDirectory   = true,
+                FilterIndex        = 5,
+                Filter             = "Bitmap Image|*.bmp|"
+                                   + "Exchangeable Image Format|*.exif|"
+                                   + "Graphics Interchange Format Image|*.gif|"
+                                   + "Joint Photographics Experts Group Image|*.jpg;*.jpeg|"
+                                   + "Portable Network Graphics Image|*.png|"
+                                   + "Tagged Image File Format|*.tiff"
+            };
+            try
+            {
+                DialogResult dialogResult = saveFileDialog.ShowDialog();
 
-                string directoryPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures), "Spirograph_Images") + "\\";
-                string fileName      = CreateFilename();
-
-                // Displays a SaveFileDialog so the user can save the Image.
-                using (SaveFileDialog saveFileDialog = new SaveFileDialog
+                switch (dialogResult)
                 {
-                    Title              = "Save Spirograph Image File",
-                    InitialDirectory   = directoryPath,
-                    FileName           = fileName,
-                    AddExtension       = true,
-                    AutoUpgradeEnabled = true,
-                    CheckFileExists    = false,
-                    CheckPathExists    = false,
-                    OverwritePrompt    = false,
-                    RestoreDirectory   = true,
-                    FilterIndex        = 5,
-                    Filter             = "Bitmap Image|*.bmp|"
-                                       + "Exchangeable Image Format|*.exif|"
-                                       + "Graphics Interchange Format Image|*.gif|"
-                                       + "Joint Photographics Experts Group Image|*.jpg;*.jpeg|"
-                                       + "Portable Network Graphics Image|*.png|"
-                                       + "Tagged Image File Format|*.tiff"
-                })
-                {
-                    try
-                    {
-                        DialogResult dialogResult = saveFileDialog.ShowDialog();
+                    case DialogResult.Cancel:
+                    case DialogResult.No:
+                        MessageBox.Show("The Image was not saved.", "Save Image Cancelled",
+                                        MessageBoxButtons.OK,
+                                        MessageBoxIcon.Information);
+                        return;
 
-                        switch (dialogResult)
+                    case DialogResult.OK:
+                        //if (ValidateFileName(saveFileDialog.FileName))
+                        if (IsValidFileName(Path.GetFileName(saveFileDialog.FileName)))
                         {
-                            case DialogResult.Cancel:
-                            case DialogResult.No:
-                                MessageBox.Show("The Image was not saved.", "Save Image Cancelled",
-                                                MessageBoxButtons.OK,
-                                                MessageBoxIcon.Information);
-                                return;
-
-                            case DialogResult.OK:
-                                //if (ValidateFileName(saveFileDialog.FileName))
-                                if (IsValidFileName(Path.GetFileName(saveFileDialog.FileName)))
+                            // Saves the Image via a FileStream created by the OpenFile method.
+                            using (FileStream fs = (FileStream)saveFileDialog.OpenFile())
+                            {
+                                // Saves the Image in the ImageFormat selected in the dialog box.
+                                // NOTE:  The FilterIndex property is one-based.
+                                switch (saveFileDialog.FilterIndex)
                                 {
-                                    // Saves the Image via a FileStream created by the OpenFile method.
-                                    using (FileStream fs = (FileStream)saveFileDialog.OpenFile())
-                                    {
-                                        // Saves the Image in the ImageFormat selected in the dialog box.
-                                        // NOTE:  The FilterIndex property is one-based.
-                                        switch (saveFileDialog.FilterIndex)
-                                        {
-                                            case 1 : bitmap.Save(fs, ImageFormat.Bmp ); break;
-                                            case 2 : bitmap.Save(fs, ImageFormat.Exif); break;
-                                            case 3 : bitmap.Save(fs, ImageFormat.Gif ); break;
-                                            case 4 : bitmap.Save(fs, ImageFormat.Jpeg); break;
-                                            case 5 : bitmap.Save(fs, ImageFormat.Png ); break;
-                                            case 6 : bitmap.Save(fs, ImageFormat.Tiff); break;
-                                            default: bitmap.Save(fs, ImageFormat.Png );
-                                                break;
-                                        }
-
-                                    }   // using (FileStream...)
-
-                                    MessageBox.Show($"The Image was saved successfully as:\n\r\n\r{saveFileDialog.FileName}",
-                                                     "Image Saved Successfully",
-                                                     MessageBoxButtons.OK,
-                                                     MessageBoxIcon.Information);
+                                    case 1:
+                                        bitmap.Save(fs, ImageFormat.Bmp);
+                                        break;
+                                    case 2:
+                                        bitmap.Save(fs, ImageFormat.Exif);
+                                        break;
+                                    case 3:
+                                        bitmap.Save(fs, ImageFormat.Gif);
+                                        break;
+                                    case 4:
+                                        bitmap.Save(fs, ImageFormat.Jpeg);
+                                        break;
+                                    case 5:
+                                        bitmap.Save(fs, ImageFormat.Png);
+                                        break;
+                                    case 6:
+                                        bitmap.Save(fs, ImageFormat.Tiff);
+                                        break;
+                                    default:
+                                        bitmap.Save(fs, ImageFormat.Png);
+                                        break;
                                 }
-                                else
-                                {
-                                    char[] invalidChars = Path.GetInvalidFileNameChars();
-                                    MessageBox.Show($"The file name is invalid:\n\r\n\r{Path.GetFileName(saveFileDialog.FileName)}\n\r\n\rIt contains these invalid characters: {string.Join(" ", invalidChars)}\n\r\n\rPlease enter a valid file name without any of the following characters: \\ / : * ? \" < > |",
-                                                     "Invalid File Name",
-                                                     MessageBoxButtons.OK,
-                                                     MessageBoxIcon.Error);
-                                    return;
-                                }
-                                break;
 
-                        }   // switch(dialogResult)
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show($"An error occurred while trying to save the Image:\n\r{saveFileDialog.FileName}\n\r\n\r{ex.Message}",
-                                         "Error Saving Image",
-                                         MessageBoxButtons.OK,
-                                         MessageBoxIcon.Error);
-                    }
+                            }   // using (FileStream...)
 
-                }   // using (SaveFileDialog...)
+                            MessageBox.Show($"The Image was saved successfully as:\n\r\n\r{saveFileDialog.FileName}",
+                                             "Image Saved Successfully",
+                                             MessageBoxButtons.OK,
+                                             MessageBoxIcon.Information);
+                        }
+                        else
+                        {
+                            char[] invalidChars = Path.GetInvalidFileNameChars();
+                            MessageBox.Show($"The file name is invalid:\n\r\n\r{Path.GetFileName(saveFileDialog.FileName)}\n\r\n\rIt contains these invalid characters: {string.Join(" ", invalidChars)}\n\r\n\rPlease enter a valid file name without any of the following characters: \\ / : * ? \" < > |",
+                                             "Invalid File Name",
+                                             MessageBoxButtons.OK,
+                                             MessageBoxIcon.Error);
+                            return;
+                        }
+                        break;
 
-            }   // using (Bitmap...)
+                }   // switch(dialogResult)
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred while trying to save the Image:\n\r{saveFileDialog.FileName}\n\r\n\r{ex.Message}",
+                                 "Error Saving Image",
+                                 MessageBoxButtons.OK,
+                                 MessageBoxIcon.Error);
+            }
+            // using (SaveFileDialog...)
+            // using (Bitmap...)
 
         }   // SaveControlPicture()
+        #endregion
 
 
+        #region .  Setup()  .
+        // -------------------------------------------------------------------------
+        //   Method.......:  Setup()
+        //   Description..:  Initializes the UI components and settings.
+        //   Parameters...:  None
+        //   Returns......:  Nothing
+        // -------------------------------------------------------------------------
         private void Setup()
         {
+            // Set the Slider's Title and subscribe to the event.
+            RPSlider_InnerCircle.Title         = "Inner Circle Radius";
+            RPSlider_InnerCircle.ValueChanged += InnerCircleValueChanged;
+
+            RPSlider_OuterCircle.Title         = "Outer Circle Radius";
+            RPSlider_OuterCircle.ValueChanged += OuterCircleValueChanged;
+
             _isSetup = true;
 
             // Initialize Random instance once.
             _random   = new Random();
             _penColor = GetRandomColor();
 
-            _color_Pereset_1 = new Color[] { Color.Red, Color.White, Color.Blue };
-            _color_Pereset_2 = new Color[] { Color.Maroon, Color.Orange };
+            _color_Pereset_1 = [Color.Red, Color.White, Color.Blue];
+            _color_Pereset_2 = [Color.Maroon, Color.Orange];
 
-            NumericUpDown_Radius     .Value = _default_A;
-            NumericUpDown_InnerCircle.Value = _default_B;
-            NumericUpDown_OuterCircle.Value = _default_C;
+            //NumericUpDown_InnerCircle.Value = _default_B;
+            //NumericUpDown_OuterCircle.Value = _default_C;
 
-            _trackBar_Radius = new FloatTrackBar
-            {
-                Location    = new Point(6, 19),
-                Maximum     = 100,
-                MaximumSize = new Size(300, 30),
-                Minimum     = 1,
-                MinimumSize = new Size(300, 30),
-                Name        = "_trackBar_Radius",
-                Size        = new Size(300, 45),
-                TickStyle   = TickStyle.None,
-                Value       = _default_A
-            };
-            _trackBar_Radius.ValueChanged += TrackBar_Radius_ValueChanged;
+            //RPTrackBar_InnerCircle = new RPTrackBar
+            //{
+            //    Location    = new Point(1, 13),
+            //    Maximum     = 200,
+            //    MaximumSize = new Size(300, 30),
+            //    Minimum     = 1,
+            //    MinimumSize = new Size(300, 30),
+            //    Name        = "TrackBar_InnerCircle",
+            //    Size        = new Size(300, 45),
+            //    TickStyle   = TickStyle.None,
+            //    Value       = this._default_B
+            //};
+            //RPTrackBar_InnerCircle.ValueChanged += TrackBar_InnerCircle_ValueChanged;
 
-            _trackBar_InnerCircle = new FloatTrackBar
-            {
-                Location    = new Point(6, 19),
-                Maximum     = 200,
-                MaximumSize = new Size(300, 30),
-                Minimum     = 1,
-                MinimumSize = new Size(300, 30),
-                Name        = "_trackBar_InnerCircle",
-                Size        = new Size(300, 45),
-                TickStyle   = TickStyle.None,
-                Value       = _default_B
-            };
-            _trackBar_InnerCircle.ValueChanged += TrackBar_InnerCircle_ValueChanged;
-
-            _trackBar_OuterCircle = new FloatTrackBar
-            {
-                Location    = new Point(6, 19),
-                Maximum     = 200,
-                MaximumSize = new Size(300, 30),
-                Minimum     = 1,
-                MinimumSize = new Size(300, 30),
-                Name        = "_trackBar_OuterCircle",
-                Size        = new Size(300, 45),
-                TickStyle   = TickStyle.None,
-                Value       = _default_C
-            };
-            _trackBar_OuterCircle.ValueChanged += TrackBar_OuterCircle_ValueChanged;
-
-            groupBox_Radius     .Controls.Add(_trackBar_Radius);
-            groupBox_InnerCircle.Controls.Add(_trackBar_InnerCircle);
-            groupBox_OuterCircle.Controls.Add(_trackBar_OuterCircle);
+            //RPTrackBar_OuterCircle = new RPTrackBar
+            //{
+            //    Location    = new Point(1, 13),
+            //    Maximum     = 200,
+            //    MaximumSize = new Size(300, 30),
+            //    Minimum     = 1,
+            //    MinimumSize = new Size(300, 30),
+            //    Name        = "TrackBar_OuterCircle",
+            //    Size        = new Size(300, 45),
+            //    TickStyle   = TickStyle.None,
+            //    Value       = this._default_C
+            //};
+            //RPTrackBar_OuterCircle.ValueChanged += TrackBar_OuterCircle_ValueChanged;
 
             // Initialize debounce timer for Invalidator()
             _debounceTimer = new System.Windows.Forms.Timer
@@ -651,27 +821,34 @@ namespace Spirograph_v1
             _isSetup = false;
 
         }   // Setup()
+        #endregion
 
 
-        /// <summary>
-        /// Start a background render of the spirograph. Cancels any prior render.
-        /// Reports iteration progress to update the UI label.
-        /// </summary>
+        #region .  StartRenderAsync()  .
+        // -------------------------------------------------------------------------
+        //   Method.......:  StartRenderAsync()
+        //   Description..:  Starts a background render of the spirograph. Cancels
+        //                   any prior render.
+        //   Parameters...:  None
+        //   Returns......:  Nothing
+        // -------------------------------------------------------------------------
         private void StartRenderAsync()
         {
             // Capture current parameters
-            int A = _trackBar_Radius     .Value;
-            int B = _trackBar_InnerCircle.Value;
-            int C = _trackBar_OuterCircle.Value;
+            //int B = RPTrackBar_InnerCircle.Value;
+            //int C = RPTrackBar_OuterCircle.Value;
+            int A = _default_A;     // TrackBar_Radius     .Value;
+            int B = RPSlider_InnerCircle.Value;
+            int C = RPSlider_OuterCircle.Value;
 
-            if (!int.TryParse(txtIter.Text, out int iterations) || iterations <= 0)
+            if (!int.TryParse(TextIterations.Text, out int iterations) || iterations <= 0)
             {
                 iterations = 100;
-                txtIter.Text = iterations.ToString();
+                TextIterations.Text = iterations.ToString();
             }
 
-            int width  = Math.Max(1, pictureBox.ClientSize.Width);
-            int height = Math.Max(1, pictureBox.ClientSize.Height);
+            int width  = Math.Max(1, PictureBox.ClientSize.Width);
+            int height = Math.Max(1, PictureBox.ClientSize.Height);
 
             lock (_renderLock)
             {
@@ -679,8 +856,6 @@ namespace Spirograph_v1
                 _renderCts?.Cancel();
                 _renderCts?.Dispose();
                 _renderCts = new CancellationTokenSource();
-
-                _isComplete = false;
 
                 var cts = _renderCts;
 
@@ -716,12 +891,11 @@ namespace Spirograph_v1
                         try
                         {
                             var bitmap = t.Result;
-                            var oldImg  = pictureBox.Image;
-                            pictureBox.Image = bitmap;
+                            var oldImg  = PictureBox.Image;
+                            PictureBox.Image = bitmap;
 
                             oldImg?.Dispose();
 
-                            _isComplete = true;
                             Invalidate();
                         }
                         catch (Exception ex)
@@ -744,21 +918,11 @@ namespace Spirograph_v1
             }   // lock (...)
 
         }   // StartRenderAsync()
-
-
-        private bool ValidateFileName(string fileName)
-        {
-            // Regex pattern to allow alphanumeric characters, spaces, dots, hyphens, and underscores
-            string pattern = @"^[a-zA-Z0-9 _.-]+$";
-            Regex regex = new Regex(pattern);
-
-            return regex.IsMatch(fileName);
-
-        }   // ValidateFileName()
+        #endregion
 
 
         // The parametric function X(t).
-        private double X(double t, double A, double B, double C)
+        private static double X(double t, double A, double B, double C)
         {
             return (A - B) * Math.Cos(t) + C * Math.Cos((A - B) / B * t);
 
@@ -766,80 +930,65 @@ namespace Spirograph_v1
 
 
         // The parametric function Y(t).
-        private double Y(double t, double A, double B, double C)
+        private static double Y(double t, double A, double B, double C)
         {
             return (A - B) * Math.Sin(t) - C * Math.Sin((A - B) / B * t);
 
         }   // Y()
 
 
-        private void NumericUpDown_InnerCircle_ValueChanged(object sender, EventArgs e)
-        {
-            if (_isSetup) return;
 
-            _trackBar_InnerCircle.Value = (int)NumericUpDown_InnerCircle.Value;
+        #region .  NumericUpDown and TrackBar ValueChanged Events  --  CAN DELETE  .
 
-            Invalidator();
+        //private void NumericUpDown_InnerCircle_ValueChanged(object sender, EventArgs e)
+        //{
+        //    if (_isSetup)
+        //        return;
 
-        }   // NumericUpDown_InnerCircle_ValueChanged()
+        //    RPTrackBar_InnerCircle.Value = (int)NumericUpDown_InnerCircle.Value;
 
+        //    Invalidator();
 
-        private void NumericUpDown_OuterCircle_ValueChanged(object sender, EventArgs e)
-        {
-            if (_isSetup) return;
-
-            _trackBar_OuterCircle.Value = (int)NumericUpDown_OuterCircle.Value;
-
-            Invalidator();
-
-        }   // NumericUpDown_OuterCircle_ValueChanged()
+        //}   // NumericUpDown_InnerCircle_ValueChanged()
 
 
-        private void NumericUpDown_Radius_ValueChanged(object sender, EventArgs e)
-        {
-            if (_isSetup) return;
+        //private void NumericUpDown_OuterCircle_ValueChanged(object sender, EventArgs e)
+        //{
+        //    if (_isSetup)
+        //        return;
 
-            _trackBar_Radius.Value = (int)NumericUpDown_Radius.Value;
+        //    RPTrackBar_OuterCircle.Value = (int)NumericUpDown_OuterCircle.Value;
 
-            Invalidator();
+        //    Invalidator();
 
-        }   // NumericUpDown_Radius_ValueChanged()
-
-
-        private void TrackBar_InnerCircle_ValueChanged(object sender, EventArgs e)
-        {
-            if (_isSetup) return;
-
-            NumericUpDown_InnerCircle.Value = _trackBar_InnerCircle.Value;
-
-            Invalidator();
-
-        }   // TrackBar_InnerCircle_ValueChanged()
+        //}   // NumericUpDown_OuterCircle_ValueChanged()
 
 
-        private void TrackBar_OuterCircle_ValueChanged(object sender, EventArgs e)
-        {
-            if (_isSetup) return;
+        //private void TrackBar_InnerCircle_ValueChanged(object sender, EventArgs e)
+        //{
+        //    if (_isSetup)
+        //        return;
 
-            NumericUpDown_OuterCircle.Value = _trackBar_OuterCircle.Value;
+        //    NumericUpDown_InnerCircle.Value = RPTrackBar_InnerCircle.Value;
 
-            Invalidator();
+        //    Invalidator();
 
-        }   // TrackBar_OuterCircle_ValueChanged()
-
-
-        private void TrackBar_Radius_ValueChanged(object sender, EventArgs e)
-        {
-            if (_isSetup) return;
-
-            NumericUpDown_Radius.Value = _trackBar_Radius.Value;
-
-            Invalidator();
-
-        }   // TrackBar_Radius_ValueChanged()
+        //}   // TrackBar_InnerCircle_ValueChanged()
 
 
-        #region .  Form Resize Events  --  NOT USED  .
+        //private void TrackBar_OuterCircle_ValueChanged(object sender, EventArgs e)
+        //{
+        //    if (_isSetup)
+        //        return;
+
+        //    NumericUpDown_OuterCircle.Value = RPTrackBar_OuterCircle.Value;
+
+        //    Invalidator();
+
+        //}   // TrackBar_OuterCircle_ValueChanged()
+
+
+        #region .  Form Resize Events  --  CAN DELETE  .
 
         //private void Form_Main_ClientSizeChanged(object sender, EventArgs e)
         //{
@@ -860,25 +1009,35 @@ namespace Spirograph_v1
 
         #endregion
 
+        #endregion
 
-        /// <summary>
-        /// UI timer tick handler: poll the latest iteration posted by background worker and update label.
-        /// Runs on UI thread.
-        /// </summary>
+
+        #region .  UiProgressTimer_Tick()  .
+        // -------------------------------------------------------------------------
+        //   Method.......:  UiProgressTimer_Tick()
+        //   Description..:  Handles the UI timer tick event to update the iteration
+        //                   count label.
+        //   Parameters...:  sender - The source of the event.
+        //                   e - The event data.
+        //   Returns......:  None
+        // -------------------------------------------------------------------------
         private void UiProgressTimer_Tick(object sender, EventArgs e)
         {
             try
             {
-                if (lblIterationCount == null) return;
-                if (lblIterationCount.IsDisposed) return;
-                if (!lblIterationCount.IsHandleCreated) return;
+                if (LabelIterationCount == null)
+                    return;
+                if (LabelIterationCount.IsDisposed)
+                    return;
+                if (!LabelIterationCount.IsHandleCreated)
+                    return;
 
                 // Atomically read and reset the latest iteration value.
                 int value = Interlocked.Exchange(ref _latestIteration, 0);
 
                 if (value > 0)
                 {
-                    lblIterationCount.Text = value.ToString();
+                    LabelIterationCount.Text = value.ToString();
                 }
             }
             catch
@@ -886,8 +1045,10 @@ namespace Spirograph_v1
                 // Swallow – UI may be tearing down.
             }
         }
+        #endregion
 
-        #region -- SafeProgress helper --
+
+        #region .  SafeProgress Helper  .
 
         // SafeProgress does not post into SynchronizationContext.
         // It simply calls a provided Action<int> (must be thread-safe)
@@ -897,14 +1058,12 @@ namespace Spirograph_v1
             private readonly Action<int> _action;
             private int _disposed; // 0 == false, 1 == true
 
-            public SafeProgress(Action<int> action)
-            {
-                _action = action ?? throw new ArgumentNullException(nameof(action));
-            }
+            public SafeProgress(Action<int> action) => _action = action ?? throw new ArgumentNullException(nameof(action));
 
             public void Report(int value)
             {
-                if (Interlocked.CompareExchange(ref _disposed, 0, 0) == 1) return;
+                if (Interlocked.CompareExchange(ref _disposed, 0, 0) == 1)
+                    return;
                 try
                 {
                     _action(value);
@@ -919,8 +1078,10 @@ namespace Spirograph_v1
             {
                 Interlocked.Exchange(ref _disposed, 1);
             }
-        }
 
+
+        }   // class SafeProgress
+            // 
         #endregion
 
 

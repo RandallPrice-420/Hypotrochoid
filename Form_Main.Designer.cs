@@ -1,4 +1,7 @@
-﻿namespace Spirograph_v1
+﻿using Spirograph_v1.Controls.Knob;
+using Spirograph_v1.Controls.TrackBar;
+
+namespace Spirograph_v1
 {
     partial class Form_Main
     {
@@ -29,167 +32,46 @@
         private void InitializeComponent()
         {
             this.BtnQuit = new System.Windows.Forms.Button();
-            this.pictureBox = new System.Windows.Forms.PictureBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.txtIter = new System.Windows.Forms.TextBox();
-            this.groupBox_Radius = new System.Windows.Forms.GroupBox();
-            this.NumericUpDown_Radius = new System.Windows.Forms.NumericUpDown();
-            this.groupBox_InnerCircle = new System.Windows.Forms.GroupBox();
-            this.NumericUpDown_InnerCircle = new System.Windows.Forms.NumericUpDown();
-            this.groupBox_OuterCircle = new System.Windows.Forms.GroupBox();
-            this.NumericUpDown_OuterCircle = new System.Windows.Forms.NumericUpDown();
+            this.PictureBox = new System.Windows.Forms.PictureBox();
             this.SaveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.BtnSave = new System.Windows.Forms.Button();
             this.ColorDialog = new System.Windows.Forms.ColorDialog();
             this.BtnColor = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.lblIterationCount = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
-            this.groupBox_Radius.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NumericUpDown_Radius)).BeginInit();
-            this.groupBox_InnerCircle.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NumericUpDown_InnerCircle)).BeginInit();
-            this.groupBox_OuterCircle.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NumericUpDown_OuterCircle)).BeginInit();
+            this.LabelIteration = new System.Windows.Forms.Label();
+            this.LabelIterationCount = new System.Windows.Forms.Label();
+            this.BtnRedraw = new System.Windows.Forms.Button();
+            this.knobSciFiPlus1 = new KnobSciFiPlus();
+            this.TextIterations = new System.Windows.Forms.TextBox();
+            this.LabelIter = new System.Windows.Forms.Label();
+            this.RPSlider_InnerCircle = new Spirograph_v1.Controls.RPSlider.RPSlider();
+            this.RPSlider_OuterCircle = new Spirograph_v1.Controls.RPSlider.RPSlider();
+            ((System.ComponentModel.ISupportInitialize)this.PictureBox).BeginInit();
             this.SuspendLayout();
             // 
             // BtnQuit
             // 
-            this.BtnQuit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.BtnQuit.Location = new System.Drawing.Point(555, 12);
+            this.BtnQuit.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            this.BtnQuit.Location = new System.Drawing.Point(646, 12);
+            this.BtnQuit.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.BtnQuit.Name = "BtnQuit";
-            this.BtnQuit.Size = new System.Drawing.Size(75, 23);
+            this.BtnQuit.Size = new System.Drawing.Size(88, 27);
             this.BtnQuit.TabIndex = 6;
             this.BtnQuit.Text = "Quit";
             this.BtnQuit.UseVisualStyleBackColor = true;
-            this.BtnQuit.Click += new System.EventHandler(this.BtnQuit_Click);
+            this.BtnQuit.Click += this.BtnQuit_Click;
             // 
-            // pictureBox
+            // PictureBox
             // 
-            this.pictureBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox.BackColor = System.Drawing.Color.FloralWhite;
-            this.pictureBox.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.pictureBox.Location = new System.Drawing.Point(12, 180);
-            this.pictureBox.Name = "pictureBox";
-            this.pictureBox.Size = new System.Drawing.Size(618, 415);
-            this.pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.pictureBox.TabIndex = 7;
-            this.pictureBox.TabStop = false;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(533, 143);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(25, 13);
-            this.label4.TabIndex = 9;
-            this.label4.Text = "Iter:";
-            // 
-            // txtIter
-            // 
-            this.txtIter.Location = new System.Drawing.Point(564, 140);
-            this.txtIter.Name = "txtIter";
-            this.txtIter.Size = new System.Drawing.Size(49, 20);
-            this.txtIter.TabIndex = 8;
-            this.txtIter.Text = "100";
-            this.txtIter.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            // 
-            // groupBox_Radius
-            // 
-            this.groupBox_Radius.Controls.Add(this.NumericUpDown_Radius);
-            this.groupBox_Radius.Location = new System.Drawing.Point(12, 12);
-            this.groupBox_Radius.Name = "groupBox_Radius";
-            this.groupBox_Radius.Size = new System.Drawing.Size(370, 52);
-            this.groupBox_Radius.TabIndex = 12;
-            this.groupBox_Radius.TabStop = false;
-            this.groupBox_Radius.Text = "Radius";
-            // 
-            // NumericUpDown_Radius
-            // 
-            this.NumericUpDown_Radius.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.NumericUpDown_Radius.Location = new System.Drawing.Point(312, 19);
-            this.NumericUpDown_Radius.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.NumericUpDown_Radius.Name = "NumericUpDown_Radius";
-            this.NumericUpDown_Radius.Size = new System.Drawing.Size(49, 20);
-            this.NumericUpDown_Radius.TabIndex = 14;
-            this.NumericUpDown_Radius.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.NumericUpDown_Radius.ValueChanged += new System.EventHandler(this.NumericUpDown_Radius_ValueChanged);
-            // 
-            // groupBox_InnerCircle
-            // 
-            this.groupBox_InnerCircle.Controls.Add(this.NumericUpDown_InnerCircle);
-            this.groupBox_InnerCircle.Location = new System.Drawing.Point(12, 67);
-            this.groupBox_InnerCircle.Name = "groupBox_InnerCircle";
-            this.groupBox_InnerCircle.Size = new System.Drawing.Size(370, 52);
-            this.groupBox_InnerCircle.TabIndex = 13;
-            this.groupBox_InnerCircle.TabStop = false;
-            this.groupBox_InnerCircle.Text = "Inner Circle";
-            // 
-            // NumericUpDown_InnerCircle
-            // 
-            this.NumericUpDown_InnerCircle.Location = new System.Drawing.Point(312, 19);
-            this.NumericUpDown_InnerCircle.Maximum = new decimal(new int[] {
-            200,
-            0,
-            0,
-            0});
-            this.NumericUpDown_InnerCircle.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.NumericUpDown_InnerCircle.Name = "NumericUpDown_InnerCircle";
-            this.NumericUpDown_InnerCircle.Size = new System.Drawing.Size(49, 20);
-            this.NumericUpDown_InnerCircle.TabIndex = 14;
-            this.NumericUpDown_InnerCircle.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.NumericUpDown_InnerCircle.ValueChanged += new System.EventHandler(this.NumericUpDown_InnerCircle_ValueChanged);
-            // 
-            // groupBox_OuterCircle
-            // 
-            this.groupBox_OuterCircle.Controls.Add(this.NumericUpDown_OuterCircle);
-            this.groupBox_OuterCircle.Location = new System.Drawing.Point(12, 122);
-            this.groupBox_OuterCircle.Name = "groupBox_OuterCircle";
-            this.groupBox_OuterCircle.Size = new System.Drawing.Size(370, 52);
-            this.groupBox_OuterCircle.TabIndex = 14;
-            this.groupBox_OuterCircle.TabStop = false;
-            this.groupBox_OuterCircle.Text = "Outer Circle";
-            // 
-            // NumericUpDown_OuterCircle
-            // 
-            this.NumericUpDown_OuterCircle.Location = new System.Drawing.Point(312, 19);
-            this.NumericUpDown_OuterCircle.Maximum = new decimal(new int[] {
-            200,
-            0,
-            0,
-            0});
-            this.NumericUpDown_OuterCircle.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.NumericUpDown_OuterCircle.Name = "NumericUpDown_OuterCircle";
-            this.NumericUpDown_OuterCircle.Size = new System.Drawing.Size(49, 20);
-            this.NumericUpDown_OuterCircle.TabIndex = 14;
-            this.NumericUpDown_OuterCircle.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.NumericUpDown_OuterCircle.ValueChanged += new System.EventHandler(this.NumericUpDown_OuterCircle_ValueChanged);
+            this.PictureBox.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            this.PictureBox.BackColor = System.Drawing.Color.FloralWhite;
+            this.PictureBox.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.PictureBox.Location = new System.Drawing.Point(14, 208);
+            this.PictureBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.PictureBox.Name = "PictureBox";
+            this.PictureBox.Size = new System.Drawing.Size(720, 479);
+            this.PictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.PictureBox.TabIndex = 7;
+            this.PictureBox.TabStop = false;
             // 
             // SaveFileDialog
             // 
@@ -197,97 +79,167 @@
             // 
             // BtnSave
             // 
-            this.BtnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.BtnSave.Location = new System.Drawing.Point(555, 41);
+            this.BtnSave.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            this.BtnSave.Location = new System.Drawing.Point(550, 12);
+            this.BtnSave.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.BtnSave.Name = "BtnSave";
-            this.BtnSave.Size = new System.Drawing.Size(75, 23);
+            this.BtnSave.Size = new System.Drawing.Size(88, 27);
             this.BtnSave.TabIndex = 15;
             this.BtnSave.Text = "Save";
             this.BtnSave.UseVisualStyleBackColor = true;
-            this.BtnSave.Click += new System.EventHandler(this.BtnSave_Click);
+            this.BtnSave.Click += this.BtnSave_Click;
             // 
             // BtnColor
             // 
-            this.BtnColor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.BtnColor.Location = new System.Drawing.Point(555, 70);
+            this.BtnColor.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            this.BtnColor.Location = new System.Drawing.Point(648, 45);
+            this.BtnColor.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.BtnColor.Name = "BtnColor";
-            this.BtnColor.Size = new System.Drawing.Size(75, 23);
+            this.BtnColor.Size = new System.Drawing.Size(88, 27);
             this.BtnColor.TabIndex = 16;
             this.BtnColor.Text = "Color";
             this.BtnColor.UseVisualStyleBackColor = true;
-            this.BtnColor.Click += new System.EventHandler(this.BtnColor_Click);
+            this.BtnColor.Click += this.BtnColor_Click;
             // 
-            // label1
+            // LabelIteration
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(408, 12);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(48, 13);
-            this.label1.TabIndex = 17;
-            this.label1.Text = "Iteration:";
+            this.LabelIteration.AutoSize = true;
+            this.LabelIteration.Location = new System.Drawing.Point(447, 18);
+            this.LabelIteration.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.LabelIteration.Name = "LabelIteration";
+            this.LabelIteration.Size = new System.Drawing.Size(54, 15);
+            this.LabelIteration.TabIndex = 17;
+            this.LabelIteration.Text = "Iteration:";
             // 
-            // lblIterationCount
+            // LabelIterationCount
             // 
-            this.lblIterationCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblIterationCount.ForeColor = System.Drawing.Color.DodgerBlue;
-            this.lblIterationCount.Location = new System.Drawing.Point(462, 12);
-            this.lblIterationCount.Name = "lblIterationCount";
-            this.lblIterationCount.Size = new System.Drawing.Size(48, 13);
-            this.lblIterationCount.TabIndex = 18;
-            this.lblIterationCount.Text = "0";
-            this.lblIterationCount.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.LabelIterationCount.AutoSize = true;
+            this.LabelIterationCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
+            this.LabelIterationCount.ForeColor = System.Drawing.Color.DodgerBlue;
+            this.LabelIterationCount.Location = new System.Drawing.Point(510, 18);
+            this.LabelIterationCount.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.LabelIterationCount.Name = "LabelIterationCount";
+            this.LabelIterationCount.Size = new System.Drawing.Size(14, 13);
+            this.LabelIterationCount.TabIndex = 18;
+            this.LabelIterationCount.Text = "0";
+            this.LabelIterationCount.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // BtnRedraw
+            // 
+            this.BtnRedraw.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            this.BtnRedraw.Location = new System.Drawing.Point(550, 45);
+            this.BtnRedraw.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.BtnRedraw.Name = "BtnRedraw";
+            this.BtnRedraw.Size = new System.Drawing.Size(88, 27);
+            this.BtnRedraw.TabIndex = 19;
+            this.BtnRedraw.Text = "Redraw";
+            this.BtnRedraw.UseVisualStyleBackColor = true;
+            this.BtnRedraw.Click += this.BtnRedraw_Click;
+            // 
+            // knobSciFiPlus1
+            // 
+            this.knobSciFiPlus1.Location = new System.Drawing.Point(312, 12);
+            this.knobSciFiPlus1.MinimumSize = new System.Drawing.Size(100, 100);
+            this.knobSciFiPlus1.Mode = KnobSciFiPlus.ColorMode.NeonCyan;
+            this.knobSciFiPlus1.Name = "knobSciFiPlus1";
+            this.knobSciFiPlus1.Size = new System.Drawing.Size(100, 100);
+            this.knobSciFiPlus1.TabIndex = 20;
+            this.knobSciFiPlus1.Text = "knobSciFiPlus1";
+            this.knobSciFiPlus1.Value = 50;
+            // 
+            // TextIterations
+            // 
+            this.TextIterations.Location = new System.Drawing.Point(468, 48);
+            this.TextIterations.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.TextIterations.Name = "TextIterations";
+            this.TextIterations.Size = new System.Drawing.Size(56, 23);
+            this.TextIterations.TabIndex = 8;
+            this.TextIterations.Text = "50";
+            this.TextIterations.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // LabelIter
+            // 
+            this.LabelIter.AutoSize = true;
+            this.LabelIter.Location = new System.Drawing.Point(432, 51);
+            this.LabelIter.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.LabelIter.Name = "LabelIter";
+            this.LabelIter.Size = new System.Drawing.Size(27, 15);
+            this.LabelIter.TabIndex = 9;
+            this.LabelIter.Text = "Iter:";
+            // 
+            // RPSlider_InnerCircle
+            // 
+            this.RPSlider_InnerCircle.AutoSize = true;
+            this.RPSlider_InnerCircle.BackColor = System.Drawing.Color.Bisque;
+            this.RPSlider_InnerCircle.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.RPSlider_InnerCircle.Location = new System.Drawing.Point(12, 12);
+            this.RPSlider_InnerCircle.Maximum = 100;
+            this.RPSlider_InnerCircle.Minimum = 1;
+            this.RPSlider_InnerCircle.Name = "RPSlider_InnerCircle";
+            this.RPSlider_InnerCircle.Size = new System.Drawing.Size(260, 53);
+            this.RPSlider_InnerCircle.TabIndex = 21;
+            this.RPSlider_InnerCircle.Title = "Inner Circle";
+            this.RPSlider_InnerCircle.Value = 100;
+            // 
+            // RPSlider_OuterCircle
+            // 
+            this.RPSlider_OuterCircle.AutoSize = true;
+            this.RPSlider_OuterCircle.BackColor = System.Drawing.Color.Bisque;
+            this.RPSlider_OuterCircle.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.RPSlider_OuterCircle.Location = new System.Drawing.Point(12, 71);
+            this.RPSlider_OuterCircle.Maximum = 200;
+            this.RPSlider_OuterCircle.Minimum = 1;
+            this.RPSlider_OuterCircle.Name = "RPSlider_OuterCircle";
+            this.RPSlider_OuterCircle.Size = new System.Drawing.Size(260, 53);
+            this.RPSlider_OuterCircle.TabIndex = 22;
+            this.RPSlider_OuterCircle.Title = "Outer Circle";
+            this.RPSlider_OuterCircle.Value = 100;
             // 
             // Form_Main
             // 
             this.AcceptButton = this.BtnQuit;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(642, 607);
-            this.Controls.Add(this.lblIterationCount);
-            this.Controls.Add(this.label1);
+            this.ClientSize = new System.Drawing.Size(749, 701);
+            this.Controls.Add(this.RPSlider_InnerCircle);
+            this.Controls.Add(this.RPSlider_OuterCircle);
+            this.Controls.Add(this.knobSciFiPlus1);
+            this.Controls.Add(this.BtnRedraw);
+            this.Controls.Add(this.LabelIterationCount);
+            this.Controls.Add(this.LabelIteration);
             this.Controls.Add(this.BtnColor);
             this.Controls.Add(this.BtnSave);
-            this.Controls.Add(this.groupBox_OuterCircle);
-            this.Controls.Add(this.groupBox_InnerCircle);
-            this.Controls.Add(this.groupBox_Radius);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.txtIter);
-            this.Controls.Add(this.pictureBox);
+            this.Controls.Add(this.LabelIter);
+            this.Controls.Add(this.TextIterations);
             this.Controls.Add(this.BtnQuit);
+            this.Controls.Add(this.PictureBox);
+            this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.Name = "Form_Main";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Spirograph-v1";
-            //this.Load += new System.EventHandler(this.Form_Main_Load);
-            this.ResizeEnd += new System.EventHandler(this.Form_Main_ResizeEnd);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
-            this.groupBox_Radius.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.NumericUpDown_Radius)).EndInit();
-            this.groupBox_InnerCircle.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.NumericUpDown_InnerCircle)).EndInit();
-            this.groupBox_OuterCircle.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.NumericUpDown_OuterCircle)).EndInit();
+            this.ResizeEnd += this.Form_Main_ResizeEnd;
+            ((System.ComponentModel.ISupportInitialize)this.PictureBox).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
+
         private System.Windows.Forms.Button BtnQuit;
-        private System.Windows.Forms.PictureBox pictureBox;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox txtIter;
-        private System.Windows.Forms.GroupBox groupBox_Radius;
-        private System.Windows.Forms.NumericUpDown NumericUpDown_Radius;
-        private System.Windows.Forms.GroupBox groupBox_InnerCircle;
-        private System.Windows.Forms.NumericUpDown NumericUpDown_InnerCircle;
-        private System.Windows.Forms.GroupBox groupBox_OuterCircle;
-        private System.Windows.Forms.NumericUpDown NumericUpDown_OuterCircle;
+        private System.Windows.Forms.PictureBox PictureBox;
         private System.Windows.Forms.SaveFileDialog SaveFileDialog;
         private System.Windows.Forms.Button BtnSave;
         private System.Windows.Forms.ColorDialog ColorDialog;
         private System.Windows.Forms.Button BtnColor;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label lblIterationCount;
+        private System.Windows.Forms.Label LabelIteration;
+        private System.Windows.Forms.Label LabelIterationCount;
+        private System.Windows.Forms.Button BtnRedraw;
+        private KnobSciFiPlus knobSciFiPlus1;
+        private System.Windows.Forms.TextBox TextIterations;
+        private System.Windows.Forms.Label LabelIter;
+        private Controls.RPSlider.RPSlider RPSlider_InnerCircle;
+        private Controls.RPSlider.RPSlider RPSlider_OuterCircle;
     }
 }
 

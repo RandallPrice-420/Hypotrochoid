@@ -4,9 +4,9 @@ using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 
 
-namespace Spirograph_v1
+namespace Spirograph_v1.Controls.TrackBar
 {
-    public class FloatTrackBar : Control
+    public class RPTrackBar : Control
     {
         public event EventHandler ValueChanged;
 
@@ -16,28 +16,31 @@ namespace Spirograph_v1
         private int  _value      =   1;
         private bool _isDragging = false;
 
-        private TickStyle _tickStyle = System.Windows.Forms.TickStyle.None;
+        private TickStyle _tickStyle = TickStyle.None;
 
 
         public int Minimum
         {
             get => this._minimum;
-            set { this._minimum = value; Invalidate(); }
-        }
+            set  { this._minimum = value; Invalidate(); }
+
+        }   // Minimum
 
 
         public int Maximum
         {
             get => this._maximum;
-            set { this._maximum = value; Invalidate(); }
-        }
+            set  { this._maximum = value; Invalidate(); }
+
+        }   // Maximum
 
 
         public TickStyle TickStyle
         {
             get => this._tickStyle;
-            set { this._tickStyle = value; Invalidate(); }
-        }
+            set  { this._tickStyle = value; Invalidate(); }
+
+        }   // TickStyle
 
 
         public int Value
@@ -49,22 +52,24 @@ namespace Spirograph_v1
                 Invalidate();
                 ValueChanged?.Invoke(this, EventArgs.Empty);
             }
-        }
+
+        }   // Value
 
 
-        public FloatTrackBar()
+        public RPTrackBar()
         {
             DoubleBuffered = true;
             Height         =  40;
             Width          = 300;
-        }
+
+        }   // FloatTrackBar()
 
 
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
 
-            Rectangle trackRect = new Rectangle(10, Height / 2 - 4, Width - 20, 8);
+            Rectangle trackRect = new(10, Height / 2 - 4, Width - 20, 8);
 
             // Draw track
             if (TrackBarRenderer.IsSupported)
@@ -78,10 +83,10 @@ namespace Spirograph_v1
 
             // Calculate thumb position
             float range   = this._maximum - this._minimum;
-            float percent = (this._value - this._minimum) / range;
+            float percent = (this._value  - this._minimum) / range;
             int   thumbX  = (int)(trackRect.Left + percent * trackRect.Width);
 
-            Rectangle thumbRect = new Rectangle(thumbX - 6, trackRect.Top - 6, 12, 20);
+            Rectangle thumbRect = new(thumbX - 6, trackRect.Top - 6, 12, 20);
 
             // Draw thumb
             if (TrackBarRenderer.IsSupported)
@@ -92,41 +97,52 @@ namespace Spirograph_v1
             {
                 e.Graphics.FillEllipse(Brushes.SteelBlue, thumbRect);
             }
-        }
+
+        }   // OnPaint()
 
 
         protected override void OnMouseDown(MouseEventArgs e)
         {
             base.OnMouseDown(e);
+
             this._isDragging = true;
+
             UpdateValueFromMouse(e.X);
-        }
+
+        }   // OnMouseDown()
 
 
         protected override void OnMouseMove(MouseEventArgs e)
         {
             base.OnMouseMove(e);
+
             if (this._isDragging)
+            {
                 UpdateValueFromMouse(e.X);
-        }
+            }
+
+        }   // OnMouseMove()
 
 
         protected override void OnMouseUp(MouseEventArgs e)
         {
             base.OnMouseUp(e);
+
             this._isDragging = false;
-        }
+
+        }   // OnMouseUp()
 
 
         private void UpdateValueFromMouse(int mouseX)
         {
-            Rectangle trackRect = new Rectangle(10, Height / 2 - 4, Width - 20, 8);
+            Rectangle trackRect = new(10, Height / 2 - 4, Width - 20, 8);
             float     percent   = (float)(mouseX - trackRect.Left) / trackRect.Width;
 
             Value = (int)(this._minimum + percent * (this._maximum - this._minimum));
-        }
+
+        }   // UpdateValueFromMouse()
 
 
-    }   // FloatTrackBar()
+    }   // class RPTrackBar
 
-}   // Spirograph_v1
+}   // namespace Spirograph_v1.Controls.TrackBar
