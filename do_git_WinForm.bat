@@ -34,6 +34,12 @@ set _white_black=%ESC%[37;40m
 set _white_red=%ESC%[37;41m
 set _black_yellow=%ESC%[30;43m
 
+:: ----------------------------------------------------------------------------
+::  Configure some git settings.
+:: ----------------------------------------------------------------------------
+set project_name=Spirograph_v1
+set local_directory=C:\Repos\WinForm\%project_name%
+set remote_origin=https://github.com/RandallPrice-420/%project_name%
 
 echo %_cyan%----------------------------------------------------------------------------
 echo                                  %_black_yellow%IMPORTANT:%_white_black%
@@ -48,13 +54,6 @@ echo.
 set GIT_TRACE_PACKET=1
 set GIT_TRACE=1
 set GIT_CURL_VERBOSE=1
-
-:: ----------------------------------------------------------------------------
-::  Configure some git settings.
-:: ----------------------------------------------------------------------------
-set project_name=Spirograph_v1
-set local_directory=C:\Repos\WinForm\%project_name%
-set remote_origin=https://github.com/RandallPrice-420/%project_name%
 
 :: ----------------------------------------------------------------------------
 ::  Display the project information.
@@ -174,10 +173,10 @@ echo.
 ::  - Push to the remote repository
 :: ----------------------------------------------------------------------------
 set "defaultValue=Initial project upload."
-set /p "commit_message=%_blue%Enter commit message (%_red%Enter%_blue% = <%_red%%defaultValue%%_blue%>, Q = Quit):  "
+set /p "commit_message=%_blue%Enter commit message (%_red%Enter%_blue% = <%_red%%defaultValue%%_blue%>, %b_red%Q%_blue% = Quit):  "
 if /I "%commit_message%"=="q" goto Done
 if not defined commit_message ( set "commit_message=%defaultValue%" )
-echo You entered: %_red%%commit_message%
+echo %_magenta%You entered: %_red%%commit_message%%_white%
 
 git pull origin master
 git add .
@@ -185,7 +184,7 @@ git commit -m "%commit_message%"
 git push -u origin master
 
 echo.
-echo %b_green%- Changed files successfully committed and pushed to %_yelllow%%remote_origin%%_white%
+echo %b_green%- Changed files successfully committed and pushed to %b_blue%%remote_origin%%_white%
 echo.
 pause
 exit
