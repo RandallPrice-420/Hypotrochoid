@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 
 
+
 namespace Spirograph_v1.Controls.RPSlider
 {
     public partial class RPSlider : UserControl
@@ -10,13 +11,31 @@ namespace Spirograph_v1.Controls.RPSlider
         // -------------------------------------------------------------------------
         // Public Events:
         // --------------
-        //   ValueChanged
+        //   NumericValueChanged
+        //   SliderValueChanged
         // -------------------------------------------------------------------------
 
         #region .  Public Events  .
 
-        public event EventHandler ValueChanged;
+        public event EventHandler NumericValueChanged;
+        public event EventHandler SliderValueChanged;
+        
+        #endregion
 
+
+        // -------------------------------------------------------------------------
+        // Constructor:
+        // ------------
+        //   RPSlider()  --  Constructor
+        // -------------------------------------------------------------------------
+
+        #region .  RPSlider()  --  Constructor  .
+        public RPSlider()
+        {
+            InitializeComponent();
+            Setup();
+
+        }   // RPSlider()
         #endregion
 
 
@@ -24,45 +43,60 @@ namespace Spirograph_v1.Controls.RPSlider
         // -------------------------------------------------------------------------
         // Public Properties:
         // ------------------
-        //   Title
-        //   Value
+        //   DisplayName
+        //   NumericUpDownValue
+        //   SliderMaximum
+        //   SliderMinimum
+        //   SliderValue
+        //   TitleLabel
         // -------------------------------------------------------------------------
 
         #region .  Public Properties  .
 
-        public int Minimum
+        // TrackBar Title text
+        public string  DisplayName
         {
-            get => this._minimum;
-            set { this._minimum = value; Invalidate(); }
-
-        }   // Minimum
-
-        public int Maximum
-        {
-            get => this._maximum;
-            set { this._maximum = value; Invalidate(); }
-
-        }   // Maximum
-
-        public string Title
-        {
-            get => this._title;
-            set { this._title = value; Invalidate(); }
-
-        }   // Minimum
-
-        public int Value
-        {
-            get => this._value;
+            get => _title;
             set
             {
-                this._value = Math.Max(this._minimum, Math.Min(this._maximum, value));
-                Invalidate();
-                ValueChanged?.Invoke(this, EventArgs.Empty);
+                _title = value;
+                LabelTitle.Text = _title;
             }
+        }
 
-        }   // Value
-        public NumericUpDown NumericUpDown => NumericUpDown1;
+        // NumericUpDown value
+        public decimal NumericUpDownValue
+        {
+            get => NumericUpDown1.Value;
+            set => NumericUpDown1.Value = value;
+        }
+
+        // Optional: expose min/max
+        public int     SliderMaximum
+        {
+            get => TrackBar1.Maximum;
+            set => TrackBar1.Maximum = value;
+        }
+
+        public int     SliderMinimum
+        {
+            get => TrackBar1.Minimum;
+            set => TrackBar1.Minimum = value;
+        }
+
+        // TrackBar value
+        public int     SliderValue
+        {
+            get => TrackBar1.Value;
+            set => TrackBar1.Value = Math.Max(TrackBar1.Minimum, Math.Min(TrackBar1.Maximum, value));
+        }
+
+        // TrackBar Title text
+        public string  TitleLabel
+        {
+            get => LabelTitle.Text;
+            set => LabelTitle.Text = value;
+        }
 
         #endregion
 
@@ -89,15 +123,6 @@ namespace Spirograph_v1.Controls.RPSlider
         #endregion
 
 
-        public RPSlider()
-        {
-            InitializeComponent();
-            Setup();
-
-        }   // RPSlider()
-
-
-
         // -------------------------------------------------------------------------
         // Private Methods:
         // ----------------
@@ -119,7 +144,7 @@ namespace Spirograph_v1.Controls.RPSlider
 
             TrackBar1.Minimum = (int)NumericUpDown1.Minimum;
             TrackBar1.Maximum = (int)NumericUpDown1.Maximum;
-            TrackBar1.Value   = this.Value;
+            //TrackBar1.Value   = this.Value;
 
             LabelTitle.Text   = "RP_Slider";
             LabelRange.Text   = $"({TrackBar1.Minimum} - {TrackBar1.Maximum})";
@@ -176,6 +201,12 @@ namespace Spirograph_v1.Controls.RPSlider
         }   // TrackBar1_MouseUp()
 
 
+        private void TrackBar1_Scroll(object sender, EventArgs e)
+        {
+            SliderValueChanged?.Invoke(this, e);
+        }
+
+
         private void TrackBar1_ValueChanged(object sender, EventArgs e)
         {
             NumericUpDown1.Value = TrackBar1.Value;
@@ -193,8 +224,8 @@ namespace Spirograph_v1.Controls.RPSlider
 
         private void RaiseValueChanged(int newValue)
         {
-            this.Value = newValue;
-            ValueChanged?.Invoke(this, EventArgs.Empty);
+            //this.Value = newValue;
+            SliderValueChanged?.Invoke(this, EventArgs.Empty);
 
         }   // RaiseValueChanged()
 
@@ -207,10 +238,10 @@ namespace Spirograph_v1.Controls.RPSlider
 
             TrackBar1.Value = Math.Max(TrackBar1.Minimum, Math.Min(TrackBar1.Maximum, value));
 
-            this.Value = TrackBar1.Value;
-            RaiseValueChanged(this.Value);
+            //this.Value = TrackBar1.Value;
+            //RaiseValueChanged(this.Value);
 
-        }   // UpdateValueFromMouse()
+        }   // UpdateValueFromMouse
 
 
     }   // class RPSlider

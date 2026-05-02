@@ -1,4 +1,3 @@
-
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -10,7 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-using Spirograph_v1.Controls.TrackBar;
+using static System.Windows.Forms.DataFormats;
 
 
 namespace Spirograph_v1
@@ -160,6 +159,23 @@ namespace Spirograph_v1
         #endregion
 
 
+        #region .  BtnControlsForm_Click()  .
+        // -------------------------------------------------------------------------
+        //   Method.......:  BtnControlsForm_Click()
+        //   Description..:  Handles the Click event of the BtnControlsForm control.
+        //   Parameters...:  sender - The source of the event.
+        //                   e - The event data.
+        //   Returns......:  Nothing
+        // -------------------------------------------------------------------------
+        private void BtnControlsForm_Click(object sender, EventArgs e)
+        {
+            Form_TestUserControls TestForm = new Form_TestUserControls();
+            TestForm.ShowDialog();
+
+        }   // BtnControlsForm_Click()
+        #endregion
+
+
         #region .  BtnQuit_Click()  .
         // -------------------------------------------------------------------------
         //   Method.......:  BtnQuit_Click()
@@ -225,10 +241,8 @@ namespace Spirograph_v1
         private string CreateFilename()
         {
             string a = _default_A.ToString();
-            //string b = RPTrackBar_InnerCircle.Value.ToString();
-            //string c = RPTrackBar_OuterCircle.Value.ToString();
-            string b = RPSlider_InnerCircle.Value.ToString();
-            string c = RPSlider_OuterCircle.Value.ToString();
+            string b = RPSlider_InnerCircle.SliderValue.ToString();
+            string c = RPSlider_OuterCircle.SliderValue.ToString();
 
             string fileName = $"Spirograph_{a}-{b}-{c}_{DateTime.Now:yyyy-MM-dd_HH-mm-ss}.png";
 
@@ -279,7 +293,7 @@ namespace Spirograph_v1
         // -------------------------------------------------------------------------
         private Color GetRandomColor()
         {
-            Color _color = Color.FromArgb(_random.Next(256), _random.Next(256),_random.Next(256));
+            Color _color = DefaultBackColor;
 
             while (_color == DefaultBackColor)
             {
@@ -672,8 +686,8 @@ namespace Spirograph_v1
 
                 switch (dialogResult)
                 {
-                    case DialogResult.Cancel:
                     case DialogResult.No:
+                    case DialogResult.Cancel:
                         MessageBox.Show("The Image was not saved.", "Save Image Cancelled",
                                         MessageBoxButtons.OK,
                                         MessageBoxIcon.Information);
@@ -757,20 +771,23 @@ namespace Spirograph_v1
         private void Setup()
         {
             // Set the Slider's Title and subscribe to the event.
-            RPSlider_InnerCircle.Title         = "Inner Circle Radius";
-            RPSlider_InnerCircle.ValueChanged += InnerCircleValueChanged;
+            RPSlider_InnerCircle.DisplayName = "Inner Circle Radius";
+            RPSlider_InnerCircle.TitleLabel = "Inner Circle Radius";
+            RPSlider_InnerCircle.SliderValueChanged += InnerCircleValueChanged;
 
-            RPSlider_OuterCircle.Title         = "Outer Circle Radius";
-            RPSlider_OuterCircle.ValueChanged += OuterCircleValueChanged;
-
+            RPSlider_OuterCircle.DisplayName = "Outer Circle Radius";
+            RPSlider_OuterCircle.TitleLabel = "Outer Circle Radius";
+            RPSlider_OuterCircle.SliderValueChanged += OuterCircleValueChanged;
             _isSetup = true;
 
             // Initialize Random instance once.
-            _random   = new Random();
+            _random = new Random();
             _penColor = GetRandomColor();
 
             _color_Pereset_1 = [Color.Red, Color.White, Color.Blue];
             _color_Pereset_2 = [Color.Maroon, Color.Orange];
+
+            #region .  Old code to generate controls dynamically  --  CAN DELETE  .
 
             //NumericUpDown_InnerCircle.Value = _default_B;
             //NumericUpDown_OuterCircle.Value = _default_C;
@@ -803,6 +820,8 @@ namespace Spirograph_v1
             //};
             //RPTrackBar_OuterCircle.ValueChanged += TrackBar_OuterCircle_ValueChanged;
 
+            #endregion
+
             // Initialize debounce timer for Invalidator()
             _debounceTimer = new System.Windows.Forms.Timer
             {
@@ -834,12 +853,10 @@ namespace Spirograph_v1
         // -------------------------------------------------------------------------
         private void StartRenderAsync()
         {
-            // Capture current parameters
-            //int B = RPTrackBar_InnerCircle.Value;
-            //int C = RPTrackBar_OuterCircle.Value;
-            int A = _default_A;     // TrackBar_Radius     .Value;
-            int B = RPSlider_InnerCircle.Value;
-            int C = RPSlider_OuterCircle.Value;
+            // Capture current parameters.
+            int A = _default_A;
+            int B = RPSlider_InnerCircle.SliderValue;
+            int C = RPSlider_OuterCircle.SliderValue;
 
             if (!int.TryParse(TextIterations.Text, out int iterations) || iterations <= 0)
             {
@@ -852,7 +869,7 @@ namespace Spirograph_v1
 
             lock (_renderLock)
             {
-                // Cancel previous render
+                // Cancel previous render.
                 _renderCts?.Cancel();
                 _renderCts?.Dispose();
                 _renderCts = new CancellationTokenSource();
@@ -869,21 +886,21 @@ namespace Spirograph_v1
 
                 render.ContinueWith(t =>
                 {
-                    // Continuation runs on UI thread
+                    // Continuation runs on UI thread.
                     try
                     {
                         if (t.IsCanceled)
                         {
-                            // no-op; canceled by a new render request
+                            // no-op; canceled by a new render request.
                             return;
                         }
                         if (t.IsFaulted)
                         {
                             var ex = t.Exception?.GetBaseException();
                             MessageBox.Show($"An error occurred while rendering:\n\n{ex?.Message}",
-                                            "Render Error",
-                                            MessageBoxButtons.OK,
-                                            MessageBoxIcon.Error);
+                                             "Render Error",
+                                              MessageBoxButtons.OK,
+                                              MessageBoxIcon.Error);
                             return;
                         }
 
@@ -902,8 +919,8 @@ namespace Spirograph_v1
                         {
                             MessageBox.Show($"An error occurred while updating the image:\n\n{ex.Message}",
                                              "Render Update Error",
-                                             MessageBoxButtons.OK,
-                                             MessageBoxIcon.Error);
+                                              MessageBoxButtons.OK,
+                                              MessageBoxIcon.Error);
                         }
                     }
                     finally
@@ -1012,6 +1029,7 @@ namespace Spirograph_v1
         #endregion
 
 
+
         #region .  UiProgressTimer_Tick()  .
         // -------------------------------------------------------------------------
         //   Method.......:  UiProgressTimer_Tick()
@@ -1048,7 +1066,7 @@ namespace Spirograph_v1
         #endregion
 
 
-        #region .  SafeProgress Helper  .
+        #region .  class SafeProgress Helper  .
 
         // SafeProgress does not post into SynchronizationContext.
         // It simply calls a provided Action<int> (must be thread-safe)

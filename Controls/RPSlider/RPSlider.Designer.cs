@@ -39,18 +39,20 @@
             // LabelTitle
             // 
             this.LabelTitle.AutoSize = true;
+            this.LabelTitle.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.LabelTitle.Location = new System.Drawing.Point(0, 2);
             this.LabelTitle.Name = "LabelTitle";
-            this.LabelTitle.Size = new System.Drawing.Size(35, 15);
+            this.LabelTitle.Size = new System.Drawing.Size(45, 19);
             this.LabelTitle.TabIndex = 0;
             this.LabelTitle.Text = "{title}";
             // 
             // LabelRange
             // 
             this.LabelRange.AutoSize = true;
+            this.LabelRange.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.LabelRange.Location = new System.Drawing.Point(153, 2);
             this.LabelRange.Name = "LabelRange";
-            this.LabelRange.Size = new System.Drawing.Size(45, 15);
+            this.LabelRange.Size = new System.Drawing.Size(58, 19);
             this.LabelRange.TabIndex = 1;
             this.LabelRange.Text = "{range}";
             // 
@@ -59,7 +61,8 @@
             this.TrackBar1.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             this.TrackBar1.AutoSize = false;
             this.TrackBar1.Location = new System.Drawing.Point(0, 20);
-            this.TrackBar1.Maximum = 100;
+            this.TrackBar1.Maximum = 200;
+            this.TrackBar1.MaximumSize = new System.Drawing.Size(400, 500);
             this.TrackBar1.Minimum = 1;
             this.TrackBar1.MinimumSize = new System.Drawing.Size(200, 30);
             this.TrackBar1.Name = "TrackBar1";
@@ -77,6 +80,7 @@
             this.NumericUpDown1.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             this.NumericUpDown1.AutoSize = true;
             this.NumericUpDown1.Location = new System.Drawing.Point(206, 20);
+            this.NumericUpDown1.Maximum = new decimal(new int[] { 200, 0, 0, 0 });
             this.NumericUpDown1.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             this.NumericUpDown1.Name = "NumericUpDown1";
             this.NumericUpDown1.Size = new System.Drawing.Size(48, 23);

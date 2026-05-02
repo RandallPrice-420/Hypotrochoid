@@ -3,9 +3,9 @@
 
 namespace Spirograph_v1
 {
-    public partial class Form_TrackBar : Form
+    public partial class Form_TestUserControls : Form
     {
-        public Form_TrackBar()
+        public Form_TestUserControls()
         {
             InitializeComponent();
 
