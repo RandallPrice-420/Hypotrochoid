@@ -36,7 +36,6 @@ namespace Spirograph_v1.Controls.Knob
                 Invalidate();
                 ValueChanged?.Invoke(this, EventArgs.Empty);
             }
-
         }
 
 
@@ -94,7 +93,7 @@ namespace Spirograph_v1.Controls.Knob
             g.SmoothingMode = SmoothingMode.AntiAlias;
 
             int size = Math.Min(Width, Height);
-            int cx   = Width / 2;
+            int cx   = Width  / 2;
             int cy   = Height / 2;
 
             Rectangle rect = new(cx - size / 2 + 5,

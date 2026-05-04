@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -8,19 +9,18 @@ namespace Spirograph_v1.Controls.RPSlider
 {
     public partial class RPSlider : UserControl
     {
-        // -------------------------------------------------------------------------
+        // ---------------------------------------------------------------------
         // Public Events:
         // --------------
-        //   NumericValueChanged
-        //   SliderValueChanged
-        // -------------------------------------------------------------------------
+        //   SliderValueChanged : Triggered when the slider value changes.
+        // ---------------------------------------------------------------------
 
         #region .  Public Events  .
 
-        public event EventHandler NumericValueChanged;
         public event EventHandler SliderValueChanged;
-        
+
         #endregion
+
 
 
         // -------------------------------------------------------------------------
@@ -43,7 +43,6 @@ namespace Spirograph_v1.Controls.RPSlider
         // -------------------------------------------------------------------------
         // Public Properties:
         // ------------------
-        //   DisplayName
         //   NumericUpDownValue
         //   SliderMaximum
         //   SliderMinimum
@@ -53,18 +52,6 @@ namespace Spirograph_v1.Controls.RPSlider
 
         #region .  Public Properties  .
 
-        // TrackBar Title text
-        public string  DisplayName
-        {
-            get => _title;
-            set
-            {
-                _title = value;
-                LabelTitle.Text = _title;
-            }
-        }
-
-        // NumericUpDown value
         public decimal NumericUpDownValue
         {
             get => NumericUpDown1.Value;
@@ -103,22 +90,21 @@ namespace Spirograph_v1.Controls.RPSlider
 
 
         // -------------------------------------------------------------------------
-        // Private Properties:
-        // -------------------
+        // Private Variables:
+        // ------------------
         //   _isDragging
         //   _minimum
         //   _maximum
         //   _title
-        //   _value
         // -------------------------------------------------------------------------
 
-        #region .  Private Properties  .
+        #region .  Private Variables  .
 
         private bool   _isDragging = false;
-        private int    _minimum    =   1;
-        private int    _maximum    = 100;
-        private int    _value      =   1;
-        private string _title;
+        //private int    _minimum    =   1;
+        //private int    _maximum    = 100;
+        //private int    _value      =   1;
+        //private string _title;
 
         #endregion
 
@@ -133,8 +119,8 @@ namespace Spirograph_v1.Controls.RPSlider
         //   TrackBar1_MouseMove()
         //   TrackBar1_MouseUp()
         //   TrackBar1_ValueChanged()
+        //   UpdateRangeLabel()
         //   UpdateRangeLabelLocation()
-        //   RaiseValueChanged()
         //   UpdateValueFromMouse()
         // -------------------------------------------------------------------------
 
@@ -144,11 +130,11 @@ namespace Spirograph_v1.Controls.RPSlider
 
             TrackBar1.Minimum = (int)NumericUpDown1.Minimum;
             TrackBar1.Maximum = (int)NumericUpDown1.Maximum;
-            //TrackBar1.Value   = this.Value;
 
             LabelTitle.Text   = "RP_Slider";
             LabelRange.Text   = $"({TrackBar1.Minimum} - {TrackBar1.Maximum})";
 
+            UpdateRangeLabel();
             UpdateRangeLabelLocation();
 
         }   // Setup()
@@ -157,7 +143,7 @@ namespace Spirograph_v1.Controls.RPSlider
         private void NumericUpDown1_ValueChanged(object sender, EventArgs e)
         {
             TrackBar1.Value = (int)NumericUpDown1.Value;
-            RaiseValueChanged(TrackBar1.Value);
+            SliderValueChanged?.Invoke(this, e);
 
         }   // NumericUpDown1_ValueChanged()
 
@@ -175,7 +161,7 @@ namespace Spirograph_v1.Controls.RPSlider
 
             this._isDragging = true;
 
-            UpdateValueFromMouse(e.X);
+            UpdateValueFromMouse(e.X, e);
 
         }   // TrackBar1_MouseDown()
 
@@ -186,7 +172,7 @@ namespace Spirograph_v1.Controls.RPSlider
 
             if (this._isDragging)
             {
-                UpdateValueFromMouse(e.X);
+                UpdateValueFromMouse(e.X, e);
             }
 
         }   // TrackBar1_MouseMove()
@@ -204,13 +190,22 @@ namespace Spirograph_v1.Controls.RPSlider
         private void TrackBar1_Scroll(object sender, EventArgs e)
         {
             SliderValueChanged?.Invoke(this, e);
-        }
+
+        }   // TrackBar1_Scroll()
 
 
         private void TrackBar1_ValueChanged(object sender, EventArgs e)
         {
             NumericUpDown1.Value = TrackBar1.Value;
-            RaiseValueChanged((int)NumericUpDown1.Value);
+
+            SliderValueChanged?.Invoke(this, e);
+
+        }   // TrackBar1_ValueChanged()
+
+
+        private void UpdateRangeLabel()
+        {
+            LabelRange.Text = $"({TrackBar1.Minimum} - {TrackBar1.Maximum})";
 
         }   // TrackBar1_ValueChanged()
 
@@ -222,21 +217,15 @@ namespace Spirograph_v1.Controls.RPSlider
         }   // TrackBar1_ValueChanged()
 
 
-        private void RaiseValueChanged(int newValue)
-        {
-            //this.Value = newValue;
-            SliderValueChanged?.Invoke(this, EventArgs.Empty);
-
-        }   // RaiseValueChanged()
-
-
-        private void UpdateValueFromMouse(int mouseX)
+        private void UpdateValueFromMouse(int mouseX, EventArgs e = null)
         {
             Rectangle trackRect = new(10, TrackBar1.Height / 2 - 4, TrackBar1.Width - 20, 8);
             float     percent   = (float)(mouseX - trackRect.Left) / trackRect.Width;
             int       value     = (int)(TrackBar1.Minimum + percent * (TrackBar1.Maximum - TrackBar1.Minimum));
 
             TrackBar1.Value = Math.Max(TrackBar1.Minimum, Math.Min(TrackBar1.Maximum, value));
+
+            SliderValueChanged?.Invoke(this, e);
 
             //this.Value = TrackBar1.Value;
             //RaiseValueChanged(this.Value);

@@ -50,7 +50,7 @@
             // 
             this.LabelRange.AutoSize = true;
             this.LabelRange.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-            this.LabelRange.Location = new System.Drawing.Point(153, 2);
+            this.LabelRange.Location = new System.Drawing.Point(147, 2);
             this.LabelRange.Name = "LabelRange";
             this.LabelRange.Size = new System.Drawing.Size(58, 19);
             this.LabelRange.TabIndex = 1;
@@ -79,13 +79,14 @@
             // 
             this.NumericUpDown1.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             this.NumericUpDown1.AutoSize = true;
+            this.NumericUpDown1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
             this.NumericUpDown1.Location = new System.Drawing.Point(206, 20);
             this.NumericUpDown1.Maximum = new decimal(new int[] { 200, 0, 0, 0 });
             this.NumericUpDown1.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             this.NumericUpDown1.Name = "NumericUpDown1";
             this.NumericUpDown1.Size = new System.Drawing.Size(48, 23);
             this.NumericUpDown1.TabIndex = 4;
-            this.NumericUpDown1.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.NumericUpDown1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.NumericUpDown1.Value = new decimal(new int[] { 100, 0, 0, 0 });
             this.NumericUpDown1.ValueChanged += this.NumericUpDown1_ValueChanged;
             // 

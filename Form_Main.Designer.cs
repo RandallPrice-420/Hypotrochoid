@@ -2,7 +2,7 @@
 
 namespace Spirograph_v1
 {
-    partial class Form_Main
+    partial class FormMain
     {
         /// <summary>
         /// Required designer variable.
@@ -31,60 +31,62 @@ namespace Spirograph_v1
         private void InitializeComponent()
         {
             this.BtnQuit = new System.Windows.Forms.Button();
-            this.PictureBox = new System.Windows.Forms.PictureBox();
-            this.SaveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.PicSpirograph = new System.Windows.Forms.PictureBox();
+            this.DlgSaveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.BtnSave = new System.Windows.Forms.Button();
-            this.ColorDialog = new System.Windows.Forms.ColorDialog();
+            this.DlgColorDialog = new System.Windows.Forms.ColorDialog();
             this.BtnColor = new System.Windows.Forms.Button();
-            this.LabelIteration = new System.Windows.Forms.Label();
-            this.LabelIterationCount = new System.Windows.Forms.Label();
             this.BtnRedraw = new System.Windows.Forms.Button();
-            this.knobSciFiPlus1 = new KnobSciFiPlus();
-            this.TextIterations = new System.Windows.Forms.TextBox();
-            this.LabelIter = new System.Windows.Forms.Label();
             this.RPSlider_InnerCircle = new Spirograph_v1.Controls.RPSlider.RPSlider();
             this.RPSlider_OuterCircle = new Spirograph_v1.Controls.RPSlider.RPSlider();
-            this.sciFiSliderControl_InnerCircle = new Spirograph_v1.Controls.SciFiSlider.SciFiSliderControl();
-            this.BtnControlsForm = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)this.PictureBox).BeginInit();
+            this.BtnControls = new System.Windows.Forms.Button();
+            this.RPSlider_Iterations = new Spirograph_v1.Controls.RPSlider.RPSlider();
+            this.CboColorPresets = new System.Windows.Forms.ComboBox();
+            this.LblIterationsCount = new System.Windows.Forms.Label();
+            this.LblPenColor = new System.Windows.Forms.Label();
+            this.LblIterations = new System.Windows.Forms.Label();
+            this.ChkMultiColorGradient = new System.Windows.Forms.CheckBox();
+            ((System.ComponentModel.ISupportInitialize)this.PicSpirograph).BeginInit();
             this.SuspendLayout();
             // 
             // BtnQuit
             // 
             this.BtnQuit.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
-            this.BtnQuit.Location = new System.Drawing.Point(646, 12);
+            this.BtnQuit.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.BtnQuit.Location = new System.Drawing.Point(193, 328);
             this.BtnQuit.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.BtnQuit.Name = "BtnQuit";
-            this.BtnQuit.Size = new System.Drawing.Size(88, 27);
+            this.BtnQuit.Size = new System.Drawing.Size(82, 27);
             this.BtnQuit.TabIndex = 6;
             this.BtnQuit.Text = "Quit";
             this.BtnQuit.UseVisualStyleBackColor = true;
             this.BtnQuit.Click += this.BtnQuit_Click;
             // 
-            // PictureBox
+            // PicSpirograph
             // 
-            this.PictureBox.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-            this.PictureBox.BackColor = System.Drawing.Color.FloralWhite;
-            this.PictureBox.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.PictureBox.Location = new System.Drawing.Point(14, 265);
-            this.PictureBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.PictureBox.Name = "PictureBox";
-            this.PictureBox.Size = new System.Drawing.Size(720, 422);
-            this.PictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.PictureBox.TabIndex = 7;
-            this.PictureBox.TabStop = false;
+            this.PicSpirograph.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            this.PicSpirograph.BackColor = System.Drawing.Color.FloralWhite;
+            this.PicSpirograph.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.PicSpirograph.Location = new System.Drawing.Point(295, 14);
+            this.PicSpirograph.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.PicSpirograph.Name = "PicSpirograph";
+            this.PicSpirograph.Size = new System.Drawing.Size(671, 635);
+            this.PicSpirograph.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.PicSpirograph.TabIndex = 7;
+            this.PicSpirograph.TabStop = false;
             // 
-            // SaveFileDialog
+            // DlgSaveFileDialog
             // 
-            this.SaveFileDialog.Title = "Save Image As...";
+            this.DlgSaveFileDialog.Title = "Save Image As...";
             // 
             // BtnSave
             // 
             this.BtnSave.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
-            this.BtnSave.Location = new System.Drawing.Point(550, 12);
+            this.BtnSave.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.BtnSave.Location = new System.Drawing.Point(103, 328);
             this.BtnSave.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.BtnSave.Name = "BtnSave";
-            this.BtnSave.Size = new System.Drawing.Size(88, 27);
+            this.BtnSave.Size = new System.Drawing.Size(82, 27);
             this.BtnSave.TabIndex = 15;
             this.BtnSave.Text = "Save";
             this.BtnSave.UseVisualStyleBackColor = true;
@@ -93,170 +95,181 @@ namespace Spirograph_v1
             // BtnColor
             // 
             this.BtnColor.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
-            this.BtnColor.Location = new System.Drawing.Point(648, 45);
+            this.BtnColor.Location = new System.Drawing.Point(117, 622);
             this.BtnColor.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.BtnColor.Name = "BtnColor";
-            this.BtnColor.Size = new System.Drawing.Size(88, 27);
+            this.BtnColor.Size = new System.Drawing.Size(96, 27);
             this.BtnColor.TabIndex = 16;
             this.BtnColor.Text = "Color";
             this.BtnColor.UseVisualStyleBackColor = true;
-            this.BtnColor.Click += this.BtnColor_Click;
-            // 
-            // LabelIteration
-            // 
-            this.LabelIteration.AutoSize = true;
-            this.LabelIteration.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-            this.LabelIteration.Location = new System.Drawing.Point(568, 110);
-            this.LabelIteration.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.LabelIteration.Name = "LabelIteration";
-            this.LabelIteration.Size = new System.Drawing.Size(70, 19);
-            this.LabelIteration.TabIndex = 17;
-            this.LabelIteration.Text = "Iteration:";
-            // 
-            // LabelIterationCount
-            // 
-            this.LabelIterationCount.AutoSize = true;
-            this.LabelIterationCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
-            this.LabelIterationCount.ForeColor = System.Drawing.Color.Cyan;
-            this.LabelIterationCount.Location = new System.Drawing.Point(646, 84);
-            this.LabelIterationCount.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.LabelIterationCount.Name = "LabelIterationCount";
-            this.LabelIterationCount.Size = new System.Drawing.Size(14, 13);
-            this.LabelIterationCount.TabIndex = 18;
-            this.LabelIterationCount.Text = "0";
-            this.LabelIterationCount.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.BtnColor.Visible = false;
             // 
             // BtnRedraw
             // 
             this.BtnRedraw.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
-            this.BtnRedraw.Location = new System.Drawing.Point(550, 45);
+            this.BtnRedraw.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.BtnRedraw.Location = new System.Drawing.Point(13, 328);
             this.BtnRedraw.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.BtnRedraw.Name = "BtnRedraw";
-            this.BtnRedraw.Size = new System.Drawing.Size(88, 27);
+            this.BtnRedraw.Size = new System.Drawing.Size(82, 27);
             this.BtnRedraw.TabIndex = 19;
             this.BtnRedraw.Text = "Redraw";
             this.BtnRedraw.UseVisualStyleBackColor = true;
             this.BtnRedraw.Click += this.BtnRedraw_Click;
             // 
-            // knobSciFiPlus1
-            // 
-            this.knobSciFiPlus1.Location = new System.Drawing.Point(325, 14);
-            this.knobSciFiPlus1.MinimumSize = new System.Drawing.Size(100, 100);
-            this.knobSciFiPlus1.Mode = KnobSciFiPlus.ColorMode.NeonCyan;
-            this.knobSciFiPlus1.Name = "knobSciFiPlus1";
-            this.knobSciFiPlus1.Size = new System.Drawing.Size(100, 100);
-            this.knobSciFiPlus1.TabIndex = 20;
-            this.knobSciFiPlus1.Text = "knobSciFiPlus1";
-            this.knobSciFiPlus1.Value = 50;
-            // 
-            // TextIterations
-            // 
-            this.TextIterations.Location = new System.Drawing.Point(646, 109);
-            this.TextIterations.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.TextIterations.Name = "TextIterations";
-            this.TextIterations.Size = new System.Drawing.Size(33, 23);
-            this.TextIterations.TabIndex = 8;
-            this.TextIterations.Text = "50";
-            this.TextIterations.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            // 
-            // LabelIter
-            // 
-            this.LabelIter.AutoSize = true;
-            this.LabelIter.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-            this.LabelIter.Location = new System.Drawing.Point(601, 81);
-            this.LabelIter.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.LabelIter.Name = "LabelIter";
-            this.LabelIter.Size = new System.Drawing.Size(37, 19);
-            this.LabelIter.TabIndex = 9;
-            this.LabelIter.Text = "Iter:";
-            // 
             // RPSlider_InnerCircle
             // 
             this.RPSlider_InnerCircle.AutoSize = true;
-            this.RPSlider_InnerCircle.BackColor = System.Drawing.Color.FloralWhite;
-            this.RPSlider_InnerCircle.DisplayName = "Inner Circle Radius";
+            this.RPSlider_InnerCircle.BackColor = System.Drawing.Color.DodgerBlue;
             this.RPSlider_InnerCircle.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-            this.RPSlider_InnerCircle.ForeColor = System.Drawing.Color.DodgerBlue;
+            this.RPSlider_InnerCircle.ForeColor = System.Drawing.Color.Cyan;
             this.RPSlider_InnerCircle.Location = new System.Drawing.Point(14, 14);
             this.RPSlider_InnerCircle.Name = "RPSlider_InnerCircle";
-            this.RPSlider_InnerCircle.NumericUpDownValue = new decimal(new int[] { 180, 0, 0, 0 });
-            this.RPSlider_InnerCircle.Size = new System.Drawing.Size(297, 60);
+            this.RPSlider_InnerCircle.NumericUpDownValue = new decimal(new int[] { 179, 0, 0, 0 });
+            this.RPSlider_InnerCircle.Size = new System.Drawing.Size(265, 53);
             this.RPSlider_InnerCircle.SliderMaximum = 200;
             this.RPSlider_InnerCircle.SliderMinimum = 1;
-            this.RPSlider_InnerCircle.SliderValue = 180;
+            this.RPSlider_InnerCircle.SliderValue = 179;
             this.RPSlider_InnerCircle.TabIndex = 21;
             this.RPSlider_InnerCircle.TitleLabel = "Inner Circle Radius";
             // 
             // RPSlider_OuterCircle
             // 
             this.RPSlider_OuterCircle.AutoSize = true;
-            this.RPSlider_OuterCircle.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.RPSlider_OuterCircle.BackColor = System.Drawing.Color.DodgerBlue;
-            this.RPSlider_OuterCircle.DisplayName = "Outer Circle Radius";
             this.RPSlider_OuterCircle.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.RPSlider_OuterCircle.ForeColor = System.Drawing.Color.Cyan;
-            this.RPSlider_OuterCircle.Location = new System.Drawing.Point(14, 80);
+            this.RPSlider_OuterCircle.Location = new System.Drawing.Point(14, 73);
             this.RPSlider_OuterCircle.Name = "RPSlider_OuterCircle";
             this.RPSlider_OuterCircle.NumericUpDownValue = new decimal(new int[] { 100, 0, 0, 0 });
-            this.RPSlider_OuterCircle.Size = new System.Drawing.Size(297, 53);
+            this.RPSlider_OuterCircle.Size = new System.Drawing.Size(265, 53);
             this.RPSlider_OuterCircle.SliderMaximum = 200;
             this.RPSlider_OuterCircle.SliderMinimum = 1;
             this.RPSlider_OuterCircle.SliderValue = 100;
             this.RPSlider_OuterCircle.TabIndex = 22;
             this.RPSlider_OuterCircle.TitleLabel = "Outer Circle Radius";
             // 
-            // sciFiSliderControl_InnerCircle
+            // BtnControls
             // 
-            this.sciFiSliderControl_InnerCircle.BackColor = System.Drawing.Color.Black;
-            this.sciFiSliderControl_InnerCircle.GlowMode = Spirograph_v1.Controls.SciFiSlider.SciFiSliderControl.GlowColorMode.NeonCyan;
-            this.sciFiSliderControl_InnerCircle.Location = new System.Drawing.Point(11, 139);
-            this.sciFiSliderControl_InnerCircle.Maximum = 200;
-            this.sciFiSliderControl_InnerCircle.Minimum = 1;
-            this.sciFiSliderControl_InnerCircle.Name = "sciFiSliderControl_InnerCircle";
-            this.sciFiSliderControl_InnerCircle.Size = new System.Drawing.Size(300, 120);
-            this.sciFiSliderControl_InnerCircle.TabIndex = 23;
-            this.sciFiSliderControl_InnerCircle.Title = "Inner Circle Radius";
-            this.sciFiSliderControl_InnerCircle.Value = 1;
+            this.BtnControls.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            this.BtnControls.Location = new System.Drawing.Point(13, 622);
+            this.BtnControls.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.BtnControls.Name = "BtnControls";
+            this.BtnControls.Size = new System.Drawing.Size(96, 27);
+            this.BtnControls.TabIndex = 24;
+            this.BtnControls.Text = "Controls Form";
+            this.BtnControls.UseVisualStyleBackColor = true;
+            this.BtnControls.Visible = false;
+            this.BtnControls.Click += this.BtnControlsForm_Click;
             // 
-            // BtnControlsForm
+            // RPSlider_Iterations
             // 
-            this.BtnControlsForm.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
-            this.BtnControlsForm.Location = new System.Drawing.Point(446, 12);
-            this.BtnControlsForm.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.BtnControlsForm.Name = "BtnControlsForm";
-            this.BtnControlsForm.Size = new System.Drawing.Size(96, 27);
-            this.BtnControlsForm.TabIndex = 24;
-            this.BtnControlsForm.Text = "Controls Form";
-            this.BtnControlsForm.UseVisualStyleBackColor = true;
-            this.BtnControlsForm.Click += this.BtnControlsForm_Click;
+            this.RPSlider_Iterations.AutoSize = true;
+            this.RPSlider_Iterations.BackColor = System.Drawing.Color.DodgerBlue;
+            this.RPSlider_Iterations.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.RPSlider_Iterations.ForeColor = System.Drawing.Color.Cyan;
+            this.RPSlider_Iterations.Location = new System.Drawing.Point(14, 132);
+            this.RPSlider_Iterations.Name = "RPSlider_Iterations";
+            this.RPSlider_Iterations.NumericUpDownValue = new decimal(new int[] { 50, 0, 0, 0 });
+            this.RPSlider_Iterations.Size = new System.Drawing.Size(265, 53);
+            this.RPSlider_Iterations.SliderMaximum = 200;
+            this.RPSlider_Iterations.SliderMinimum = 1;
+            this.RPSlider_Iterations.SliderValue = 50;
+            this.RPSlider_Iterations.TabIndex = 27;
+            this.RPSlider_Iterations.TitleLabel = "Iterations";
             // 
-            // Form_Main
+            // CboColorPresets
             // 
-            this.AcceptButton = this.BtnQuit;
+            this.CboColorPresets.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CboColorPresets.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.CboColorPresets.FormattingEnabled = true;
+            this.CboColorPresets.Location = new System.Drawing.Point(180, 196);
+            this.CboColorPresets.Name = "CboColorPresets";
+            this.CboColorPresets.Size = new System.Drawing.Size(100, 25);
+            this.CboColorPresets.Sorted = true;
+            this.CboColorPresets.TabIndex = 26;
+            this.CboColorPresets.SelectedIndexChanged += this.CboColorPresets_SelectedIndexChanged;
+            // 
+            // LblIterationsCount
+            // 
+            this.LblIterationsCount.BackColor = System.Drawing.Color.Transparent;
+            this.LblIterationsCount.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.LblIterationsCount.ForeColor = System.Drawing.Color.Bisque;
+            this.LblIterationsCount.Location = new System.Drawing.Point(229, 259);
+            this.LblIterationsCount.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
+            this.LblIterationsCount.Name = "LblIterationsCount";
+            this.LblIterationsCount.Size = new System.Drawing.Size(54, 19);
+            this.LblIterationsCount.TabIndex = 28;
+            this.LblIterationsCount.Text = "0";
+            this.LblIterationsCount.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // LblPenColor
+            // 
+            this.LblPenColor.AutoSize = true;
+            this.LblPenColor.BackColor = System.Drawing.Color.Transparent;
+            this.LblPenColor.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.LblPenColor.ForeColor = System.Drawing.Color.Cyan;
+            this.LblPenColor.Location = new System.Drawing.Point(14, 199);
+            this.LblPenColor.Name = "LblPenColor";
+            this.LblPenColor.Size = new System.Drawing.Size(80, 19);
+            this.LblPenColor.TabIndex = 29;
+            this.LblPenColor.Text = "Pen Color:";
+            // 
+            // LblIterations
+            // 
+            this.LblIterations.AutoSize = true;
+            this.LblIterations.BackColor = System.Drawing.Color.Transparent;
+            this.LblIterations.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.LblIterations.ForeColor = System.Drawing.Color.Cyan;
+            this.LblIterations.Location = new System.Drawing.Point(14, 260);
+            this.LblIterations.Name = "LblIterations";
+            this.LblIterations.Size = new System.Drawing.Size(115, 19);
+            this.LblIterations.TabIndex = 30;
+            this.LblIterations.Text = "Draw Iterations:";
+            // 
+            // ChkMultiColorGradient
+            // 
+            this.ChkMultiColorGradient.AutoSize = true;
+            this.ChkMultiColorGradient.BackColor = System.Drawing.Color.Transparent;
+            this.ChkMultiColorGradient.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.ChkMultiColorGradient.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.ChkMultiColorGradient.ForeColor = System.Drawing.Color.Cyan;
+            this.ChkMultiColorGradient.Location = new System.Drawing.Point(14, 228);
+            this.ChkMultiColorGradient.Name = "ChkMultiColorGradient";
+            this.ChkMultiColorGradient.Size = new System.Drawing.Size(268, 23);
+            this.ChkMultiColorGradient.TabIndex = 31;
+            this.ChkMultiColorGradient.Text = "Multi-Color Gradient Background:   ";
+            this.ChkMultiColorGradient.UseVisualStyleBackColor = false;
+            this.ChkMultiColorGradient.CheckedChanged += this.ChkMultiColorGradient_CheckedChanged;
+            // 
+            // FormMain
+            // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.RoyalBlue;
-            this.ClientSize = new System.Drawing.Size(749, 701);
-            this.Controls.Add(this.BtnControlsForm);
-            this.Controls.Add(this.sciFiSliderControl_InnerCircle);
+            this.ClientSize = new System.Drawing.Size(984, 661);
+            this.Controls.Add(this.ChkMultiColorGradient);
+            this.Controls.Add(this.LblIterations);
+            this.Controls.Add(this.LblPenColor);
+            this.Controls.Add(this.LblIterationsCount);
+            this.Controls.Add(this.RPSlider_Iterations);
+            this.Controls.Add(this.CboColorPresets);
+            this.Controls.Add(this.BtnControls);
             this.Controls.Add(this.RPSlider_InnerCircle);
             this.Controls.Add(this.RPSlider_OuterCircle);
-            this.Controls.Add(this.knobSciFiPlus1);
             this.Controls.Add(this.BtnRedraw);
-            this.Controls.Add(this.LabelIterationCount);
-            this.Controls.Add(this.LabelIteration);
             this.Controls.Add(this.BtnColor);
             this.Controls.Add(this.BtnSave);
-            this.Controls.Add(this.LabelIter);
-            this.Controls.Add(this.TextIterations);
             this.Controls.Add(this.BtnQuit);
-            this.Controls.Add(this.PictureBox);
+            this.Controls.Add(this.PicSpirograph);
+            this.DoubleBuffered = true;
+            this.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.Name = "Form_Main";
+            this.Name = "FormMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Spirograph-v1";
             this.ResizeEnd += this.Form_Main_ResizeEnd;
-            ((System.ComponentModel.ISupportInitialize)this.PictureBox).EndInit();
+            ((System.ComponentModel.ISupportInitialize)this.PicSpirograph).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -265,21 +278,22 @@ namespace Spirograph_v1
         #endregion
 
         private System.Windows.Forms.Button BtnQuit;
-        private System.Windows.Forms.PictureBox PictureBox;
-        private System.Windows.Forms.SaveFileDialog SaveFileDialog;
+        private System.Windows.Forms.PictureBox PicSpirograph;
+        private System.Windows.Forms.SaveFileDialog DlgSaveFileDialog;
         private System.Windows.Forms.Button BtnSave;
-        private System.Windows.Forms.ColorDialog ColorDialog;
+        private System.Windows.Forms.ColorDialog DlgColorDialog;
         private System.Windows.Forms.Button BtnColor;
-        private System.Windows.Forms.Label LabelIteration;
-        private System.Windows.Forms.Label LabelIterationCount;
         private System.Windows.Forms.Button BtnRedraw;
-        private KnobSciFiPlus knobSciFiPlus1;
-        private System.Windows.Forms.TextBox TextIterations;
-        private System.Windows.Forms.Label LabelIter;
         private Controls.RPSlider.RPSlider RPSlider_InnerCircle;
         private Controls.RPSlider.RPSlider RPSlider_OuterCircle;
-        private Controls.SciFiSlider.SciFiSliderControl sciFiSliderControl_InnerCircle;
-        private System.Windows.Forms.Button BtnControlsForm;
+        private Controls.SciFiSlider.SciFiSlider sciFiSliderControl_InnerCircle;
+        private System.Windows.Forms.Button BtnControls;
+        private System.Windows.Forms.ComboBox CboColorPresets;
+        private Controls.RPSlider.RPSlider RPSlider_Iterations;
+        private System.Windows.Forms.Label LblIterationsCount;
+        private System.Windows.Forms.Label LblPenColor;
+        private System.Windows.Forms.Label LblIterations;
+        private System.Windows.Forms.CheckBox ChkMultiColorGradient;
     }
 }
 
