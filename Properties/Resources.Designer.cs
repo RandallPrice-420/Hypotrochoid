@@ -11,8 +11,9 @@
 namespace Spirograph_v1.Properties
 {
     using System;
-    
-    
+    using System.Drawing;
+
+
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -34,7 +35,9 @@ namespace Spirograph_v1.Properties
         internal Resources() {
         }
 
-        
+        public static Image Enabled { get; internal set; }
+
+
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>

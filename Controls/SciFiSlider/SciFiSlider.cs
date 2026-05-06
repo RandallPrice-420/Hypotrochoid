@@ -54,8 +54,8 @@ namespace Spirograph_v1.Controls.SciFiSlider
         //   glowMode            : Enum to select the glow color mode for the slider.
         //   isDragging          : Flag to track if the slider is being dragged.
         //   isShowNumericUpDown : Controls visibility of the NumericUpDown control.
-        //   isShowRange         : Controls visibility of the slider range label.
-        //   isShowTitle         : Controls visibility of the title label.
+        ////   isShowRange         : Controls visibility of the slider range label.
+        ////   isShowTitle         : Controls visibility of the title label.
         //   numericUpDown       : NumericUpDown control for numeric input.
         //   title               : Label control for displaying the title.
         //   trackBar            : TrackBar control for the slider.
@@ -63,14 +63,15 @@ namespace Spirograph_v1.Controls.SciFiSlider
 
         #region .  Private Variables  .
 
+        //private readonly bool          isShowNumericUpDown;
+        //private readonly bool          isShowTitle;
+        private readonly Label         title;
+
         private GlowColorMode glowMode   = GlowColorMode.NeonCyan;
         private bool          isDragging = false;
-        private bool          isShowNumericUpDown;
-        private bool          isShowTitle;
         private NumericUpDown numericUpDown;
         private int           sliderMaximum;
         private int           sliderMinimum;
-        private Label         title;
 
         #endregion
 

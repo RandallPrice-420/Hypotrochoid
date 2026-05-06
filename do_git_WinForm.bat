@@ -172,6 +172,7 @@ echo.
 ::  - Add and commit the changes
 ::  - Push to the remote repository
 :: ----------------------------------------------------------------------------
+echo.
 set "defaultValue=Initial project upload."
 set /p "commit_message=%_blue%Enter commit message (%_red%Enter%_blue% = <%_red%%defaultValue%%_blue%>, %b_red%Q%_blue% = Quit):  "
 if /I "%commit_message%"=="q" goto Done

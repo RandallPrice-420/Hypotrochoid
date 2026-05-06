@@ -17,8 +17,8 @@ namespace Spirograph_v1
         // Private Properties:
         // -------------------
         //   _default_A
-        //   _pens
         //   _isSetup
+        //   _pens
         //   _penColors
         //   _debounceTimer
         //   _isClosing
@@ -32,9 +32,9 @@ namespace Spirograph_v1
         #region .  Private Properties  .
 
         private readonly int               _default_A  =  80;
+        private readonly bool              _isSetup;
         private readonly List<Pen>         _pens = [];
 
-        private bool                       _isSetup;
         private Color[]                    _penColors;
 
         // Debounce timer for coalescing rapid Invalidator() calls (UI thread).
@@ -74,13 +74,18 @@ namespace Spirograph_v1
         // ---------------------------------------------------------------------
         public FormMain()
         {
+            _isSetup = true;
+
             InitializeComponent();
 
             this.DoubleBuffered = true;
 
             Setup();
+            SetupButtons();
             SetupPen();
             SetupPenColors();
+
+            _isSetup = false;
 
             Invalidator();
 
@@ -562,16 +567,9 @@ namespace Spirograph_v1
         private void Setup()
         {
             // Set the Slider's Title and subscribe to the event.
-            RPSlider_InnerCircle.TitleLabel = "Inner Circle Radius";
             RPSlider_InnerCircle.SliderValueChanged += InnerCircleValueChanged;
-
-            RPSlider_OuterCircle.TitleLabel = "Outer Circle Radius";
             RPSlider_OuterCircle.SliderValueChanged += OuterCircleValueChanged;
-
-            RPSlider_Iterations.TitleLabel = "Iterations";
             RPSlider_Iterations.SliderValueChanged += IterationsValueChanged;
-
-            _isSetup = true;
 
             // Initialize debounce timer for Invalidator()
             _debounceTimer = new System.Windows.Forms.Timer
@@ -588,14 +586,36 @@ namespace Spirograph_v1
             _uiProgressTimer.Tick += UiProgressTimer_Tick;
             _uiProgressTimer.Start();
 
-            _isSetup = false;
-
+            // Setup the buttons.
             BtnColor .Paint += Button_Paint;
             BtnQuit  .Paint += Button_Paint;
             BtnRedraw.Paint += Button_Paint;
             BtnSave  .Paint += Button_Paint;
+            //BtnStart .Paint += Button_Paint;
+            //BtnStop  .Paint += Button_Paint;
 
         }   // Setup()
+        #endregion
+
+
+        #region .  SetupButtons()  .
+        // ---------------------------------------------------------------------
+        //   Method.......:  SetupButtons()
+        //   Description..:  Initializes the UI components and settings.
+        //   Parameters...:  None
+        //   Returns......:  Nothing
+        // ---------------------------------------------------------------------
+        private void SetupButtons()
+        {
+            // Setup the buttons.
+            BtnColor.Paint += Button_Paint;
+            BtnQuit.Paint += Button_Paint;
+            BtnRedraw.Paint += Button_Paint;
+            BtnSave.Paint += Button_Paint;
+            //BtnStart.Paint += Button_Paint;
+            //BtnStop.Paint += Button_Paint;
+
+        }   // SetupButtons()
         #endregion
 
 
@@ -847,6 +867,23 @@ namespace Spirograph_v1
         #endregion
 
 
+        #region .  BtnAll_Click()  .
+        // ---------------------------------------------------------------------
+        //   Method.......:  BtnAll_Click()
+        //   Description..:  Handles the Click event of the BtnRedraw control.
+        //   Parameters...:  sender - The event source.
+        //                   e      - The event data.
+        //   Returns......:  Nothing
+        // ---------------------------------------------------------------------
+        private void BtnAll_Click(object sender, EventArgs e)
+        {
+            Form_AllControls TestForm = new();
+            TestForm.ShowDialog();
+
+        }   // BtnAll_Click()
+        #endregion
+
+
         #region .  BtnColor_Click()  --  COMMENTED OUT  .
         //// ---------------------------------------------------------------------
         ////   Method.......:  BtnColor_Click()
@@ -891,6 +928,58 @@ namespace Spirograph_v1
             TestForm.ShowDialog();
 
         }   // BtnControlsForm_Click()
+        #endregion
+
+
+        #region .  Button_Paint()  .
+        // ---------------------------------------------------------------------
+        //   Method.......:  Button_Paint()
+        //   Description..:  Handles the event when the outer circle value changes.
+        //   Parameters...:  sender - The event source.
+        //                    e      - The event data.
+        //   Returns......:  None
+        // ---------------------------------------------------------------------
+        private void Button_Paint(object sender, PaintEventArgs e)
+        {
+            Button   button = sender as Button;
+            Graphics g      = e.Graphics;
+
+            if (button.Enabled)
+            {
+                button.BackColor = Color.White;
+                button.ForeColor = Color.Black;
+            }
+            else
+            {
+                button.BackColor = Color.Silver;
+                button.ForeColor = Color.DarkGray;
+            }
+
+            g.FillRectangle
+            (
+                new LinearGradientBrush
+                (
+                    button.ClientRectangle,
+                    Color.White,
+                    Color.Red,
+                    45f,
+                    false
+                ),
+                new RectangleF(PointF.Empty, button.Size)
+            );
+
+            // Draw the button text manually
+            TextRenderer.DrawText
+            (
+                e.Graphics,
+                button.Text,
+                button.Font,
+                button.ClientRectangle,
+                button.ForeColor,
+                TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter
+            );
+
+        }   // Button_Paint()
         #endregion
 
 
@@ -949,6 +1038,44 @@ namespace Spirograph_v1
         #endregion
 
 
+        #region .  BtnStart_Click()  .
+        //// ---------------------------------------------------------------------
+        ////   Method.......:  BtnStart_Click()
+        ////   Description..:  Handles the Click event of the BtnStart control.
+        ////   Parameters...:  sender - The event source.
+        ////                   e      - The event data.
+        ////   Returns......:  Nothing
+        //// ---------------------------------------------------------------------
+        //private void BtnStart_Click(object sender, EventArgs e)
+        //{
+        //    BtnStart.Enabled = false;
+        //    BtnStop .Enabled = true;
+
+        //    StartAnimation();
+
+        //}   // BtnStart_Click()
+        #endregion
+
+
+        #region .  BtnRedrawBtnStop_Click_Click()  .
+        //// ---------------------------------------------------------------------
+        ////   Method.......:  BtnStop_Click()
+        ////   Description..:  Handles the Click event of the BtnStop control.
+        ////   Parameters...:  sender - The event source.
+        ////                   e      - The event data.
+        ////   Returns......:  Nothing
+        //// ---------------------------------------------------------------------
+        //private void BtnStop_Click(object sender, EventArgs e)
+        //{
+        //    BtnStart.Enabled = true;
+        //    BtnStop .Enabled = false;
+
+        //    StopAnimation();
+
+        //}   // BtnStop_Click()
+        #endregion
+
+
         #region .  CboColorPresets_SelectedIndexChanged()  .
         // ---------------------------------------------------------------------
         //   Method.......:  CboColorPresets_SelectedIndexChanged()
@@ -959,6 +1086,12 @@ namespace Spirograph_v1
         // ---------------------------------------------------------------------
         private void CboColorPresets_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (_isSetup)
+                return;
+
+            string preset     = (string)CboColorPresets.SelectedItem;
+            BtnRedraw.Enabled = (preset.Equals("random", StringComparison.OrdinalIgnoreCase));
+
             SetupPenColors();
             Invalidator();
 
@@ -1019,6 +1152,7 @@ namespace Spirograph_v1
         #endregion
 
 
+        #region .  OuterCircleValueChanged()  .
         // ---------------------------------------------------------------------
         //   Method.......:  OuterCircleValueChanged()
         //   Description..:  Handles the event when the outer circle value changes.
@@ -1034,46 +1168,6 @@ namespace Spirograph_v1
             Invalidator();
 
         }   // OuterCircleValueChanged()
-
-
-        #region .  Button_Paint()  .
-        // ---------------------------------------------------------------------
-        //   Method.......:  Button_Paint()
-        //   Description..:  Handles the event when the outer circle value changes.
-        //   Parameters...:  sender - The event source.
-        //                    e      - The event data.
-        //   Returns......:  None
-        // ---------------------------------------------------------------------
-        private void Button_Paint(object sender, PaintEventArgs e)
-        {
-            Button button = sender as Button;
-            
-            Graphics g = e.Graphics;
-            g.FillRectangle
-            (
-                new LinearGradientBrush
-                (
-                    button.ClientRectangle,
-                    Color.White,
-                    Color.Red,
-                    45f,
-                    false
-                ),
-                new RectangleF(PointF.Empty, button.Size)
-            );
-
-            // Draw the button text manually
-            TextRenderer.DrawText
-            (
-                e.Graphics,
-                button.Text,
-                button.Font,
-                button.ClientRectangle,
-                button.ForeColor,
-                TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter
-            );
-
-        }   // Button_Paint()
         #endregion
 
 
@@ -1301,6 +1395,25 @@ namespace Spirograph_v1
         }   // class SafeProgress
 
         #endregion
+
+
+        private void ChkGradientButtons_CheckedChanged(object sender, EventArgs e)
+        {
+            BtnColor.Paint += Button_Paint;
+            BtnQuit.Paint += Button_Paint;
+            BtnRedraw.Paint += Button_Paint;
+            BtnSave.Paint += Button_Paint;
+
+        }   // ChkGradientButtons_CheckedChanged()
+
+        private void StartAnimation()
+        {
+        }   // StartAnimation()
+
+
+        private void StopAnimation()
+        {
+        }   // StopAnimation()
 
 
     }   // class Form_Main

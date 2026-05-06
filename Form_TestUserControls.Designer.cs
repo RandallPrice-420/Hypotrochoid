@@ -28,146 +28,309 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.PanelRPSlider = new System.Windows.Forms.Panel();
-            this.LabelRPSlider = new System.Windows.Forms.Label();
-            this.GroupBox1 = new System.Windows.Forms.GroupBox();
-            this.NumericUpDown_InnerCircle = new System.Windows.Forms.NumericUpDown();
-            this.PanelContainer = new System.Windows.Forms.Panel();
-            this.mySlider1 = new Spirograph_v1.Controls.MySlider.MySlider();
-            this.LabelMySlider = new System.Windows.Forms.Label();
-            this.trackBar1 = new System.Windows.Forms.TrackBar();
-            this.PanelRPSlider.SuspendLayout();
-            this.GroupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)this.NumericUpDown_InnerCircle).BeginInit();
-            this.PanelContainer.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)this.trackBar1).BeginInit();
-            this.SuspendLayout();
+            tabControl = new System.Windows.Forms.TabControl();
+            tabPageButton = new System.Windows.Forms.TabPage();
+            LabelInfo = new System.Windows.Forms.Label();
+            rpSciFiButton2 = new Spirograph_v1.Controls.RPSciFiButton.RPSciFiButton();
+            rpSciFiButton1 = new Spirograph_v1.Controls.RPSciFiButton.RPSciFiButton();
+            tabPagePanel = new System.Windows.Forms.TabPage();
+            rpSciFiGroupPanel1 = new Spirograph_v1.Controls.RPSciFiGroupPanel.RPSciFiGroupPanel();
+            tabPageGuage = new System.Windows.Forms.TabPage();
+            rpSciFiGuage1 = new Spirograph_v1.Controls.RPSciFiGuage.RPSciFiGuage();
+            tabPageKnob = new System.Windows.Forms.TabPage();
+            rpSciFiKnob1 = new Spirograph_v1.Controls.RPSciFiKnob.RPSciFiKnob();
+            tabPageOscilloscope = new System.Windows.Forms.TabPage();
+            rpSciFiOscilloscope1 = new Spirograph_v1.Controls.RPSciFiOscilloscope.RPSciFiOscilloscope();
+            tabPageSlider = new System.Windows.Forms.TabPage();
+            rpSciFiSlider1 = new Spirograph_v1.Controls.RPSciFiSlider.RPSciFiSlider();
+            tabPageToggleSwitch = new System.Windows.Forms.TabPage();
+            LabelInfo2 = new System.Windows.Forms.Label();
+            rpSciFiToggleSwitch1 = new Spirograph_v1.Controls.RPSciFiToggleSwitch.RPSciFiToggleSwitch();
+            label1 = new System.Windows.Forms.Label();
+            tabControl.SuspendLayout();
+            tabPageButton.SuspendLayout();
+            tabPagePanel.SuspendLayout();
+            tabPageGuage.SuspendLayout();
+            tabPageKnob.SuspendLayout();
+            tabPageOscilloscope.SuspendLayout();
+            tabPageSlider.SuspendLayout();
+            tabPageToggleSwitch.SuspendLayout();
+            SuspendLayout();
             // 
-            // PanelRPSlider
+            // tabControl
             // 
-            this.PanelRPSlider.BackColor = System.Drawing.Color.Silver;
-            this.PanelRPSlider.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.PanelRPSlider.Controls.Add(this.trackBar1);
-            this.PanelRPSlider.Controls.Add(this.LabelRPSlider);
-            this.PanelRPSlider.Controls.Add(this.GroupBox1);
-            this.PanelRPSlider.Location = new System.Drawing.Point(12, 12);
-            this.PanelRPSlider.Name = "PanelRPSlider";
-            this.PanelRPSlider.Size = new System.Drawing.Size(325, 140);
-            this.PanelRPSlider.TabIndex = 30;
+            tabControl.Controls.Add(tabPageButton);
+            tabControl.Controls.Add(tabPagePanel);
+            tabControl.Controls.Add(tabPageGuage);
+            tabControl.Controls.Add(tabPageKnob);
+            tabControl.Controls.Add(tabPageOscilloscope);
+            tabControl.Controls.Add(tabPageSlider);
+            tabControl.Controls.Add(tabPageToggleSwitch);
+            tabControl.HotTrack = true;
+            tabControl.Location = new System.Drawing.Point(22, 60);
+            tabControl.Multiline = true;
+            tabControl.Name = "tabControl";
+            tabControl.SelectedIndex = 0;
+            tabControl.Size = new System.Drawing.Size(500, 250);
+            tabControl.TabIndex = 36;
             // 
-            // LabelRPSlider
+            // tabPageButton
             // 
-            this.LabelRPSlider.AutoSize = true;
-            this.LabelRPSlider.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline);
-            this.LabelRPSlider.ForeColor = System.Drawing.Color.Firebrick;
-            this.LabelRPSlider.Location = new System.Drawing.Point(3, 3);
-            this.LabelRPSlider.Name = "LabelRPSlider";
-            this.LabelRPSlider.Size = new System.Drawing.Size(87, 25);
-            this.LabelRPSlider.TabIndex = 36;
-            this.LabelRPSlider.Text = "RPSlider";
+            tabPageButton.Controls.Add(LabelInfo);
+            tabPageButton.Controls.Add(rpSciFiButton2);
+            tabPageButton.Controls.Add(rpSciFiButton1);
+            tabPageButton.Location = new System.Drawing.Point(4, 24);
+            tabPageButton.Name = "tabPageButton";
+            tabPageButton.Size = new System.Drawing.Size(692, 222);
+            tabPageButton.TabIndex = 0;
+            tabPageButton.Text = "Button";
             // 
-            // GroupBox1
+            // LabelInfo
             // 
-            this.GroupBox1.BackColor = System.Drawing.Color.Silver;
-            this.GroupBox1.Controls.Add(this.NumericUpDown_InnerCircle);
-            this.GroupBox1.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.GroupBox1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.GroupBox1.ForeColor = System.Drawing.Color.Maroon;
-            this.GroupBox1.Location = new System.Drawing.Point(8, 29);
-            this.GroupBox1.Name = "GroupBox1";
-            this.GroupBox1.Size = new System.Drawing.Size(302, 48);
-            this.GroupBox1.TabIndex = 29;
-            this.GroupBox1.TabStop = false;
-            this.GroupBox1.Text = "Inner Circle";
+            LabelInfo.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            LabelInfo.ForeColor = System.Drawing.Color.Firebrick;
+            LabelInfo.Location = new System.Drawing.Point(20, 60);
+            LabelInfo.Name = "LabelInfo";
+            LabelInfo.Size = new System.Drawing.Size(100, 15);
+            LabelInfo.TabIndex = 3;
+            LabelInfo.Text = "1.  Click START";
+            LabelInfo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // NumericUpDown_InnerCircle
+            // rpSciFiButton2
             // 
-            this.NumericUpDown_InnerCircle.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.NumericUpDown_InnerCircle.Location = new System.Drawing.Point(199, 19);
-            this.NumericUpDown_InnerCircle.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.NumericUpDown_InnerCircle.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
-            this.NumericUpDown_InnerCircle.Name = "NumericUpDown_InnerCircle";
-            this.NumericUpDown_InnerCircle.Size = new System.Drawing.Size(50, 23);
-            this.NumericUpDown_InnerCircle.TabIndex = 14;
-            this.NumericUpDown_InnerCircle.Value = new decimal(new int[] { 25, 0, 0, 0 });
+            rpSciFiButton2.BaseColor = System.Drawing.Color.FromArgb(30, 30, 50);
+            rpSciFiButton2.ButtonText = "STOP";
+            rpSciFiButton2.DisabledColor = System.Drawing.Color.FromArgb(60, 60, 60);
+            rpSciFiButton2.Enabled = false;
+            rpSciFiButton2.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            rpSciFiButton2.ForeColor = System.Drawing.Color.MediumSpringGreen;
+            rpSciFiButton2.GlowColor = System.Drawing.Color.Cyan;
+            rpSciFiButton2.Location = new System.Drawing.Point(160, 20);
+            rpSciFiButton2.Name = "rpSciFiButton2";
+            rpSciFiButton2.Size = new System.Drawing.Size(100, 35);
+            rpSciFiButton2.TabIndex = 2;
+            rpSciFiButton2.TextColorDisabled = System.Drawing.SystemColors.GrayText;
+            rpSciFiButton2.TextColorEnabled = System.Drawing.Color.MediumSpringGreen;
+            rpSciFiButton2.Click += rpSciFiButton2_Click;
             // 
-            // PanelContainer
+            // rpSciFiButton1
             // 
-            this.PanelContainer.BackColor = System.Drawing.Color.Silver;
-            this.PanelContainer.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.PanelContainer.Controls.Add(this.mySlider1);
-            this.PanelContainer.Controls.Add(this.LabelMySlider);
-            this.PanelContainer.Location = new System.Drawing.Point(12, 163);
-            this.PanelContainer.Name = "PanelContainer";
-            this.PanelContainer.Size = new System.Drawing.Size(325, 100);
-            this.PanelContainer.TabIndex = 31;
+            rpSciFiButton1.BaseColor = System.Drawing.Color.FromArgb(30, 30, 50);
+            rpSciFiButton1.ButtonText = "START";
+            rpSciFiButton1.DisabledColor = System.Drawing.Color.FromArgb(60, 60, 60);
+            rpSciFiButton1.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            rpSciFiButton1.ForeColor = System.Drawing.Color.MediumSpringGreen;
+            rpSciFiButton1.GlowColor = System.Drawing.Color.Cyan;
+            rpSciFiButton1.Location = new System.Drawing.Point(20, 20);
+            rpSciFiButton1.Name = "rpSciFiButton1";
+            rpSciFiButton1.Size = new System.Drawing.Size(100, 35);
+            rpSciFiButton1.TabIndex = 1;
+            rpSciFiButton1.TextColorDisabled = System.Drawing.SystemColors.GrayText;
+            rpSciFiButton1.TextColorEnabled = System.Drawing.Color.MediumSpringGreen;
+            rpSciFiButton1.Click += rpSciFiButton1_Click;
             // 
-            // mySlider1
+            // tabPagePanel
             // 
-            this.mySlider1.Location = new System.Drawing.Point(8, 29);
-            this.mySlider1.Maximum = 100;
-            this.mySlider1.Minimum = 0;
-            this.mySlider1.Name = "mySlider1";
-            this.mySlider1.Size = new System.Drawing.Size(248, 61);
-            this.mySlider1.TabIndex = 38;
-            this.mySlider1.Title = "MySlider";
-            this.mySlider1.TrackBarLocation = new System.Drawing.Point(4, 25);
-            this.mySlider1.TrackBarMaximum = 100;
-            this.mySlider1.TrackBarMinimum = 0;
-            this.mySlider1.TrackBarSize = new System.Drawing.Size(182, 30);
-            this.mySlider1.TrackBarValue = 0;
-            this.mySlider1.Value = 0;
+            tabPagePanel.Controls.Add(rpSciFiGroupPanel1);
+            tabPagePanel.Location = new System.Drawing.Point(4, 24);
+            tabPagePanel.Name = "tabPagePanel";
+            tabPagePanel.Padding = new System.Windows.Forms.Padding(3);
+            tabPagePanel.Size = new System.Drawing.Size(692, 222);
+            tabPagePanel.TabIndex = 7;
+            tabPagePanel.Text = "GroupPanel";
+            tabPagePanel.UseVisualStyleBackColor = true;
             // 
-            // LabelMySlider
+            // rpSciFiGroupPanel1
             // 
-            this.LabelMySlider.AutoSize = true;
-            this.LabelMySlider.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline);
-            this.LabelMySlider.ForeColor = System.Drawing.Color.Firebrick;
-            this.LabelMySlider.Location = new System.Drawing.Point(3, 3);
-            this.LabelMySlider.Name = "LabelMySlider";
-            this.LabelMySlider.Size = new System.Drawing.Size(91, 25);
-            this.LabelMySlider.TabIndex = 37;
-            this.LabelMySlider.Text = "MySlider";
+            rpSciFiGroupPanel1.BackColor = System.Drawing.Color.FromArgb(10, 10, 20);
+            rpSciFiGroupPanel1.Dock = System.Windows.Forms.DockStyle.Left;
+            rpSciFiGroupPanel1.GlowColor = System.Drawing.Color.Cyan;
+            rpSciFiGroupPanel1.Location = new System.Drawing.Point(3, 3);
+            rpSciFiGroupPanel1.Name = "rpSciFiGroupPanel1";
+            rpSciFiGroupPanel1.Padding = new System.Windows.Forms.Padding(10);
+            rpSciFiGroupPanel1.Size = new System.Drawing.Size(150, 216);
+            rpSciFiGroupPanel1.TabIndex = 0;
             // 
-            // trackBar1
+            // tabPageGuage
             // 
-            this.trackBar1.Location = new System.Drawing.Point(8, 83);
-            this.trackBar1.Name = "trackBar1";
-            this.trackBar1.Size = new System.Drawing.Size(104, 45);
-            this.trackBar1.TabIndex = 15;
-            this.trackBar1.TickStyle = System.Windows.Forms.TickStyle.None;
+            tabPageGuage.Controls.Add(rpSciFiGuage1);
+            tabPageGuage.Location = new System.Drawing.Point(4, 24);
+            tabPageGuage.Margin = new System.Windows.Forms.Padding(0);
+            tabPageGuage.Name = "tabPageGuage";
+            tabPageGuage.Padding = new System.Windows.Forms.Padding(3);
+            tabPageGuage.Size = new System.Drawing.Size(492, 222);
+            tabPageGuage.TabIndex = 2;
+            tabPageGuage.Text = "Guage";
+            tabPageGuage.UseVisualStyleBackColor = true;
+            // 
+            // rpSciFiGuage1
+            // 
+            rpSciFiGuage1.GlowColor = System.Drawing.Color.Cyan;
+            rpSciFiGuage1.LabelText = "POWER";
+            rpSciFiGuage1.Location = new System.Drawing.Point(150, 11);
+            rpSciFiGuage1.Maximum = 100F;
+            rpSciFiGuage1.Minimum = 0F;
+            rpSciFiGuage1.Name = "rpSciFiGuage1";
+            rpSciFiGuage1.Size = new System.Drawing.Size(200, 200);
+            rpSciFiGuage1.TabIndex = 0;
+            rpSciFiGuage1.Value = 50F;
+            // 
+            // tabPageKnob
+            // 
+            tabPageKnob.Controls.Add(rpSciFiKnob1);
+            tabPageKnob.Location = new System.Drawing.Point(4, 24);
+            tabPageKnob.Name = "tabPageKnob";
+            tabPageKnob.Padding = new System.Windows.Forms.Padding(3);
+            tabPageKnob.Size = new System.Drawing.Size(492, 222);
+            tabPageKnob.TabIndex = 3;
+            tabPageKnob.Text = "Knob";
+            tabPageKnob.UseVisualStyleBackColor = true;
+            // 
+            // rpSciFiKnob1
+            // 
+            rpSciFiKnob1.GlowColor = System.Drawing.Color.Cyan;
+            rpSciFiKnob1.Location = new System.Drawing.Point(150, 11);
+            rpSciFiKnob1.Maximum = 100F;
+            rpSciFiKnob1.Minimum = 0F;
+            rpSciFiKnob1.Name = "rpSciFiKnob1";
+            rpSciFiKnob1.Size = new System.Drawing.Size(200, 200);
+            rpSciFiKnob1.TabIndex = 0;
+            rpSciFiKnob1.Value = 0F;
+            // 
+            // tabPageOscilloscope
+            // 
+            tabPageOscilloscope.Controls.Add(rpSciFiOscilloscope1);
+            tabPageOscilloscope.Location = new System.Drawing.Point(4, 24);
+            tabPageOscilloscope.Name = "tabPageOscilloscope";
+            tabPageOscilloscope.Padding = new System.Windows.Forms.Padding(3);
+            tabPageOscilloscope.Size = new System.Drawing.Size(492, 222);
+            tabPageOscilloscope.TabIndex = 6;
+            tabPageOscilloscope.Text = "Oscilloscope";
+            tabPageOscilloscope.UseVisualStyleBackColor = true;
+            // 
+            // rpSciFiOscilloscope1
+            // 
+            rpSciFiOscilloscope1.BackColor = System.Drawing.Color.FromArgb(5, 5, 10);
+            rpSciFiOscilloscope1.Dock = System.Windows.Forms.DockStyle.Fill;
+            rpSciFiOscilloscope1.GlowColor = System.Drawing.Color.Lime;
+            rpSciFiOscilloscope1.Location = new System.Drawing.Point(3, 3);
+            rpSciFiOscilloscope1.Name = "rpSciFiOscilloscope1";
+            rpSciFiOscilloscope1.Size = new System.Drawing.Size(486, 216);
+            rpSciFiOscilloscope1.TabIndex = 0;
+            // 
+            // tabPageSlider
+            // 
+            tabPageSlider.Controls.Add(rpSciFiSlider1);
+            tabPageSlider.Location = new System.Drawing.Point(4, 24);
+            tabPageSlider.Name = "tabPageSlider";
+            tabPageSlider.Padding = new System.Windows.Forms.Padding(3);
+            tabPageSlider.Size = new System.Drawing.Size(492, 222);
+            tabPageSlider.TabIndex = 4;
+            tabPageSlider.Text = "Slider";
+            tabPageSlider.UseVisualStyleBackColor = true;
+            // 
+            // rpSciFiSlider1
+            // 
+            rpSciFiSlider1.GlowColor = System.Drawing.Color.Cyan;
+            rpSciFiSlider1.Location = new System.Drawing.Point(50, 50);
+            rpSciFiSlider1.Maximum = 100;
+            rpSciFiSlider1.Minimum = 0;
+            rpSciFiSlider1.Name = "rpSciFiSlider1";
+            rpSciFiSlider1.Size = new System.Drawing.Size(400, 23);
+            rpSciFiSlider1.TabIndex = 0;
+            rpSciFiSlider1.Text = "rpSciFiSlider1";
+            rpSciFiSlider1.Value = 0;
+            // 
+            // tabPageToggleSwitch
+            // 
+            tabPageToggleSwitch.Controls.Add(LabelInfo2);
+            tabPageToggleSwitch.Controls.Add(rpSciFiToggleSwitch1);
+            tabPageToggleSwitch.Location = new System.Drawing.Point(4, 24);
+            tabPageToggleSwitch.Name = "tabPageToggleSwitch";
+            tabPageToggleSwitch.Padding = new System.Windows.Forms.Padding(3);
+            tabPageToggleSwitch.Size = new System.Drawing.Size(492, 222);
+            tabPageToggleSwitch.TabIndex = 5;
+            tabPageToggleSwitch.Text = "ToggleSwitch";
+            tabPageToggleSwitch.UseVisualStyleBackColor = true;
+            // 
+            // LabelInfo2
+            // 
+            LabelInfo2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            LabelInfo2.ForeColor = System.Drawing.Color.Firebrick;
+            LabelInfo2.Location = new System.Drawing.Point(20, 60);
+            LabelInfo2.Name = "LabelInfo2";
+            LabelInfo2.Size = new System.Drawing.Size(60, 15);
+            LabelInfo2.TabIndex = 1;
+            LabelInfo2.Text = "OFF";
+            LabelInfo2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // rpSciFiToggleSwitch1
+            // 
+            rpSciFiToggleSwitch1.Location = new System.Drawing.Point(20, 20);
+            rpSciFiToggleSwitch1.Name = "rpSciFiToggleSwitch1";
+            rpSciFiToggleSwitch1.OffColor = System.Drawing.Color.Red;
+            rpSciFiToggleSwitch1.OnColor = System.Drawing.Color.Lime;
+            rpSciFiToggleSwitch1.Size = new System.Drawing.Size(60, 25);
+            rpSciFiToggleSwitch1.TabIndex = 0;
+            rpSciFiToggleSwitch1.Click += rpSciFiToggleSwitch1_Click;
+            // 
+            // label1
+            // 
+            label1.Font = new System.Drawing.Font("Segoe UI", 20F, System.Drawing.FontStyle.Bold);
+            label1.ForeColor = System.Drawing.Color.Firebrick;
+            label1.Location = new System.Drawing.Point(12, 9);
+            label1.Name = "label1";
+            label1.Size = new System.Drawing.Size(508, 40);
+            label1.TabIndex = 37;
+            label1.Text = "Test My SciFi UserControls";
+            label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // Form_TestUserControls
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.LightGray;
-            this.ClientSize = new System.Drawing.Size(384, 361);
-            this.Controls.Add(this.PanelContainer);
-            this.Controls.Add(this.PanelRPSlider);
-            this.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.Name = "Form_TestUserControls";
-            this.Text = "Test UserControls";
-            this.PanelRPSlider.ResumeLayout(false);
-            this.PanelRPSlider.PerformLayout();
-            this.GroupBox1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)this.NumericUpDown_InnerCircle).EndInit();
-            this.PanelContainer.ResumeLayout(false);
-            this.PanelContainer.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)this.trackBar1).EndInit();
-            this.ResumeLayout(false);
+            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            BackColor = System.Drawing.Color.LightGray;
+            ClientSize = new System.Drawing.Size(544, 331);
+            Controls.Add(label1);
+            Controls.Add(tabControl);
+            Font = new System.Drawing.Font("Segoe UI", 9F);
+            Name = "Form_TestUserControls";
+            Text = "Test UserControls";
+            tabControl.ResumeLayout(false);
+            tabPageButton.ResumeLayout(false);
+            tabPagePanel.ResumeLayout(false);
+            tabPageGuage.ResumeLayout(false);
+            tabPageKnob.ResumeLayout(false);
+            tabPageOscilloscope.ResumeLayout(false);
+            tabPageSlider.ResumeLayout(false);
+            tabPageToggleSwitch.ResumeLayout(false);
+            ResumeLayout(false);
         }
 
         #endregion
+
         private System.Windows.Forms.Label lblHeading;
-        private System.Windows.Forms.Panel PanelRPSlider;
-        private System.Windows.Forms.Label LabelRPSlider;
-        private System.Windows.Forms.GroupBox GroupBox1;
-        private System.Windows.Forms.NumericUpDown NumericUpDown_InnerCircle;
-        private System.Windows.Forms.Panel PanelContainer;
-        private System.Windows.Forms.Label LabelMySlider;
+        private System.Windows.Forms.TabControl tabControl;
+        private System.Windows.Forms.TabPage tabPageButton;
+        private System.Windows.Forms.TabPage tabPageGroupPanel;
+        private System.Windows.Forms.TabPage tabPageGuage;
+        private System.Windows.Forms.TabPage tabPageKnob;
+        private System.Windows.Forms.TabPage tabPageSlider;
+        private System.Windows.Forms.TabPage tabPageToggleSwitch;
+        private System.Windows.Forms.TabPage tabPageOscilloscope;
         private Controls.SciFiSlider.SciFiSlider sciFiSliderControl1;
         private Controls.MySlider.MySlider mySlider1;
-        private System.Windows.Forms.TrackBar trackBar1;
+        private Controls.RPSciFiButton.RPSciFiButton rpSciFiButton1;
+        private Controls.RPSciFiButton.RPSciFiButton rpSciFiButton2;
+        private System.Windows.Forms.Label LabelInfo;
+        private System.Windows.Forms.TabPage tabPagePanel;
+        private Controls.RPSciFiGroupPanel.RPSciFiGroupPanel rpSciFiGroupPanel1;
+        private Controls.RPSciFiGuage.RPSciFiGuage rpSciFiGuage1;
+        private Controls.RPSciFiKnob.RPSciFiKnob rpSciFiKnob1;
+        private Controls.RPSciFiOscilloscope.RPSciFiOscilloscope rpSciFiOscilloscope1;
+        private Controls.RPSciFiSlider.RPSciFiSlider rpSciFiSlider1;
+        private Controls.RPSciFiToggleSwitch.RPSciFiToggleSwitch rpSciFiToggleSwitch1;
+        private System.Windows.Forms.Label LabelInfo2;
+        private System.Windows.Forms.Label label1;
     }
 }
