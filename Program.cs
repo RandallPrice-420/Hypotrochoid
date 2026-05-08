@@ -16,9 +16,15 @@ namespace Spirograph_v1
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.ThreadException += new ThreadExceptionEventHandler(HandleThreadException);
-            Application.Run(new FormMain());
 
-        }   // Main()
+            //Application.Run(new Form_Main());
+            //Application.Run(new Form_AllControls());
+            //Application.Run(new Form_TestUserControls());
+            Application.Run(new RPSciFiDashboardForm());
+            //Application.Run(new RPSciFiBridgeForm());
+            //Application.Run(new RPSciFiBaseForm());
+
+        }   // Main()  
 
 
         static void HandleThreadException(object sender, ThreadExceptionEventArgs e)

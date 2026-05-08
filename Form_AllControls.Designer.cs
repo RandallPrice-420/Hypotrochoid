@@ -31,17 +31,21 @@
             rpSciFiButton1 = new Spirograph_v1.Controls.RPSciFiButton.RPSciFiButton();
             rpSciFiButtonNew1 = new Spirograph_v1.Controls.RPSciFiButtonNew.RPSciFiButtonNew();
             rpSciFiGroupPanel1 = new Spirograph_v1.Controls.RPSciFiGroupPanel.RPSciFiGroupPanel();
-            rpSciFiGuage1 = new Spirograph_v1.Controls.RPSciFiGuage.RPSciFiGuage();
+            rpSciFiGuage1 = new Spirograph_v1.Controls.RPSciFiGuage.RPSciFiGauge();
             rpSciFiKnob1 = new Spirograph_v1.Controls.RPSciFiKnob.RPSciFiKnob();
             rpSciFiOscilloscope1 = new Spirograph_v1.Controls.RPSciFiOscilloscope.RPSciFiOscilloscope();
             rpSciFiSlider1 = new Spirograph_v1.Controls.RPSciFiSlider.RPSciFiSlider();
             rpSciFiToggleSwitch1 = new Spirograph_v1.Controls.RPSciFiToggleSwitch.RPSciFiToggleSwitch();
             rpSciFiToggleSwitch2 = new Spirograph_v1.Controls.RPSciFiToggleSwitch.RPSciFiToggleSwitch();
+            trackBar1 = new System.Windows.Forms.TrackBar();
+            rpSciFiSlider2 = new Spirograph_v1.Controls.RPSciFiSlider.RPSciFiSlider();
+            ((System.ComponentModel.ISupportInitialize)trackBar1).BeginInit();
             SuspendLayout();
             // 
             // rpSciFiButton1
             // 
             rpSciFiButton1.BaseColor = System.Drawing.Color.FromArgb(30, 30, 50);
+            rpSciFiButton1.ButtonText = "";
             rpSciFiButton1.DisabledColor = System.Drawing.Color.FromArgb(60, 60, 60);
             rpSciFiButton1.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             rpSciFiButton1.ForeColor = System.Drawing.Color.White;
@@ -50,6 +54,8 @@
             rpSciFiButton1.Name = "rpSciFiButton1";
             rpSciFiButton1.Size = new System.Drawing.Size(150, 150);
             rpSciFiButton1.TabIndex = 0;
+            rpSciFiButton1.TextColorDisabled = System.Drawing.Color.DarkGray;
+            rpSciFiButton1.TextColorEnabled = System.Drawing.Color.Empty;
             // 
             // rpSciFiButtonNew1
             // 
@@ -102,6 +108,8 @@
             rpSciFiOscilloscope1.GlowColor = System.Drawing.Color.Lime;
             rpSciFiOscilloscope1.Location = new System.Drawing.Point(12, 191);
             rpSciFiOscilloscope1.Name = "rpSciFiOscilloscope1";
+            rpSciFiOscilloscope1.Peaks = 3F;
+            rpSciFiOscilloscope1.Phase = 299.093964F;
             rpSciFiOscilloscope1.Size = new System.Drawing.Size(329, 140);
             rpSciFiOscilloscope1.TabIndex = 5;
             // 
@@ -110,12 +118,12 @@
             rpSciFiSlider1.GlowColor = System.Drawing.Color.Cyan;
             rpSciFiSlider1.Location = new System.Drawing.Point(12, 351);
             rpSciFiSlider1.Maximum = 100;
-            rpSciFiSlider1.Minimum = 0;
+            rpSciFiSlider1.Minimum = 1;
             rpSciFiSlider1.Name = "rpSciFiSlider1";
             rpSciFiSlider1.Size = new System.Drawing.Size(329, 23);
             rpSciFiSlider1.TabIndex = 6;
             rpSciFiSlider1.Text = "rpSciFiSlider1";
-            rpSciFiSlider1.Value = 0;
+            rpSciFiSlider1.Value = 30;
             // 
             // rpSciFiToggleSwitch1
             // 
@@ -135,11 +143,36 @@
             rpSciFiToggleSwitch2.Size = new System.Drawing.Size(60, 26);
             rpSciFiToggleSwitch2.TabIndex = 8;
             // 
+            // trackBar1
+            // 
+            trackBar1.LargeChange = 1;
+            trackBar1.Location = new System.Drawing.Point(434, 283);
+            trackBar1.Maximum = 5;
+            trackBar1.Minimum = 1;
+            trackBar1.Name = "trackBar1";
+            trackBar1.Size = new System.Drawing.Size(255, 45);
+            trackBar1.TabIndex = 9;
+            trackBar1.Value = 1;
+            // 
+            // rpSciFiSlider2
+            // 
+            rpSciFiSlider2.GlowColor = System.Drawing.Color.Cyan;
+            rpSciFiSlider2.Location = new System.Drawing.Point(440, 349);
+            rpSciFiSlider2.Maximum = 5;
+            rpSciFiSlider2.Minimum = 0;
+            rpSciFiSlider2.Name = "rpSciFiSlider2";
+            rpSciFiSlider2.Size = new System.Drawing.Size(249, 23);
+            rpSciFiSlider2.TabIndex = 10;
+            rpSciFiSlider2.Text = "rpSciFiSlider2";
+            rpSciFiSlider2.Value = 0;
+            // 
             // Form_AllControls
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             ClientSize = new System.Drawing.Size(800, 450);
+            Controls.Add(rpSciFiSlider2);
+            Controls.Add(trackBar1);
             Controls.Add(rpSciFiToggleSwitch2);
             Controls.Add(rpSciFiToggleSwitch1);
             Controls.Add(rpSciFiSlider1);
@@ -151,7 +184,9 @@
             Controls.Add(rpSciFiButton1);
             Name = "Form_AllControls";
             Text = "All SciFi User Controls";
+            ((System.ComponentModel.ISupportInitialize)trackBar1).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -159,11 +194,13 @@
         private Controls.RPSciFiButton.RPSciFiButton rpSciFiButton1;
         private Controls.RPSciFiButtonNew.RPSciFiButtonNew rpSciFiButtonNew1;
         private Controls.RPSciFiGroupPanel.RPSciFiGroupPanel rpSciFiGroupPanel1;
-        private Controls.RPSciFiGuage.RPSciFiGuage rpSciFiGuage1;
+        private Controls.RPSciFiGuage.RPSciFiGauge rpSciFiGuage1;
         private Controls.RPSciFiKnob.RPSciFiKnob rpSciFiKnob1;
         private Controls.RPSciFiOscilloscope.RPSciFiOscilloscope rpSciFiOscilloscope1;
         private Controls.RPSciFiSlider.RPSciFiSlider rpSciFiSlider1;
         private Controls.RPSciFiToggleSwitch.RPSciFiToggleSwitch rpSciFiToggleSwitch1;
         private Controls.RPSciFiToggleSwitch.RPSciFiToggleSwitch rpSciFiToggleSwitch2;
+        private System.Windows.Forms.TrackBar trackBar1;
+        private Controls.RPSciFiSlider.RPSciFiSlider rpSciFiSlider2;
     }
 }

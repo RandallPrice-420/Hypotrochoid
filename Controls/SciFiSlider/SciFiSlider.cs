@@ -22,8 +22,8 @@ namespace Spirograph_v1.Controls.SciFiSlider
 
         public event EventHandler NumericValueChanged;
         public event EventHandler SliderValueChanged;
-        public event EventHandler SliderMaximumChanged;
-        public event EventHandler SliderMinimumChanged;
+        //public event EventHandler SliderMaximumChanged;
+        //public event EventHandler SliderMinimumChanged;
 
         #endregion
 
@@ -51,27 +51,23 @@ namespace Spirograph_v1.Controls.SciFiSlider
         // -------------------------------------------------------------------------
         // Private Variables:
         // ------------------
-        //   glowMode            : Enum to select the glow color mode for the slider.
-        //   isDragging          : Flag to track if the slider is being dragged.
-        //   isShowNumericUpDown : Controls visibility of the NumericUpDown control.
-        ////   isShowRange         : Controls visibility of the slider range label.
-        ////   isShowTitle         : Controls visibility of the title label.
-        //   numericUpDown       : NumericUpDown control for numeric input.
-        //   title               : Label control for displaying the title.
-        //   trackBar            : TrackBar control for the slider.
+        //   _glowMode      : Enum for the glow color mode values.
+        //   _isDragging    : The flag to track if the slider is being dragged.
+        //   _numericUpDown : The NumericUpDown control for numeric input.
+        //   _sliderMaximum : The maximum value for the slider.
+        //   _sliderMinimum : The minimum value for the slider.
+        //   _title         : The Label control to display the title.
         // -------------------------------------------------------------------------
 
         #region .  Private Variables  .
 
-        //private readonly bool          isShowNumericUpDown;
-        //private readonly bool          isShowTitle;
-        private readonly Label         title;
+        private readonly Label _title;
 
-        private GlowColorMode glowMode   = GlowColorMode.NeonCyan;
-        private bool          isDragging = false;
-        private NumericUpDown numericUpDown;
-        private int           sliderMaximum;
-        private int           sliderMinimum;
+        private GlowColorMode _glowMode   = GlowColorMode.NeonCyan;
+        private bool          _isDragging = false;
+        private NumericUpDown _numericUpDown;
+        private int           _sliderMaximum;
+        private int           _sliderMinimum;
 
         #endregion
 
@@ -84,6 +80,13 @@ namespace Spirograph_v1.Controls.SciFiSlider
         // -------------------------------------------------------------------------
 
         #region .  SciFiSlider()  --  Constructor  .
+
+        // -------------------------------------------------------------------------
+        //   Method.......:  SciFiSlider()
+        //   Description..:  
+        //   Parameters...:  None
+        //   Returns......:  Nothing
+        // -------------------------------------------------------------------------
         public SciFiSlider()
         {
             BackColor         = Color.Black;
@@ -91,62 +94,25 @@ namespace Spirograph_v1.Controls.SciFiSlider
             Height            = 120;
             Width             = 300;
 
-            #region .  Old Code  --  CAN DELETE  .
-            //title             = new Label()
-            //{
-            //    AutoSize      = true,
-            //    Font          = new Font("Segoe UI", 10, FontStyle.Bold),
-            //    ForeColor     = Color.White,
-            //    Location      = new Point(10, 10),
-            //    //Visible       = isShowTitle
-            //};
-
-            //trackBar          = new TrackBar()
-            //{
-            //    Anchor        = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right,
-            //    Minimum       = 1,
-            //    Maximum       = 100,
-            //    TickFrequency = 10,
-            //    Location      = new Point(10, 40),
-            //    Size          = new Size(200, 30)
-            //};
-
-            //numericUpDown     = new NumericUpDown()
-            //{
-            //    Anchor        = AnchorStyles.Top | AnchorStyles.Right,
-            //    Font          = new Font("Segoe UI", 9, FontStyle.Bold),
-            //    Maximum       = 1,
-            //    Minimum       = 100,
-            //    Location      = new Point(Width - 100, 10),
-            //    Size          = new Size(50, 23),
-            //    TextAlign     = HorizontalAlignment.Center,
-            //    //Visible       = isShowNumericUpDown
-            //};
-
-            //Controls.Add(title);
-            //Controls.Add(trackBar);
-            //Controls.Add(numericUpDown);
-            #endregion
-
 
             // Subscribe to events for synchronization between NumericUpDown
             // and TrackBar, position slider thumb based on mouse position,
             // and fire custom events when values change.
-            numericUpDown.ValueChanged += (s, e) =>
+            _numericUpDown.ValueChanged += (s, e) =>
             {
-                trackBar.Value = (int)numericUpDown.Value;
+                trackBar.Value = (int)_numericUpDown.Value;
                 NumericValueChanged?.Invoke(this, EventArgs.Empty);
             };
 
             trackBar.MouseDown += (s, e) =>
             {
-                isDragging = true;
+                _isDragging = true;
                 UpdateValueFromMouse(e.X);
             };
 
             trackBar.MouseMove += (s, e) =>
             {
-                if (isDragging)
+                if (_isDragging)
                 {
                     UpdateValueFromMouse(e.X);
                 }
@@ -154,12 +120,12 @@ namespace Spirograph_v1.Controls.SciFiSlider
 
             trackBar.MouseUp   += (s, e) =>
             {
-                isDragging = false;
+                _isDragging = false;
             };
 
             trackBar.Scroll    += (s, e) =>
             {
-                numericUpDown.Value = trackBar.Value;
+                _numericUpDown.Value = trackBar.Value;
                 SliderValueChanged?.Invoke(this, EventArgs.Empty);
             };
 
@@ -190,8 +156,8 @@ namespace Spirograph_v1.Controls.SciFiSlider
         [Category("Sci-Fi")]
         public GlowColorMode GlowMode
         {
-            get => glowMode;
-            set { glowMode = value; Invalidate(); }
+            get => _glowMode;
+            set { _glowMode = value; Invalidate(); }
         }
 
 
@@ -201,12 +167,12 @@ namespace Spirograph_v1.Controls.SciFiSlider
         [Category("Slider")]
         public int SliderMaximum
         {
-            get => sliderMaximum;
+            get => _sliderMaximum;
             set
             {
-                sliderMaximum = value;
+                _sliderMaximum = value;
                 trackBar.Maximum = value;
-                numericUpDown.Maximum = value;
+                _numericUpDown.Maximum = value;
             }
         }
 
@@ -214,12 +180,12 @@ namespace Spirograph_v1.Controls.SciFiSlider
         [Category("Slider")]
         public int SliderMinimum
         {
-            get => sliderMinimum;
+            get => _sliderMinimum;
             set
             {
-                sliderMinimum = value;
+                _sliderMinimum = value;
                 trackBar.Minimum = value;
-                numericUpDown.Minimum = value;
+                _numericUpDown.Minimum = value;
             }
         }
 
@@ -227,16 +193,16 @@ namespace Spirograph_v1.Controls.SciFiSlider
         [Category("NumericUpDown")]
         public Point NumericUpDownLocation
         {
-            get => numericUpDown.Location;
-            set { numericUpDown.Location = value; Invalidate(); }
+            get => _numericUpDown.Location;
+            set { _numericUpDown.Location = value; Invalidate(); }
         }
 
 
         [Category("NumericUpDown")]
         public Size NumericUpDownSize
         {
-            get => numericUpDown.Size;
-            set { numericUpDown.Size = value; Invalidate(); }
+            get => _numericUpDown.Size;
+            set { _numericUpDown.Size = value; Invalidate(); }
         }
 
 
@@ -294,8 +260,8 @@ namespace Spirograph_v1.Controls.SciFiSlider
         [Description("The text for the control title.")]
         public override string Text
         {
-            get => title.Text;
-            set { title.Text = value; Invalidate(); }
+            get => _title.Text;
+            set { _title.Text = value; Invalidate(); }
         }
 
         #endregion
@@ -321,7 +287,7 @@ namespace Spirograph_v1.Controls.SciFiSlider
             var g   = e.Graphics;
             g.SmoothingMode = SmoothingMode.AntiAlias;
 
-            Color glow = glowMode switch
+            Color glow = _glowMode switch
             {
                 GlowColorMode.NeonCyan     => Color.FromArgb(0, 255, 255),
                 GlowColorMode.PlasmaPurple => Color.FromArgb(200, 0, 255),

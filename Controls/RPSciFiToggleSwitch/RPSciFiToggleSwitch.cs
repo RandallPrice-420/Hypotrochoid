@@ -6,20 +6,52 @@ using System.Windows.Forms;
 
 namespace Spirograph_v1.Controls.RPSciFiToggleSwitch
 {
-    public partial class RPSciFiToggleSwitch : UserControl
+    public partial class RPSciFiToggleSwitch : UserControl, IRPSciFiControl
     {
-        public bool IsOn { get; private set; }
+        // ---------------------------------------
+        //  RPSciFi API Layer
+        // ---------------------------------------
+        public string ControlId { get; set; } = Guid.NewGuid().ToString();
+        public RPSciFiControlType ControlType => RPSciFiControlType.Oscilloscope;
+        private RPSciFiControlBus _bus;
+
+        public void Register(RPSciFiControlBus bus)
+        {
+            _bus = bus;
+            bus.Register(this);
+        }
+
+
+
+        // -------------------------------------------------------------------------
+        // Public Events:
+        // --------------
+        //   Toggled
+        // -------------------------------------------------------------------------
+
+        #region .  Public Events  .
+
         public event EventHandler Toggled;
 
-        public Color OnColor { get; set; } = Color.Lime;
-        public Color OffColor { get; set; } = Color.Red;
+        #endregion
+
+
+
+        public bool   IsOn      { get; set; }
+
+        public Color  OffColor  { get; set; } = Color.Red;
+
+        public Color  OnColor   { get; set; } = Color.Lime;
+
 
         public RPSciFiToggleSwitch()
         {
             DoubleBuffered = true;
-            Size = new Size(60, 26);
-            Cursor = Cursors.Hand;
+            Size           = new Size(60, 26);
+            Cursor         = Cursors.Hand;
+
         }
+
 
         protected override void OnClick(EventArgs e)
         {
@@ -27,7 +59,11 @@ namespace Spirograph_v1.Controls.RPSciFiToggleSwitch
             Invalidate();
             Toggled?.Invoke(this, EventArgs.Empty);
             base.OnClick(e);
+
+            _bus?.Publish(ControlId, ControlType, "Toggled", IsOn);
+
         }
+
 
         protected override void OnPaint(PaintEventArgs e)
         {
@@ -68,6 +104,6 @@ namespace Spirograph_v1.Controls.RPSciFiToggleSwitch
         }
 
 
-    }
+    }   // class RPSciFiToggleSwitch
 
 }   // namespace Spirograph_v1.Controls.RPSciFiToggleSwitch

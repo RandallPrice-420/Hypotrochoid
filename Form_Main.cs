@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace Spirograph_v1
 {
-    public partial class FormMain : Form
+    public partial class Form_Main : Form
     {
         // ---------------------------------------------------------------------
         // Private Properties:
@@ -72,7 +72,7 @@ namespace Spirograph_v1
         //   Parameters...:  None
         //   Returns......:  Nothing
         // ---------------------------------------------------------------------
-        public FormMain()
+        public Form_Main()
         {
             _isSetup = true;
 
@@ -569,7 +569,7 @@ namespace Spirograph_v1
             // Set the Slider's Title and subscribe to the event.
             RPSlider_InnerCircle.SliderValueChanged += InnerCircleValueChanged;
             RPSlider_OuterCircle.SliderValueChanged += OuterCircleValueChanged;
-            RPSlider_Iterations.SliderValueChanged += IterationsValueChanged;
+            RPSlider_Iterations .SliderValueChanged += IterationsValueChanged;
 
             // Initialize debounce timer for Invalidator()
             _debounceTimer = new System.Windows.Forms.Timer
@@ -1399,10 +1399,10 @@ namespace Spirograph_v1
 
         private void ChkGradientButtons_CheckedChanged(object sender, EventArgs e)
         {
-            BtnColor.Paint += Button_Paint;
-            BtnQuit.Paint += Button_Paint;
+            BtnColor .Paint += Button_Paint;
+            BtnQuit  .Paint += Button_Paint;
             BtnRedraw.Paint += Button_Paint;
-            BtnSave.Paint += Button_Paint;
+            BtnSave  .Paint += Button_Paint;
 
         }   // ChkGradientButtons_CheckedChanged()
 

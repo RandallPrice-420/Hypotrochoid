@@ -30,9 +30,9 @@
         {
             this.trackBar = new System.Windows.Forms.TrackBar();
             this.lblTitle = new System.Windows.Forms.Label();
-            this.numericUpDown = new System.Windows.Forms.NumericUpDown();
+            this._numericUpDown = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)this.trackBar).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)this.numericUpDown).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)this._numericUpDown).BeginInit();
             this.SuspendLayout();
             // 
             // trackBar
@@ -59,27 +59,27 @@
             // 
             // numericUpDown
             // 
-            this.numericUpDown.AutoSize = true;
-            this.numericUpDown.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.numericUpDown.Location = new System.Drawing.Point(257, 25);
-            this.numericUpDown.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
-            this.numericUpDown.Name = "numericUpDown";
-            this.numericUpDown.Size = new System.Drawing.Size(50, 23);
-            this.numericUpDown.TabIndex = 2;
-            this.numericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.numericUpDown.Value = new decimal(new int[] { 100, 0, 0, 0 });
+            this._numericUpDown.AutoSize = true;
+            this._numericUpDown.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this._numericUpDown.Location = new System.Drawing.Point(257, 25);
+            this._numericUpDown.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            this._numericUpDown.Name = "numericUpDown";
+            this._numericUpDown.Size = new System.Drawing.Size(50, 23);
+            this._numericUpDown.TabIndex = 2;
+            this._numericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this._numericUpDown.Value = new decimal(new int[] { 100, 0, 0, 0 });
             // 
             // SciFiSlider
             // 
             this.BackColor = System.Drawing.Color.Navy;
-            this.Controls.Add(this.numericUpDown);
+            this.Controls.Add(this._numericUpDown);
             this.Controls.Add(this.lblTitle);
             this.Controls.Add(this.trackBar);
             this.DoubleBuffered = true;
             this.Name = "SciFiSlider";
             this.Size = new System.Drawing.Size(318, 80);
             ((System.ComponentModel.ISupportInitialize)this.trackBar).EndInit();
-            ((System.ComponentModel.ISupportInitialize)this.numericUpDown).EndInit();
+            ((System.ComponentModel.ISupportInitialize)this._numericUpDown).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
             //this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;

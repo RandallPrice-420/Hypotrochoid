@@ -8,8 +8,23 @@ using System.Windows.Forms;
 
 namespace Spirograph_v1.Controls.RPSciFiButton
 {
-    public partial class RPSciFiButton : UserControl
+    public partial class RPSciFiButton : UserControl, IRPSciFiControl
     {
+        // ---------------------------------------
+        //  RPSciFi API Layer
+        // ---------------------------------------
+        public string ControlId { get; set; } = Guid.NewGuid().ToString();
+        public RPSciFiControlType ControlType => RPSciFiControlType.Gauge;
+        private RPSciFiControlBus _bus;
+
+        public void Register(RPSciFiControlBus bus)
+        {
+            _bus = bus;
+            bus.Register(this);
+        }
+
+
+
         private float _energyOffset;
         private bool  _hover;
         private bool  _pressed;
@@ -42,25 +57,30 @@ namespace Spirograph_v1.Controls.RPSciFiButton
         [Browsable(true)]
         public Color GlowColor      { get; set; } = Color.Cyan;
 
+
         [Category("Custom Appearance")]
         [Description("The color of button when it is enabled.")]
         [Browsable(true)]
         public Color BaseColor      { get; set; } = Color.FromArgb(30, 30, 50);
+
 
         [Category("Custom Appearance")]
         [Description("The color of button when it is enabled.")]
         [Browsable(true)]
         public Color DisabledColor  { get; set; } = Color.FromArgb(60, 60, 60);
 
+
         [Category("Custom Appearance")]
         [Description("The color of the button text when it is disabled.")]
         [Browsable(true)]
-        public Color TextColorDisabled { get; set; }
+        public Color TextColorDisabled { get; set; } = Color.DarkGray;
+
 
         [Category("Custom Appearance")]
         [Description("The color of the button text when it is enabled.")]
         [Browsable(true)]
         public Color TextColorEnabled { get; set; }
+
 
         [Description("The button text."), Category("Data")]
         public string ButtonText
@@ -68,6 +88,7 @@ namespace Spirograph_v1.Controls.RPSciFiButton
             get => Text;
             set => Text = value;
         }
+
 
         public RPSciFiButton()
         {
@@ -134,6 +155,16 @@ namespace Spirograph_v1.Controls.RPSciFiButton
                 Invalidate();
             };
             _lightningTimer.Start();
+
+        }   // RPSciFiButton()
+
+
+
+        protected override void OnClick(EventArgs e)
+        {
+            base.OnClick(e);
+            _bus?.Publish(ControlId, ControlType, "Click");
+
         }
 
 
@@ -147,9 +178,10 @@ namespace Spirograph_v1.Controls.RPSciFiButton
 
         protected override void OnMouseLeave(EventArgs e)
         {
-            _hover = false;
+            _hover   = false;
             _pressed = false;
             _lightningArcs.Clear();
+
             Invalidate();
             base.OnMouseLeave(e);
         }
@@ -159,7 +191,7 @@ namespace Spirograph_v1.Controls.RPSciFiButton
         {
             if (Enabled)
             {
-                _pressed = true;
+                _pressed      = true;
                 _rippleCenter = e.Location;
                 _rippleRadius = 0;
                 _rippleTimer.Start();
@@ -168,8 +200,71 @@ namespace Spirograph_v1.Controls.RPSciFiButton
 
                 Invalidate();
             }
+
             base.OnMouseDown(e);
+
         }
+
+
+        protected override void OnMouseUp(MouseEventArgs e)
+        {
+            _pressed = false;
+
+            Invalidate();
+            base.OnMouseUp(e);
+        }
+
+
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            e.Graphics.SmoothingMode     = SmoothingMode.AntiAlias;
+            e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+
+            Rectangle rect = ClientRectangle;
+            rect.Inflate(-2, -2);
+
+            Color bg = Enabled ? BaseColor : DisabledColor;
+
+            using (SolidBrush b = new(bg))
+            {
+                e.Graphics.FillRectangle(b, rect);
+            }
+
+            if (Enabled)
+            {
+                DrawHexGrid   (e.Graphics, rect);
+                DrawScanlines (e.Graphics, rect);
+                DrawEnergyFlow(e.Graphics, rect);
+                DrawDistortion(e.Graphics, rect);
+
+                if (_hover)
+                {
+                    DrawPulseGlow(e.Graphics, rect);
+                }
+
+                if (_pressed)
+                {
+                    DrawPressedOverlay(e.Graphics, rect);
+                }
+
+                DrawRipple   (e.Graphics);
+                DrawSparks   (e.Graphics);
+                DrawLightning(e.Graphics);
+            }
+
+            DrawBorder(e.Graphics, rect);
+
+            TextRenderer.DrawText
+            (
+                e.Graphics,
+                Text,
+                Font,
+                rect,
+                Enabled ? ForeColor : Color.Gray,
+                TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter
+            );
+
+        }   // OnPaint()
 
 
         private void EmitSparks(Point location)
@@ -187,7 +282,8 @@ namespace Spirograph_v1.Controls.RPSciFiButton
                     Life = 1f
                 });
             }
-        }
+
+        }   // EmitSparks()
 
 
         private void GenerateLightningArcs()
@@ -196,9 +292,11 @@ namespace Spirograph_v1.Controls.RPSciFiButton
 
             Rectangle rect = ClientRectangle;
             rect.Inflate(-4, -4);
+
             PointF center = new(rect.Left + rect.Width / 2f, rect.Top + rect.Height / 2f);
 
             int arcCount = 3;
+
             for (int i = 0; i < arcCount; i++)
             {
                 List<PointF> arc = [];
@@ -206,124 +304,85 @@ namespace Spirograph_v1.Controls.RPSciFiButton
                 int    side  = _rnd.Next(4);
                 PointF start = side switch
                 {
-                    0 => new PointF(rect.Left, _rnd.Next(rect.Top,   rect.Bottom)),   // left
-                    1 => new PointF(rect.Right, _rnd.Next(rect.Top,  rect.Bottom)),   // right
-                    2 => new PointF(_rnd.Next(rect.Left, rect.Right), rect.Top),      // top
-                    _ => new PointF(_rnd.Next(rect.Left, rect.Right), rect.Bottom)    // bottom
+                    0 => new PointF(rect.Left,           _rnd.Next(rect.Top, rect.Bottom)),     // left
+                    1 => new PointF(rect.Right,          _rnd.Next(rect.Top, rect.Bottom)),     // right
+                    2 => new PointF(_rnd.Next(rect.Left, rect.Right),        rect.Top    ),     // top
+                    _ => new PointF(_rnd.Next(rect.Left, rect.Right),        rect.Bottom )      // bottom
                 };
 
-                int segments = 6;
-                PointF current = start;
+                int    segments = 6;
+                PointF current  = start;
+
                 for (int s = 0; s < segments; s++)
                 {
                     float t = (s + 1f) / segments;
-                    PointF target = new(
-                    Lerp(start.X, center.X, t),
-                    Lerp(start.Y, center.Y, t));
 
-                    float jitterX = (float)(_rnd.NextDouble() - 0.5) * 10f;
-                    float jitterY = (float)(_rnd.NextDouble() - 0.5) * 10f;
+                    PointF target  = new (Lerp(start.X, center.X, t),  Lerp(start.Y, center.Y, t));
+                    float  jitterX = (float)(_rnd.NextDouble() - 0.5) * 10f;
+                    float  jitterY = (float)(_rnd.NextDouble() - 0.5) * 10f;
 
                     PointF next = new(target.X + jitterX, target.Y + jitterY);
+
                     arc.Add(current);
+
                     current = next;
                 }
+
                 arc.Add(center);
                 _lightningArcs.Add(arc);
             }
-        }
+
+        }   // GenerateLightningArcs()
 
 
         private static float Lerp(float a, float b, float t) => a + (b - a) * t;
 
 
-        protected override void OnMouseUp(MouseEventArgs e)
-        {
-            _pressed = false;
-            Invalidate();
-            base.OnMouseUp(e);
-        }
-
-
-        protected override void OnPaint(PaintEventArgs e)
-        {
-            e.Graphics.SmoothingMode     = SmoothingMode.AntiAlias;
-            e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
-
-            Rectangle rect = ClientRectangle;
-            rect.Inflate(-2, -2);
-
-            Color bg = Enabled ? BaseColor : DisabledColor;
-            using (SolidBrush b = new(bg))
-                e.Graphics.FillRectangle(b, rect);
-
-            if (Enabled)
-            {
-                DrawHexGrid   (e.Graphics, rect);
-                DrawScanlines (e.Graphics, rect);
-                DrawEnergyFlow(e.Graphics, rect);
-                DrawDistortion(e.Graphics, rect);
-
-                if (_hover)
-                    DrawPulseGlow(e.Graphics, rect);
-
-                if (_pressed)
-                    DrawPressedOverlay(e.Graphics, rect);
-
-                DrawRipple   (e.Graphics);
-                DrawSparks   (e.Graphics);
-                DrawLightning(e.Graphics);
-            }
-
-            DrawBorder(e.Graphics, rect);
-
-            TextRenderer.DrawText(
-                e.Graphics,
-                Text,
-                Font,
-                rect,
-                Enabled ? ForeColor : Color.Gray,
-                TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter
-            );
-        }
-
-
         private void DrawLightning(Graphics g)
         {
-            if (_lightningArcs.Count == 0)
-                return;
+            if (_lightningArcs.Count == 0) return;
+
             using Pen p     = new(Color.FromArgb(180, GlowColor), 2);
             using Pen outer = new(Color.FromArgb(80, Color.White), 4);
+
             foreach (var arc in _lightningArcs)
             {
-                if (arc.Count < 2)
-                    continue;
+                if (arc.Count < 2) continue;
+
                 g.DrawLines(outer, arc.ToArray());
                 g.DrawLines(p, arc.ToArray());
             }
-        }
+
+        }   // DrawLightning()
 
 
         private void DrawEnergyFlow(Graphics g, Rectangle rect)
         {
-            Rectangle band = new(
+            Rectangle band = new
+            (
                 (int)_energyOffset,
                 rect.Top,
                 rect.Width / 3,
-                rect.Height);
+                rect.Height
+            );
 
-            using LinearGradientBrush lg = new(
+            using LinearGradientBrush lg = new
+            (
                 band,
                 Color.FromArgb(0, GlowColor),
                 Color.FromArgb(120, GlowColor),
-                0f);
+                0f
+            );
+
             g.FillRectangle(lg, band);
-        }
+
+        }   // DrawEnergyFlow()
 
 
         private void DrawDistortion(Graphics g, Rectangle rect)
         {
             Bitmap bmp = new(rect.Width, rect.Height);
+
             using (Graphics temp = Graphics.FromImage(bmp))
             {
                 temp.CopyFromScreen(PointToScreen(rect.Location), Point.Empty, rect.Size);
@@ -332,12 +391,14 @@ namespace Spirograph_v1.Controls.RPSciFiButton
             for (int y = 0; y < rect.Height; y++)
             {
                 int offset = (int)(Math.Sin((y + _pulsePhase * 20) * 0.15f) * 3);
+
                 g.DrawImage(bmp,
-                    new Rectangle(rect.Left + offset, rect.Top + y, rect.Width, 1),
-                    new Rectangle(0, y, rect.Width, 1),
-                    GraphicsUnit.Pixel);
+                            new Rectangle(rect.Left + offset, rect.Top + y, rect.Width, 1),
+                            new Rectangle(0, y, rect.Width, 1),
+                            GraphicsUnit.Pixel);
             }
-        }
+
+        }   // DrawDistortion()
 
 
         private void DrawSparks(Graphics g)
@@ -348,80 +409,103 @@ namespace Spirograph_v1.Controls.RPSciFiButton
                 using SolidBrush b = new(Color.FromArgb(alpha, GlowColor));
                 g.FillEllipse(b, sp.Position.X - 2, sp.Position.Y - 2, 4, 4);
             }
-        }
+
+        }   // DrawSparks()
 
 
         private void DrawPulseGlow(Graphics g, Rectangle rect)
         {
-            float glow = (float)(Math.Sin(_pulsePhase) * 0.5 + 0.5);
-            int  alpha = (int)(120 + glow * 80);
+            float glow  = (float)(Math.Sin(_pulsePhase) * 0.5 + 0.5);
+            int   alpha = (int)(120 + glow * 80);
 
             using Pen p = new(Color.FromArgb(alpha, GlowColor), 4);
+
             g.DrawRectangle(p, rect);
-        }
+
+        }   // DrawPulseGlow()
 
 
         private void DrawPressedOverlay(Graphics g, Rectangle rect)
         {
             using SolidBrush b = new(Color.FromArgb(100, GlowColor));
+
             g.FillRectangle(b, rect);
-        }
+
+        }   // DrawPressedOverlay()
 
 
         private void DrawRipple(Graphics g)
         {
-            if (!_rippleTimer.Enabled)
-                return;
+            if (!_rippleTimer.Enabled) return;
 
             using Pen p = new(Color.FromArgb(120, GlowColor), 3);
-            g.DrawEllipse(p,
+
+            g.DrawEllipse
+            (
+                p,
                 _rippleCenter.X - _rippleRadius,
                 _rippleCenter.Y - _rippleRadius,
                 _rippleRadius * 2,
-                _rippleRadius * 2);
-        }
+                _rippleRadius * 2
+            );
+
+        }   // DrawRipple()
 
 
         private static void DrawScanlines(Graphics g, Rectangle rect)
         {
             using Pen p = new(Color.FromArgb(25, 255, 255, 255), 1);
+
             for (int y = rect.Top; y < rect.Bottom; y += 4)
+            {
                 g.DrawLine(p, rect.Left, y, rect.Right, y);
-        }
+            }
+
+        }   // DrawScanlines()
 
 
         private void DrawHexGrid(Graphics g, Rectangle rect)
         {
             int size = 12;
+
             using Pen p = new(Color.FromArgb(25, GlowColor), 1);
+
             for (int y = rect.Top; y < rect.Bottom + size; y += size)
             {
                 for (int x = rect.Left; x < rect.Right + size; x += size)
+                {
                     DrawHex(g, p, x, y, size / 2);
+                }
             }
-        }
+
+        }   // DrawHexGrid()
 
 
         private static void DrawHex(Graphics g, Pen p, int cx, int cy, int r)
         {
             PointF[] pts = new PointF[6];
+
             for (int i = 0; i < 6; i++)
             {
                 float angle = (float)(Math.PI / 3 * i);
-                pts[i] = new PointF(
-                    cx + r * (float)Math.Cos(angle),
-                    cy + r * (float)Math.Sin(angle));
+
+                pts[i] = new PointF(cx + r * (float)Math.Cos(angle), cy + r * (float)Math.Sin(angle));
             }
+
             g.DrawPolygon(p, pts);
-        }
+
+        }   // DrawHex()
 
 
         private void DrawBorder(Graphics g, Rectangle rect)
         {
             using Pen p = new(Color.FromArgb(200, GlowColor), 2);
-            g.DrawRectangle(p, rect);
-        }
 
-    }
+            g.DrawRectangle(p, rect);
+
+        }   // DrawBorder()
+
+
+    }   // class 
 
 }

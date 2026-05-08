@@ -1,6 +1,6 @@
 ﻿namespace Spirograph_v1.Controls.RPSciFiGuage
 {
-    partial class RPSciFiGuage
+    partial class RPSciFiGauge
     {
         /// <summary> 
         /// Required designer variable.

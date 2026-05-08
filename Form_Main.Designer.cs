@@ -1,6 +1,6 @@
 ﻿namespace Spirograph_v1
 {
-    partial class FormMain
+    partial class Form_Main
     {
         /// <summary>
         /// Required designer variable.
@@ -46,11 +46,11 @@
             ChkMultiColorGradient = new System.Windows.Forms.CheckBox();
             panel1 = new System.Windows.Forms.Panel();
             ChkIterations = new System.Windows.Forms.CheckBox();
+            RPSciFi_Button_Start = new Spirograph_v1.Controls.RPSciFiButton.RPSciFiButton();
             ChkOuterCircleRadius = new System.Windows.Forms.CheckBox();
             ChkInnerCircleRadius = new System.Windows.Forms.CheckBox();
             label1 = new System.Windows.Forms.Label();
             ChkGradientButtons = new System.Windows.Forms.CheckBox();
-            RPSciFi_Button_Start = new Spirograph_v1.Controls.RPSciFiButton.RPSciFiButton();
             Btn_AllControls = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)PicSpirograph).BeginInit();
             panel1.SuspendLayout();
@@ -273,6 +273,21 @@
             ChkIterations.Text = "Iterations";
             ChkIterations.UseVisualStyleBackColor = false;
             // 
+            // RPSciFi_Button_Start
+            // 
+            RPSciFi_Button_Start.BaseColor = System.Drawing.Color.FromArgb(30, 30, 50);
+            RPSciFi_Button_Start.ButtonText = "";
+            RPSciFi_Button_Start.DisabledColor = System.Drawing.Color.FromArgb(60, 60, 60);
+            RPSciFi_Button_Start.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            RPSciFi_Button_Start.ForeColor = System.Drawing.Color.White;
+            RPSciFi_Button_Start.GlowColor = System.Drawing.Color.Cyan;
+            RPSciFi_Button_Start.Location = new System.Drawing.Point(5, 112);
+            RPSciFi_Button_Start.Name = "RPSciFi_Button_Start";
+            RPSciFi_Button_Start.Size = new System.Drawing.Size(100, 30);
+            RPSciFi_Button_Start.TabIndex = 34;
+            RPSciFi_Button_Start.TextColorDisabled = System.Drawing.Color.Empty;
+            RPSciFi_Button_Start.TextColorEnabled = System.Drawing.Color.Empty;
+            // 
             // ChkOuterCircleRadius
             // 
             ChkOuterCircleRadius.BackColor = System.Drawing.Color.Transparent;
@@ -322,18 +337,6 @@
             ChkGradientButtons.UseVisualStyleBackColor = false;
             ChkGradientButtons.CheckedChanged += ChkGradientButtons_CheckedChanged;
             // 
-            // RPSciFi_Button_Start
-            // 
-            RPSciFi_Button_Start.BaseColor = System.Drawing.Color.FromArgb(30, 30, 50);
-            RPSciFi_Button_Start.DisabledColor = System.Drawing.Color.FromArgb(60, 60, 60);
-            RPSciFi_Button_Start.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-            RPSciFi_Button_Start.ForeColor = System.Drawing.Color.White;
-            RPSciFi_Button_Start.GlowColor = System.Drawing.Color.Cyan;
-            RPSciFi_Button_Start.Location = new System.Drawing.Point(5, 112);
-            RPSciFi_Button_Start.Name = "RPSciFi_Button_Start";
-            RPSciFi_Button_Start.Size = new System.Drawing.Size(100, 30);
-            RPSciFi_Button_Start.TabIndex = 34;
-            // 
             // Btn_AllControls
             // 
             Btn_AllControls.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
@@ -347,7 +350,7 @@
             Btn_AllControls.UseVisualStyleBackColor = true;
             Btn_AllControls.Click += BtnAll_Click;
             // 
-            // FormMain
+            // Form_Main
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -373,7 +376,7 @@
             DoubleBuffered = true;
             Font = new System.Drawing.Font("Segoe UI", 9F);
             Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            Name = "FormMain";
+            Name = "Form_Main";
             StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             Text = "Spirograph-v1";
             ResizeEnd += Form_Main_ResizeEnd;
