@@ -277,16 +277,26 @@
             // 
             RPSciFi_Button_Start.BaseColor = System.Drawing.Color.FromArgb(30, 30, 50);
             RPSciFi_Button_Start.ButtonText = "";
+            RPSciFi_Button_Start.ControlId = "938112de-b9f8-4836-8543-54365bdbc277";
             RPSciFi_Button_Start.DisabledColor = System.Drawing.Color.FromArgb(60, 60, 60);
             RPSciFi_Button_Start.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             RPSciFi_Button_Start.ForeColor = System.Drawing.Color.White;
             RPSciFi_Button_Start.GlowColor = System.Drawing.Color.Cyan;
             RPSciFi_Button_Start.Location = new System.Drawing.Point(5, 112);
             RPSciFi_Button_Start.Name = "RPSciFi_Button_Start";
+            RPSciFi_Button_Start.ShowDistortionEffect = true;
+            RPSciFi_Button_Start.ShowEnergyFlowEffect = true;
+            RPSciFi_Button_Start.ShowLightningEffect = true;
+            RPSciFi_Button_Start.ShowPressedOverlayEffect = true;
+            RPSciFi_Button_Start.ShowPulseGlowEffect = true;
+            RPSciFi_Button_Start.ShowRippleEffect = true;
+            RPSciFi_Button_Start.ShowScanlinesEffect = true;
+            RPSciFi_Button_Start.ShowSparksEffect = true;
             RPSciFi_Button_Start.Size = new System.Drawing.Size(100, 30);
             RPSciFi_Button_Start.TabIndex = 34;
             RPSciFi_Button_Start.TextColorDisabled = System.Drawing.Color.Empty;
             RPSciFi_Button_Start.TextColorEnabled = System.Drawing.Color.Empty;
+            RPSciFi_Button_Start.TextColorPressed = System.Drawing.Color.Empty;
             // 
             // ChkOuterCircleRadius
             // 
@@ -339,16 +349,10 @@
             // 
             // Btn_AllControls
             // 
-            Btn_AllControls.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
-            Btn_AllControls.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            Btn_AllControls.Location = new System.Drawing.Point(179, 502);
-            Btn_AllControls.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            Btn_AllControls.Location = new System.Drawing.Point(336, 548);
             Btn_AllControls.Name = "Btn_AllControls";
-            Btn_AllControls.Size = new System.Drawing.Size(96, 27);
-            Btn_AllControls.TabIndex = 35;
-            Btn_AllControls.Text = "All Controls";
-            Btn_AllControls.UseVisualStyleBackColor = true;
-            Btn_AllControls.Click += BtnAll_Click;
+            Btn_AllControls.Size = new System.Drawing.Size(75, 23);
+            Btn_AllControls.TabIndex = 0;
             // 
             // Form_Main
             // 

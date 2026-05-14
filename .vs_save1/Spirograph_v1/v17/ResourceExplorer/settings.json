@@ -1,0 +1,19 @@
+{
+  "ShowEmptyProjects": true,
+  "SelectedGroups": [],
+  "ExpandedProjects": [
+    "C:\\Repos\\WinForm\\Spirograph-v1\\Spirograph_v1.csproj"
+  ],
+  "EnableSpellChecker": true,
+  "ColumnOrder": [
+    "name",
+    "type",
+    "neutral-value",
+    "neutral-comment",
+    "file-path",
+    "file-name"
+  ],
+  "VisibleColumnKeys": [
+    "name"
+  ]
+}

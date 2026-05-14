@@ -13,7 +13,7 @@ namespace Spirograph_v1
         public string  Name;
         public Color[] Colors;
 
-        private int intPreset = 0;
+        private readonly int intPreset = 0;
 
         // Parameterized constructor.
         public ColorPreset(string name, Color[] colors)

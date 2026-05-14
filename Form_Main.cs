@@ -867,23 +867,6 @@ namespace Spirograph_v1
         #endregion
 
 
-        #region .  BtnAll_Click()  .
-        // ---------------------------------------------------------------------
-        //   Method.......:  BtnAll_Click()
-        //   Description..:  Handles the Click event of the BtnRedraw control.
-        //   Parameters...:  sender - The event source.
-        //                   e      - The event data.
-        //   Returns......:  Nothing
-        // ---------------------------------------------------------------------
-        private void BtnAll_Click(object sender, EventArgs e)
-        {
-            Form_AllControls TestForm = new();
-            TestForm.ShowDialog();
-
-        }   // BtnAll_Click()
-        #endregion
-
-
         #region .  BtnColor_Click()  --  COMMENTED OUT  .
         //// ---------------------------------------------------------------------
         ////   Method.......:  BtnColor_Click()

@@ -48,10 +48,10 @@ namespace Spirograph_v1
         // -------------------------------------------------------------------------
         private void rpSciFiButton1_Click(object sender, EventArgs e)
         {
-            LabelInfo.Location     = new Point(160, 60);
-            LabelInfo.Text         = "2.  Click STOP";
-            rpSciFiButton1.Enabled = false;
-            rpSciFiButton2.Enabled = true;
+            LabelStartStop.Location = new Point(160, 60);
+            LabelStartStop.Text     = "Click STOP";
+            rpSciFiButton1.Enabled  = false;
+            rpSciFiButton2.Enabled  = true;
 
         }   // rpSciFiButton1_Click()
         #endregion
@@ -68,10 +68,10 @@ namespace Spirograph_v1
         // -------------------------------------------------------------------------
         private void rpSciFiButton2_Click(object sender, EventArgs e)
         {
-            LabelInfo.Location     = new Point(20, 60);
-            LabelInfo.Text         = "1.  Click START";
-            rpSciFiButton1.Enabled = true;
-            rpSciFiButton2.Enabled = false;
+            LabelStartStop.Location = new Point(20, 60);
+            LabelStartStop.Text     = "Click START";
+            rpSciFiButton1.Enabled  = true;
+            rpSciFiButton2.Enabled  = false;
 
         }   // rpSciFiButton2_Click()
         #endregion

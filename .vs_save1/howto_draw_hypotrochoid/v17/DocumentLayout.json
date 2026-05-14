@@ -1,0 +1,104 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Repos\\WinForm\\Hypotrochoid\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A162FA7A-19DB-4952-8E1D-D738CE7BB4BA}|howto_draw_hypotrochoid.csproj|c:\\repos\\winform\\hypotrochoid\\colorpresets.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A162FA7A-19DB-4952-8E1D-D738CE7BB4BA}|howto_draw_hypotrochoid.csproj|solutionrelative:colorpresets.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A162FA7A-19DB-4952-8E1D-D738CE7BB4BA}|howto_draw_hypotrochoid.csproj|c:\\repos\\winform\\hypotrochoid\\form_main.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A162FA7A-19DB-4952-8E1D-D738CE7BB4BA}|howto_draw_hypotrochoid.csproj|solutionrelative:form_main.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A162FA7A-19DB-4952-8E1D-D738CE7BB4BA}|howto_draw_hypotrochoid.csproj|c:\\repos\\winform\\hypotrochoid\\form_main.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A162FA7A-19DB-4952-8E1D-D738CE7BB4BA}|howto_draw_hypotrochoid.csproj|solutionrelative:form_main.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A162FA7A-19DB-4952-8E1D-D738CE7BB4BA}|howto_draw_hypotrochoid.csproj|C:\\Repos\\WinForm\\Hypotrochoid\\form_main.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{A162FA7A-19DB-4952-8E1D-D738CE7BB4BA}|howto_draw_hypotrochoid.csproj|solutionrelative:form_main.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A162FA7A-19DB-4952-8E1D-D738CE7BB4BA}|howto_draw_hypotrochoid.csproj|c:\\repos\\winform\\hypotrochoid\\floattrackbar.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A162FA7A-19DB-4952-8E1D-D738CE7BB4BA}|howto_draw_hypotrochoid.csproj|solutionrelative:floattrackbar.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ColorPresets.cs",
+              "DocumentMoniker": "C:\\Repos\\WinForm\\Hypotrochoid\\ColorPresets.cs",
+              "RelativeDocumentMoniker": "ColorPresets.cs",
+              "ToolTip": "C:\\Repos\\WinForm\\Hypotrochoid\\ColorPresets.cs",
+              "RelativeToolTip": "ColorPresets.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-25T23:53:13.419Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Form_Main.Designer.cs",
+              "DocumentMoniker": "C:\\Repos\\WinForm\\Hypotrochoid\\Form_Main.Designer.cs",
+              "RelativeDocumentMoniker": "Form_Main.Designer.cs",
+              "ToolTip": "C:\\Repos\\WinForm\\Hypotrochoid\\Form_Main.Designer.cs",
+              "RelativeToolTip": "Form_Main.Designer.cs",
+              "ViewState": "AgIAAPEAAAAAAAAAAAAMwAQBAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-25T05:09:42.074Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "FloatTrackBar.cs",
+              "DocumentMoniker": "C:\\Repos\\WinForm\\Hypotrochoid\\FloatTrackBar.cs",
+              "RelativeDocumentMoniker": "FloatTrackBar.cs",
+              "ToolTip": "C:\\Repos\\WinForm\\Hypotrochoid\\FloatTrackBar.cs",
+              "RelativeToolTip": "FloatTrackBar.cs",
+              "ViewState": "AgIAACoAAAAAAAAAAAAawEIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-25T05:12:38.475Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Form_Main.cs [Design]",
+              "DocumentMoniker": "C:\\Repos\\WinForm\\Hypotrochoid\\Form_Main.cs",
+              "RelativeDocumentMoniker": "Form_Main.cs",
+              "ToolTip": "C:\\Repos\\WinForm\\Hypotrochoid\\Form_Main.cs [Design]",
+              "RelativeToolTip": "Form_Main.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-24T08:40:49.491Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Form_Main.cs",
+              "DocumentMoniker": "C:\\Repos\\WinForm\\Hypotrochoid\\Form_Main.cs",
+              "RelativeDocumentMoniker": "Form_Main.cs",
+              "ToolTip": "C:\\Repos\\WinForm\\Hypotrochoid\\Form_Main.cs",
+              "RelativeToolTip": "Form_Main.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-24T08:41:13.94Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
