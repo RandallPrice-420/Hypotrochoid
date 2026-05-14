@@ -199,7 +199,7 @@ namespace Spirograph_v1.Controls.RPSciFiTabbedPanel
             var g = e.Graphics;
             g.SmoothingMode = SmoothingMode.AntiAlias;
 
-            Color glowColor = Color.FromArgb(0, 255, 255);
+//            Color glowColor = Color.FromArgb(0, 255, 255);
             int   tabWidth  = Width / _tabs.Count;
 
             for (int i = 0; i < _tabs.Count; i++)
@@ -209,14 +209,14 @@ namespace Spirograph_v1.Controls.RPSciFiTabbedPanel
                 using var bg = new LinearGradientBrush
                 (
                     rect,
-                    i == (_selectedIndex) ? Color.FromArgb(100, glowColor) : Color.FromArgb(50, glowColor),
-                    Color.FromArgb(5, 0, 0, 0),
+                    i == (_selectedIndex) ? Color.FromArgb(100, Color.Aqua) : Color.FromArgb(60, Color.Aqua),
+                    i == (_selectedIndex) ? Color.FromArgb( 60, Color.Aqua) : Color.FromArgb(20, Color.Aqua),          //(5, 0, 0, 0),
                     LinearGradientMode.Vertical
                 );
 
                 g.FillRectangle(bg, rect);
 
-                using var borderPen = new Pen(Color.FromArgb(150, glowColor), 2);
+                using var borderPen = new Pen(Color.FromArgb(150, GlowColor), 2);
                 g.DrawRectangle(borderPen, rect);
 
                 using var f = new Font("Segoe UI", 9, FontStyle.Bold);

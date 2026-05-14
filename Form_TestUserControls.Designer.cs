@@ -53,6 +53,9 @@
             tabPageOscilloscope = new System.Windows.Forms.TabPage();
             rpSciFiOscilloscope1 = new Spirograph_v1.Controls.RPSciFiOscilloscope.RPSciFiOscilloscope();
             tabPageRadar = new System.Windows.Forms.TabPage();
+            label1 = new System.Windows.Forms.Label();
+            LabelRadar = new System.Windows.Forms.Label();
+            rpSciFiRadar2 = new Spirograph_v1.Controls.RPSciFiRadar2.RPSciFiRadar2();
             rpSciFiRadar1 = new Spirograph_v1.Controls.RPSciFiRadar.RPSciFiRadar();
             tabPageSlider = new System.Windows.Forms.TabPage();
             rpSciFiSlider1 = new Spirograph_v1.Controls.RPSciFiSlider.RPSciFiSlider();
@@ -87,6 +90,7 @@
             // 
             // tabControl
             // 
+            tabControl.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             tabControl.Appearance = System.Windows.Forms.TabAppearance.Buttons;
             tabControl.Controls.Add(tabPageButton);
             tabControl.Controls.Add(tabPageCameraFeed);
@@ -111,7 +115,7 @@
             tabControl.Name = "tabControl";
             tabControl.Padding = new System.Drawing.Point(0, 0);
             tabControl.SelectedIndex = 0;
-            tabControl.Size = new System.Drawing.Size(964, 367);
+            tabControl.Size = new System.Drawing.Size(750, 367);
             tabControl.TabIndex = 36;
             // 
             // tabPageButton
@@ -123,17 +127,17 @@
             tabPageButton.Location = new System.Drawing.Point(4, 53);
             tabPageButton.Margin = new System.Windows.Forms.Padding(0);
             tabPageButton.Name = "tabPageButton";
-            tabPageButton.Size = new System.Drawing.Size(956, 310);
+            tabPageButton.Size = new System.Drawing.Size(742, 310);
             tabPageButton.TabIndex = 0;
             tabPageButton.Text = "Button";
             // 
             // LabelStartStop
             // 
-            LabelStartStop.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            LabelStartStop.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
             LabelStartStop.ForeColor = System.Drawing.Color.Firebrick;
             LabelStartStop.Location = new System.Drawing.Point(20, 60);
             LabelStartStop.Name = "LabelStartStop";
-            LabelStartStop.Size = new System.Drawing.Size(100, 15);
+            LabelStartStop.Size = new System.Drawing.Size(100, 20);
             LabelStartStop.TabIndex = 3;
             LabelStartStop.Text = "Click START";
             LabelStartStop.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -197,10 +201,10 @@
             // 
             tabPageCameraFeed.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             tabPageCameraFeed.Controls.Add(rpSciFiCameraFeed1);
-            tabPageCameraFeed.Location = new System.Drawing.Point(4, 53);
+            tabPageCameraFeed.Location = new System.Drawing.Point(4, 27);
             tabPageCameraFeed.Margin = new System.Windows.Forms.Padding(0);
             tabPageCameraFeed.Name = "tabPageCameraFeed";
-            tabPageCameraFeed.Size = new System.Drawing.Size(956, 310);
+            tabPageCameraFeed.Size = new System.Drawing.Size(742, 336);
             tabPageCameraFeed.TabIndex = 14;
             tabPageCameraFeed.Text = "CameraFeed";
             tabPageCameraFeed.UseVisualStyleBackColor = true;
@@ -223,10 +227,10 @@
             // 
             tabPageCommsPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             tabPageCommsPanel.Controls.Add(rpSciFiCommsPanel1);
-            tabPageCommsPanel.Location = new System.Drawing.Point(4, 53);
+            tabPageCommsPanel.Location = new System.Drawing.Point(4, 27);
             tabPageCommsPanel.Margin = new System.Windows.Forms.Padding(0);
             tabPageCommsPanel.Name = "tabPageCommsPanel";
-            tabPageCommsPanel.Size = new System.Drawing.Size(956, 310);
+            tabPageCommsPanel.Size = new System.Drawing.Size(742, 336);
             tabPageCommsPanel.TabIndex = 13;
             tabPageCommsPanel.Text = "Comms";
             tabPageCommsPanel.UseVisualStyleBackColor = true;
@@ -247,10 +251,10 @@
             // 
             tabPageGroupPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             tabPageGroupPanel.Controls.Add(rpSciFiGroupPanel1);
-            tabPageGroupPanel.Location = new System.Drawing.Point(4, 53);
+            tabPageGroupPanel.Location = new System.Drawing.Point(4, 27);
             tabPageGroupPanel.Margin = new System.Windows.Forms.Padding(0);
             tabPageGroupPanel.Name = "tabPageGroupPanel";
-            tabPageGroupPanel.Size = new System.Drawing.Size(956, 310);
+            tabPageGroupPanel.Size = new System.Drawing.Size(742, 336);
             tabPageGroupPanel.TabIndex = 7;
             tabPageGroupPanel.Text = "GroupPanel";
             tabPageGroupPanel.UseVisualStyleBackColor = true;
@@ -272,10 +276,10 @@
             tabPageGuage.BackColor = System.Drawing.Color.SteelBlue;
             tabPageGuage.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             tabPageGuage.Controls.Add(rpSciFiGuage1);
-            tabPageGuage.Location = new System.Drawing.Point(4, 53);
+            tabPageGuage.Location = new System.Drawing.Point(4, 27);
             tabPageGuage.Margin = new System.Windows.Forms.Padding(0);
             tabPageGuage.Name = "tabPageGuage";
-            tabPageGuage.Size = new System.Drawing.Size(956, 310);
+            tabPageGuage.Size = new System.Drawing.Size(742, 336);
             tabPageGuage.TabIndex = 2;
             tabPageGuage.Text = "Guage";
             // 
@@ -298,10 +302,10 @@
             // 
             tabPageHoloTable.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             tabPageHoloTable.Controls.Add(rpSciFiHoloTable1);
-            tabPageHoloTable.Location = new System.Drawing.Point(4, 53);
+            tabPageHoloTable.Location = new System.Drawing.Point(4, 27);
             tabPageHoloTable.Margin = new System.Windows.Forms.Padding(0);
             tabPageHoloTable.Name = "tabPageHoloTable";
-            tabPageHoloTable.Size = new System.Drawing.Size(956, 310);
+            tabPageHoloTable.Size = new System.Drawing.Size(742, 336);
             tabPageHoloTable.TabIndex = 11;
             tabPageHoloTable.Text = "HoloTable";
             tabPageHoloTable.UseVisualStyleBackColor = true;
@@ -321,10 +325,10 @@
             // 
             tabPageInventory.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             tabPageInventory.Controls.Add(rpSciFiInventory1);
-            tabPageInventory.Location = new System.Drawing.Point(4, 53);
+            tabPageInventory.Location = new System.Drawing.Point(4, 27);
             tabPageInventory.Margin = new System.Windows.Forms.Padding(0);
             tabPageInventory.Name = "tabPageInventory";
-            tabPageInventory.Size = new System.Drawing.Size(956, 310);
+            tabPageInventory.Size = new System.Drawing.Size(742, 336);
             tabPageInventory.TabIndex = 12;
             tabPageInventory.Text = "Inventory";
             tabPageInventory.UseVisualStyleBackColor = true;
@@ -344,10 +348,10 @@
             tabPageKnob.BackColor = System.Drawing.Color.SteelBlue;
             tabPageKnob.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             tabPageKnob.Controls.Add(rpSciFiKnob1);
-            tabPageKnob.Location = new System.Drawing.Point(4, 53);
+            tabPageKnob.Location = new System.Drawing.Point(4, 27);
             tabPageKnob.Margin = new System.Windows.Forms.Padding(0);
             tabPageKnob.Name = "tabPageKnob";
-            tabPageKnob.Size = new System.Drawing.Size(956, 310);
+            tabPageKnob.Size = new System.Drawing.Size(742, 336);
             tabPageKnob.TabIndex = 3;
             tabPageKnob.Text = "Knob";
             // 
@@ -372,7 +376,7 @@
             tabPageMap.Location = new System.Drawing.Point(4, 53);
             tabPageMap.Margin = new System.Windows.Forms.Padding(0);
             tabPageMap.Name = "tabPageMap";
-            tabPageMap.Size = new System.Drawing.Size(956, 310);
+            tabPageMap.Size = new System.Drawing.Size(742, 310);
             tabPageMap.TabIndex = 8;
             tabPageMap.Text = "Map";
             tabPageMap.UseVisualStyleBackColor = true;
@@ -396,7 +400,7 @@
             tabPageOscilloscope.Location = new System.Drawing.Point(4, 53);
             tabPageOscilloscope.Margin = new System.Windows.Forms.Padding(0);
             tabPageOscilloscope.Name = "tabPageOscilloscope";
-            tabPageOscilloscope.Size = new System.Drawing.Size(956, 310);
+            tabPageOscilloscope.Size = new System.Drawing.Size(742, 310);
             tabPageOscilloscope.TabIndex = 6;
             tabPageOscilloscope.Text = "Oscilloscope";
             tabPageOscilloscope.UseVisualStyleBackColor = true;
@@ -410,22 +414,60 @@
             rpSciFiOscilloscope1.Margin = new System.Windows.Forms.Padding(0);
             rpSciFiOscilloscope1.Name = "rpSciFiOscilloscope1";
             rpSciFiOscilloscope1.Peaks = 3F;
-            rpSciFiOscilloscope1.Phase = 44145.9F;
+            rpSciFiOscilloscope1.Phase = 45889F;
             rpSciFiOscilloscope1.Size = new System.Drawing.Size(400, 150);
             rpSciFiOscilloscope1.TabIndex = 0;
             // 
             // tabPageRadar
             // 
-            tabPageRadar.BackColor = System.Drawing.Color.Transparent;
+            tabPageRadar.BackColor = System.Drawing.Color.LightSteelBlue;
             tabPageRadar.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            tabPageRadar.Controls.Add(label1);
+            tabPageRadar.Controls.Add(LabelRadar);
+            tabPageRadar.Controls.Add(rpSciFiRadar2);
             tabPageRadar.Controls.Add(rpSciFiRadar1);
             tabPageRadar.ForeColor = System.Drawing.Color.Transparent;
             tabPageRadar.Location = new System.Drawing.Point(4, 53);
             tabPageRadar.Margin = new System.Windows.Forms.Padding(0);
             tabPageRadar.Name = "tabPageRadar";
-            tabPageRadar.Size = new System.Drawing.Size(956, 310);
+            tabPageRadar.Size = new System.Drawing.Size(742, 310);
             tabPageRadar.TabIndex = 9;
             tabPageRadar.Text = "Radar";
+            // 
+            // label1
+            // 
+            label1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            label1.ForeColor = System.Drawing.Color.Firebrick;
+            label1.Location = new System.Drawing.Point(280, 240);
+            label1.Name = "label1";
+            label1.Size = new System.Drawing.Size(200, 23);
+            label1.TabIndex = 3;
+            label1.Text = "Radar2";
+            label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // LabelRadar
+            // 
+            LabelRadar.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            LabelRadar.ForeColor = System.Drawing.Color.Firebrick;
+            LabelRadar.Location = new System.Drawing.Point(20, 240);
+            LabelRadar.Name = "LabelRadar";
+            LabelRadar.Size = new System.Drawing.Size(200, 23);
+            LabelRadar.TabIndex = 2;
+            LabelRadar.Text = "Radar";
+            LabelRadar.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // rpSciFiRadar2
+            // 
+            rpSciFiRadar2.ContactColor = System.Drawing.Color.Cyan;
+            rpSciFiRadar2.ControlId = "8e58ebb5-d466-466d-a74a-a6b10d8dc495";
+            rpSciFiRadar2.GlowColor = System.Drawing.Color.Cyan;
+            rpSciFiRadar2.GridColor = System.Drawing.Color.FromArgb(40, 255, 255, 255);
+            rpSciFiRadar2.Location = new System.Drawing.Point(280, 20);
+            rpSciFiRadar2.Name = "rpSciFiRadar2";
+            rpSciFiRadar2.Size = new System.Drawing.Size(200, 200);
+            rpSciFiRadar2.SweepColor = System.Drawing.Color.Lime;
+            rpSciFiRadar2.SweepSpeed = 45F;
+            rpSciFiRadar2.TabIndex = 1;
             // 
             // rpSciFiRadar1
             // 
@@ -445,10 +487,10 @@
             // 
             tabPageSlider.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             tabPageSlider.Controls.Add(rpSciFiSlider1);
-            tabPageSlider.Location = new System.Drawing.Point(4, 53);
+            tabPageSlider.Location = new System.Drawing.Point(4, 27);
             tabPageSlider.Margin = new System.Windows.Forms.Padding(0);
             tabPageSlider.Name = "tabPageSlider";
-            tabPageSlider.Size = new System.Drawing.Size(956, 310);
+            tabPageSlider.Size = new System.Drawing.Size(742, 336);
             tabPageSlider.TabIndex = 4;
             tabPageSlider.Text = "Slider";
             tabPageSlider.UseVisualStyleBackColor = true;
@@ -475,15 +517,13 @@
             tabPageTabbedPanel.Controls.Add(rpSciFiTabbedPanel1);
             tabPageTabbedPanel.Location = new System.Drawing.Point(4, 53);
             tabPageTabbedPanel.Name = "tabPageTabbedPanel";
-            tabPageTabbedPanel.Size = new System.Drawing.Size(956, 310);
+            tabPageTabbedPanel.Size = new System.Drawing.Size(742, 310);
             tabPageTabbedPanel.TabIndex = 16;
             tabPageTabbedPanel.Text = "TabbedPanel";
             // 
             // rpSciFiTabbedPanel1
             // 
-            rpSciFiTabbedPanel1.BackColor = System.Drawing.Color.DarkBlue;
             rpSciFiTabbedPanel1.ControlId = "a692fc6f-3cec-43f0-993a-e900e81752d1";
-            rpSciFiTabbedPanel1.ForeColor = System.Drawing.Color.Cyan;
             rpSciFiTabbedPanel1.GlowColor = System.Drawing.Color.Cyan;
             rpSciFiTabbedPanel1.Location = new System.Drawing.Point(20, 20);
             rpSciFiTabbedPanel1.Name = "rpSciFiTabbedPanel1";
@@ -500,18 +540,18 @@
             tabPageToggleSwitch.Location = new System.Drawing.Point(4, 53);
             tabPageToggleSwitch.Margin = new System.Windows.Forms.Padding(0);
             tabPageToggleSwitch.Name = "tabPageToggleSwitch";
-            tabPageToggleSwitch.Size = new System.Drawing.Size(956, 310);
+            tabPageToggleSwitch.Size = new System.Drawing.Size(742, 310);
             tabPageToggleSwitch.TabIndex = 5;
             tabPageToggleSwitch.Text = "ToggleSwitch";
             tabPageToggleSwitch.UseVisualStyleBackColor = true;
             // 
             // LabelInfo2
             // 
-            LabelInfo2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            LabelInfo2.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
             LabelInfo2.ForeColor = System.Drawing.Color.Firebrick;
             LabelInfo2.Location = new System.Drawing.Point(20, 60);
             LabelInfo2.Name = "LabelInfo2";
-            LabelInfo2.Size = new System.Drawing.Size(60, 15);
+            LabelInfo2.Size = new System.Drawing.Size(60, 20);
             LabelInfo2.TabIndex = 1;
             LabelInfo2.Text = "OFF";
             LabelInfo2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -536,7 +576,7 @@
             tabPageTerminal.Location = new System.Drawing.Point(4, 53);
             tabPageTerminal.Margin = new System.Windows.Forms.Padding(0);
             tabPageTerminal.Name = "tabPageTerminal";
-            tabPageTerminal.Size = new System.Drawing.Size(956, 310);
+            tabPageTerminal.Size = new System.Drawing.Size(742, 310);
             tabPageTerminal.TabIndex = 10;
             tabPageTerminal.Text = "Terminal";
             tabPageTerminal.UseVisualStyleBackColor = true;
@@ -562,7 +602,7 @@
             tabPageWaveform.Location = new System.Drawing.Point(4, 53);
             tabPageWaveform.Margin = new System.Windows.Forms.Padding(0);
             tabPageWaveform.Name = "tabPageWaveform";
-            tabPageWaveform.Size = new System.Drawing.Size(956, 310);
+            tabPageWaveform.Size = new System.Drawing.Size(742, 310);
             tabPageWaveform.TabIndex = 15;
             tabPageWaveform.Text = "Waveform";
             tabPageWaveform.UseVisualStyleBackColor = true;
@@ -584,7 +624,7 @@
             LabelTestHeader.ForeColor = System.Drawing.Color.Firebrick;
             LabelTestHeader.Location = new System.Drawing.Point(0, 0);
             LabelTestHeader.Name = "LabelTestHeader";
-            LabelTestHeader.Size = new System.Drawing.Size(998, 40);
+            LabelTestHeader.Size = new System.Drawing.Size(784, 40);
             LabelTestHeader.TabIndex = 37;
             LabelTestHeader.Text = "Test My SciFi UserControls";
             LabelTestHeader.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -594,7 +634,7 @@
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             BackColor = System.Drawing.Color.LightGray;
-            ClientSize = new System.Drawing.Size(998, 439);
+            ClientSize = new System.Drawing.Size(784, 441);
             Controls.Add(LabelTestHeader);
             Controls.Add(tabControl);
             Font = new System.Drawing.Font("Segoe UI", 9F);
@@ -623,16 +663,12 @@
         #endregion
 
         private System.Windows.Forms.TabControl tabControl;
-        private System.Windows.Forms.TabPage tabPageButton;
         private System.Windows.Forms.TabPage tabPageGuage;
         private System.Windows.Forms.TabPage tabPageKnob;
         private System.Windows.Forms.TabPage tabPageGroupPanel;
         private System.Windows.Forms.TabPage tabPageSlider;
         private System.Windows.Forms.TabPage tabPageToggleSwitch;
         private System.Windows.Forms.TabPage tabPageOscilloscope;
-        private Controls.RPSciFiButton.RPSciFiButton rpSciFiButton1;
-        private Controls.RPSciFiButton.RPSciFiButton rpSciFiButton2;
-        private System.Windows.Forms.Label LabelStartStop;
         private Controls.RPSciFiGroupPanel.RPSciFiGroupPanel rpSciFiGroupPanel1;
         private Controls.RPSciFiGuage.RPSciFiGauge rpSciFiGuage1;
         private Controls.RPSciFiKnob.RPSciFiKnob rpSciFiKnob1;
@@ -659,5 +695,12 @@
         private Controls.SciFiWaveform.RPSciFiWaveform rpSciFiWaveform1;
         private System.Windows.Forms.TabPage tabPageTabbedPanel;
         private Controls.RPSciFiTabbedPanel.RPSciFiTabbedPanel rpSciFiTabbedPanel1;
+        private System.Windows.Forms.Label LabelRadar;
+        private Controls.RPSciFiRadar2.RPSciFiRadar2 rpSciFiRadar2;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TabPage tabPageButton;
+        private System.Windows.Forms.Label LabelStartStop;
+        private Controls.RPSciFiButton.RPSciFiButton rpSciFiButton2;
+        private Controls.RPSciFiButton.RPSciFiButton rpSciFiButton1;
     }
 }

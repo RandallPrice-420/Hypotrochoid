@@ -106,7 +106,7 @@ namespace Spirograph_v1.Controls.RPSciFiButton
         public Color BaseColor      { get; set; } = Color.FromArgb(30, 30, 50);
 
 
-        [Category("Data"), Description("The button text."), Browsable(true)]
+        [Category("Sci-Fi"), Description("The button text."), Browsable(true)]
         public string ButtonText
         {
             get => Text;
