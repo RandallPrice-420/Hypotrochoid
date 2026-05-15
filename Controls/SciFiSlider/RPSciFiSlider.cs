@@ -24,13 +24,18 @@ namespace Spirograph_v1.Controls.RPSciFiSlider
 
 
         // ---------------------------------------------------------------------
-        //  RPSciFi API Layer : All controls must implement this interface to be
-        //                      compatible with the RPSciFi system.
+        // RPSciFi API Layer : All controls must implement this interface to be
+        //                     compatible with the RPSciFi system.
+        //
+        //   ControlId   : strings - The unique identifier for the control.
+        //   ControlType : RPSciFiControlType - The type of the control.
+        //   _bus        : RPSciFiControlBus  - The RPSciFi control bus for communication.
+        //   Register()  : Register the control with the RPSciFi control bus.
         // ---------------------------------------------------------------------
 
         #region . RPSciFi API Layer  .
 
-        [Category("RPSciFi API Layer"), Description("The unique identifier for the control."), Browsable(true)]
+        [Category("RPSciFi API Layer"), Description(""), Browsable(true)]
         public string ControlId { get; set; } = Guid.NewGuid().ToString();
 
 

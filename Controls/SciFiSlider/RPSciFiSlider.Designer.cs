@@ -28,7 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            components = new System.ComponentModel.Container();
+            SuspendLayout();
+            // 
+            // RPSciFiSlider
+            // 
+            Name = "RPSciFiSlider";
+            Size = new System.Drawing.Size(361, 189);
+            ResumeLayout(false);
             //this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
         }
 

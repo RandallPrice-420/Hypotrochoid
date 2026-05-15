@@ -24,6 +24,8 @@ namespace Spirograph_v1
             InitializeComponent();
             Text = "Test UserControls";
 
+            tabControl.SelectedTab = tabPageOscilloscope;
+
         }   // Form_TestUserControls()
         #endregion
 
