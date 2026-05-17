@@ -11,28 +11,36 @@ namespace Spirograph_v1.Controls.RPSciFiOscilloscope2
     public partial class RPSciFiOscilloscope2 : UserControl, IRPSciFiControl
     {
         // ---------------------------------------------------------------------
-        //  RPSciFi API Layer : All controls must implement this interface to be
-        //                      compatible with the RPSciFi system.
+        // RPSciFi API Layer : Controls must implement this interface to be
+        //                     compatible with the RPSciFi system.
+        //
+        //   ControlId   : string - The unique identifier for the control.
+        //
+        //   ControlType : RPSciFiControlType - The type of the control.
+        //
+        //   _controlBus : RPSciFiControlBus  - The RPSciFi control bus.
+        //
+        //   Register()  : Register the control with the RPSciFi control bus.
         // ---------------------------------------------------------------------
 
         #region . RPSciFi API Layer  .
 
-        [Category("RPSciFi API Layer"), Description("The unique identifier for the control."), Browsable(true)]
+        [Category("RPSciFi API Layer"), Browsable(true), Description("The unique identifier for the control.")]
         public string ControlId { get; set; } = Guid.NewGuid().ToString();
 
 
-        [Category("RPSciFi API Layer"), Description("The type of the control."), Browsable(true)]
-        public RPSciFiControlType ControlType => RPSciFiControlType.Oscilloscope2;
+        [Category("RPSciFi API Layer"), Browsable(true), Description("The type of the control.")]
+        public RPSciFiControlType ControlType => RPSciFiControlType.Slider;
 
 
-        [Category("RPSciFi API Layer"), Description("The RPSciFi control bus for communication."), Browsable(false)]
-        private RPSciFiControlBus _bus;
+        [Category("RPSciFi API Layer"), Browsable(true), Description("The RPSciFi control bus.")]
+        private RPSciFiControlBus _controlBus;
 
 
-        [Category("RPSciFi API Layer"), Description("Register the control with the RPSciFi control bus."), Browsable(false)]
+        [Category("RPSciFi API Layer"), Browsable(true), Description("Register the control with the RPSciFi control bus.")]
         public void Register(RPSciFiControlBus bus)
         {
-            _bus = bus;
+            _controlBus = bus;
             bus.Register(this);
 
         }   // Register()
@@ -52,33 +60,32 @@ namespace Spirograph_v1.Controls.RPSciFiOscilloscope2
 
         #region .  Public Properties  .
 
-        [Category("Sci-Fi"), Description("The amplitude of the waveform."), Browsable(true)]
+        [Category("Sci-Fi"), Browsable(true), Description("The amplitude of the waveform.")]
         public float Amplitude   { get; set; } = 1f;
 
 
-        [Category("Sci-Fi"), Description("The frequency of the waveform."), Browsable(true)]
+        [Category("Sci-Fi"), Browsable(true), Description("The frequency of the waveform.")]
         public float Frequency   { get; set; } = 1f;
 
 
-        [Category("Sci-Fi"), Description("The scroll speed of the waveform in pixels per second."), Browsable(true)]
+        [Category("Sci-Fi"), Browsable(true), Description("The scroll speed of the waveform in pixels per second.")]
         public float ScrollSpeed { get; set; } = 200f;
 
 
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        [Category("Sci-Fi"), Description("The waveform function for the oscilloscope."), Browsable(false)]
-        public Func<float, float> Waveform { get; set; }
-        //public Func<float, float> Waveform
-        //{
-        //    get;
-        //    set
-        //    {
-        //        if (value != null)
-        //        {
-        //            field = value;
-        //            Invalidate();
-        //        }
-        //    }
-        //}
+        [Category("Sci-Fi"), Browsable(false), Description("The waveform function for the oscilloscope.")]
+        public Func<float, float> Waveform
+        {
+            get;
+            set
+            {
+                if (value != null)
+                {
+                    field = value;
+                    Invalidate();
+                }
+            }
+        }
 
         #endregion
 
@@ -87,9 +94,10 @@ namespace Spirograph_v1.Controls.RPSciFiOscilloscope2
         // ---------------------------------------------------------------------
         // Private Variables:
         // ------------------
-        //   _anim
-        //   _wavePen
-        //   _sw
+        //   _anim     - The timer used to trigger animation updates.
+        //   _wavePen  - The pen used to draw the waveform.
+        //   _sw       - Stopwatch to track elapsed time for animation.
+        //   _waveform - The waveform function for the oscilloscope.
         // ---------------------------------------------------------------------
 
         #region .  Private Variables  .
@@ -97,6 +105,7 @@ namespace Spirograph_v1.Controls.RPSciFiOscilloscope2
         private readonly Timer     _anim;
         private readonly Pen       _wavePen;
         private readonly Stopwatch _sw = Stopwatch.StartNew();
+        private Func<float, float> _waveform;
 
         #endregion
 
@@ -111,8 +120,11 @@ namespace Spirograph_v1.Controls.RPSciFiOscilloscope2
         #region .  RPSciFiOscilloscope2()  .
         // --------------------------------------------------------------------
         //   Method.......:  RPSciFiOscilloscope2()
+        //
         //   Description..:  The constructor for the RPSciFiOscilloscope2 class.
+        //
         //   Parameters...:  None
+        //
         //   Returns......:  Nothing
         // --------------------------------------------------------------------
         public RPSciFiOscilloscope2()
@@ -137,16 +149,21 @@ namespace Spirograph_v1.Controls.RPSciFiOscilloscope2
         // Public Control Events:
         // ----------------------
         //   OnAmplitudeChanged()  --  COMMENTED OUT
+        //
         //   OnFrequencyChanged()  --  COMMENTED OUT
+        //
         //   OnWaveformChanged()   --  COMMENTED OUT
         // --------------------------------------------------------------------
 
         #region .  OnAmplitudeChanged()  --  COMMENTED OUT  .
         //// --------------------------------------------------------------------
         ////   Method.......:  OnAmplitudeChanged()
+        ////
         ////   Description..:  Handles the OnAmplitudeChanged event to ?
+        ////
         ////   Parameters...:  sender - The event source.
         ////                   e      - The event arguments.
+        ////
         ////   Returns......:  Nothing
         //// --------------------------------------------------------------------
         //public void OnAmplitudeChanged(object sender, int value)
@@ -160,9 +177,12 @@ namespace Spirograph_v1.Controls.RPSciFiOscilloscope2
         #region .  OnFrequencyChanged()  --  COMMENTED OUT  .
         //// --------------------------------------------------------------------
         ////   Method.......:  OnFrequencyChanged()
+        ////
         ////   Description..:  Handles the OnFrequencyChanged event to ?
+        ////
         ////   Parameters...:  sender - The event source.
         ////                   e      - The event arguments.
+        ////
         ////   Returns......:  Nothing
         //// --------------------------------------------------------------------
         //public void OnFrequencyChanged(object sender, int value)
@@ -176,9 +196,12 @@ namespace Spirograph_v1.Controls.RPSciFiOscilloscope2
         #region .  OnWaveformChanged()  --  COMMENTED OUT  .
         //// --------------------------------------------------------------------
         ////   Method.......:  OnWaveformChanged()
+        ////
         ////   Description..:  Handles the OnWaveformChanged event to ?
+        ////
         ////   Parameters...:  sender - The event source.
         ////                   e      - The event arguments.
+        ////
         ////   Returns......:  Nothing
         //// --------------------------------------------------------------------
         //public void OnWaveformChanged(object sender, Func<float, float> waveform)
@@ -201,14 +224,19 @@ namespace Spirograph_v1.Controls.RPSciFiOscilloscope2
         #region .  OnPaint()  .
         // --------------------------------------------------------------------
         //   Method.......:  OnPaint()
+        //
         //   Description..:  Handles the OnPaint event to ?
+        //
         //   Parameters...:  sender - The event source.
         //                   e      - The event arguments.
+        //
         //   Returns......:  Nothing
         // --------------------------------------------------------------------
         protected override void OnPaint(PaintEventArgs e)
         {
-            var g = e.Graphics;
+            base.OnPaint(e);
+
+            var g           = e.Graphics;
             g.SmoothingMode = SmoothingMode.AntiAlias;
 
             float  time   = _sw.ElapsedMilliseconds / 1000f;
@@ -227,8 +255,6 @@ namespace Spirograph_v1.Controls.RPSciFiOscilloscope2
 				
                 prev = next;
             }
-
-            base.OnPaint(e);
 
         }	// OnPaint()
         #endregion

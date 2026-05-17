@@ -23,7 +23,7 @@ namespace Spirograph_v1.Controls.RPSciFiWaveformEditor
 
 
         // ---------------------------------------------------------------------
-        //  RPSciFi API Layer : All controls must implement this interface to be
+        //  RPSciFi API Layer : Controls must implement this interface to be
         //                      compatible with the RPSciFi system.
         // ---------------------------------------------------------------------
 
@@ -32,11 +32,11 @@ namespace Spirograph_v1.Controls.RPSciFiWaveformEditor
         public string ControlId { get; set; } = Guid.NewGuid().ToString();
         public RPSciFiControlType ControlType => RPSciFiControlType.WaveformEditor;
 
-        private RPSciFiControlBus _bus;
+        private RPSciFiControlBus _controlBus;
 
         public void Register(RPSciFiControlBus bus)
         {
-            _bus = bus;
+            _controlBus = bus;
             bus.Register(this);
 
         }   // Register()

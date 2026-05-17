@@ -17,12 +17,6 @@ namespace Spirograph_v1.Controls.MySlider
         private TrackBar      sliderFrequency;
         private Label         lblFrequencyValue;
         private NumericUpDown numUpDownFrequency;
-        private ComboBox      cmbWaveforms;
-        private NumericUpDown numericUpDown1;
-        private Label         lblAmplitudeValue;
-        private TrackBar      trackBar1;
-        private Label         lblAmplitude;
-        private Label lblWaveform;
         private bool          _isDragging;
 
         public event EventHandler ValueChanged;
@@ -188,23 +182,15 @@ namespace Spirograph_v1.Controls.MySlider
             sliderFrequency = new TrackBar();
             lblFrequencyValue = new Label();
             numUpDownFrequency = new NumericUpDown();
-            cmbWaveforms = new ComboBox();
-            numericUpDown1 = new NumericUpDown();
-            lblAmplitudeValue = new Label();
-            trackBar1 = new TrackBar();
-            lblAmplitude = new Label();
-            lblWaveform = new Label();
             ((ISupportInitialize)sliderFrequency).BeginInit();
             ((ISupportInitialize)numUpDownFrequency).BeginInit();
-            ((ISupportInitialize)numericUpDown1).BeginInit();
-            ((ISupportInitialize)trackBar1).BeginInit();
             SuspendLayout();
             // 
             // lblTitle
             // 
             lblTitle.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
             lblTitle.ForeColor = Color.Cyan;
-            lblTitle.Location = new Point(10, 45);
+            lblTitle.Location = new Point(10, 3);
             lblTitle.Name = "lblTitle";
             lblTitle.Size = new Size(84, 20);
             lblTitle.TabIndex = 0;
@@ -216,7 +202,7 @@ namespace Spirograph_v1.Controls.MySlider
             // 
             sliderFrequency.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             sliderFrequency.AutoSize = false;
-            sliderFrequency.Location = new Point(7, 70);
+            sliderFrequency.Location = new Point(7, 28);
             sliderFrequency.Margin = new Padding(0);
             sliderFrequency.Name = "sliderFrequency";
             sliderFrequency.Size = new Size(230, 25);
@@ -226,7 +212,7 @@ namespace Spirograph_v1.Controls.MySlider
             // lblFrequencyValue
             // 
             lblFrequencyValue.ForeColor = Color.Cyan;
-            lblFrequencyValue.Location = new Point(173, 45);
+            lblFrequencyValue.Location = new Point(173, 3);
             lblFrequencyValue.Name = "lblFrequencyValue";
             lblFrequencyValue.Size = new Size(60, 20);
             lblFrequencyValue.TabIndex = 2;
@@ -237,7 +223,7 @@ namespace Spirograph_v1.Controls.MySlider
             // 
             numUpDownFrequency.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
             numUpDownFrequency.ForeColor = Color.Firebrick;
-            numUpDownFrequency.Location = new Point(241, 67);
+            numUpDownFrequency.Location = new Point(241, 25);
             numUpDownFrequency.Margin = new Padding(0);
             numUpDownFrequency.Maximum = new decimal(new int[] { 10, 0, 0, 0 });
             numUpDownFrequency.Minimum = new decimal(new int[] { 10, 0, 0, int.MinValue });
@@ -246,82 +232,9 @@ namespace Spirograph_v1.Controls.MySlider
             numUpDownFrequency.TabIndex = 3;
             numUpDownFrequency.TextAlign = HorizontalAlignment.Center;
             // 
-            // cmbWaveforms
-            // 
-            cmbWaveforms.FormattingEnabled = true;
-            cmbWaveforms.Location = new Point(100, 15);
-            cmbWaveforms.Name = "cmbWaveforms";
-            cmbWaveforms.Size = new Size(196, 23);
-            cmbWaveforms.TabIndex = 5;
-            // 
-            // numericUpDown1
-            // 
-            numericUpDown1.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            numericUpDown1.ForeColor = Color.Firebrick;
-            numericUpDown1.Location = new Point(241, 122);
-            numericUpDown1.Margin = new Padding(0);
-            numericUpDown1.Maximum = new decimal(new int[] { 10, 0, 0, 0 });
-            numericUpDown1.Minimum = new decimal(new int[] { 10, 0, 0, int.MinValue });
-            numericUpDown1.Name = "numericUpDown1";
-            numericUpDown1.Size = new Size(55, 25);
-            numericUpDown1.TabIndex = 9;
-            numericUpDown1.TextAlign = HorizontalAlignment.Center;
-            // 
-            // lblAmplitudeValue
-            // 
-            lblAmplitudeValue.ForeColor = Color.Cyan;
-            lblAmplitudeValue.Location = new Point(173, 100);
-            lblAmplitudeValue.Name = "lblAmplitudeValue";
-            lblAmplitudeValue.Size = new Size(60, 20);
-            lblAmplitudeValue.TabIndex = 8;
-            lblAmplitudeValue.Text = "-10.0";
-            lblAmplitudeValue.TextAlign = ContentAlignment.MiddleRight;
-            // 
-            // trackBar1
-            // 
-            trackBar1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            trackBar1.AutoSize = false;
-            trackBar1.Location = new Point(7, 125);
-            trackBar1.Margin = new Padding(0);
-            trackBar1.Name = "trackBar1";
-            trackBar1.Size = new Size(230, 25);
-            trackBar1.TabIndex = 7;
-            trackBar1.TickStyle = TickStyle.None;
-            // 
-            // lblAmplitude
-            // 
-            lblAmplitude.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            lblAmplitude.ForeColor = Color.Cyan;
-            lblAmplitude.Location = new Point(10, 100);
-            lblAmplitude.Name = "lblAmplitude";
-            lblAmplitude.Size = new Size(84, 20);
-            lblAmplitude.TabIndex = 6;
-            lblAmplitude.Text = "Amplitude:";
-            lblAmplitude.TextAlign = ContentAlignment.MiddleLeft;
-            lblAmplitude.UseWaitCursor = true;
-            // 
-            // lblWaveform
-            // 
-            lblWaveform.AutoSize = true;
-            lblWaveform.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            lblWaveform.ForeColor = Color.Cyan;
-            lblWaveform.Location = new Point(10, 15);
-            lblWaveform.Name = "lblWaveform";
-            lblWaveform.Size = new Size(83, 19);
-            lblWaveform.TabIndex = 4;
-            lblWaveform.Text = "Waveform:";
-            lblWaveform.TextAlign = ContentAlignment.MiddleLeft;
-            lblWaveform.UseWaitCursor = true;
-            // 
             // MySlider
             // 
             BackColor = Color.Black;
-            Controls.Add(numericUpDown1);
-            Controls.Add(lblAmplitudeValue);
-            Controls.Add(trackBar1);
-            Controls.Add(lblAmplitude);
-            Controls.Add(cmbWaveforms);
-            Controls.Add(lblWaveform);
             Controls.Add(numUpDownFrequency);
             Controls.Add(lblFrequencyValue);
             Controls.Add(sliderFrequency);
@@ -329,13 +242,10 @@ namespace Spirograph_v1.Controls.MySlider
             Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             Margin = new Padding(0);
             Name = "MySlider";
-            Size = new Size(310, 160);
+            Size = new Size(310, 60);
             ((ISupportInitialize)sliderFrequency).EndInit();
             ((ISupportInitialize)numUpDownFrequency).EndInit();
-            ((ISupportInitialize)numericUpDown1).EndInit();
-            ((ISupportInitialize)trackBar1).EndInit();
             ResumeLayout(false);
-            PerformLayout();
 
         }
 

@@ -10,52 +10,62 @@ namespace Spirograph_v1.Controls.SciFiWaveform
         // ---------------------------------------------------------------------
         // Public Events:
         // --------------
-        //   ValueChanged : EventHandler<int> - Raised when the slider value changes.
+        //   AmplitudeSlider_ValueChanged : Raised when the Amplitude slider
+        //                                  value changes.
+        //
+        //   FrequencySlider_ValueChanged : Raised when the Frequency slider
+        //                                  value changes.
+        //
+        //   DisplayMode_ValueChanged     : Raised when the ValueDisplayMode
+        //                                  property changes.
+        //
+        //   WaveformChanged              : Raised when the selected waveform
+        //                                  changes.
         // ---------------------------------------------------------------------
 
         #region .  Public Events  .
 
-        public event EventHandler<int> ValueChanged;
+        public event EventHandler<int>                AmplitudeSlider_ValueChanged;
+        public event EventHandler<int>                FrequencySlider_ValueChanged;
+        public event EventHandler<ValueDisplayType>   DisplayMode_ValueChanged;
+        public event EventHandler<Func<float, float>> WaveformChanged;
 
         #endregion
 
 
 
         // ---------------------------------------------------------------------
-        // RPSciFi API Layer : Ccontrols must implement this interface to be
-        //                     compatible with the RPSciFi API system.
+        // RPSciFi API Layer : Controls must implement this interface to be
+        //                     compatible with the RPSciFi system.
         //
-        //   ControlId   : strings - The unique identifier for the control.
+        //   ControlId   : string - The unique identifier for the control.
+        //
         //   ControlType : RPSciFiControlType - The type of the control.
-        //   _bus        : RPSciFiControlBus  - The RPSciFi control bus for communication.
+        //
+        //   _controlBus : RPSciFiControlBus  - The RPSciFi control bus.
+        //
         //   Register()  : Register the control with the RPSciFi control bus.
         // ---------------------------------------------------------------------
 
         #region . RPSciFi API Layer  .
 
-        [Category("RPSciFi API Layer"), Description(""), Browsable(true)]
+        [Category("RPSciFi API Layer"), Browsable(true), Description("The unique identifier for the control.")]
         public string ControlId { get; set; } = Guid.NewGuid().ToString();
 
 
-        [Category("RPSciFi API Layer"), Description("The type of the control."), Browsable(true)]
+        [Category("RPSciFi API Layer"), Browsable(true), Description("The type of the control.")]
         public RPSciFiControlType ControlType => RPSciFiControlType.Slider;
 
 
-        [Category("RPSciFi API Layer"), Description("The RPSciFi control bus for communication."), Browsable(false)]
-        private RPSciFiControlBus _bus;
+        [Category("RPSciFi API Layer"), Browsable(true), Description("The RPSciFi control bus.")]
+        private RPSciFiControlBus _controlBus;
 
 
-        [Category("RPSciFi API Layer"), Description("Register the control with the RPSciFi control bus."), Browsable(false)]
+        [Category("RPSciFi API Layer"), Browsable(true), Description("Register the control with the RPSciFi control bus.")]
         public void Register(RPSciFiControlBus bus)
         {
-            _bus = bus;
+            _controlBus = bus;
             bus.Register(this);
-
-            //// Publish events here.
-            //ValueChanged += (s, e) =>
-            //{
-            //    _bus?.Publish(ControlId, ControlType, "ValueChanged", Value);
-            //};
 
         }   // Register()
 
@@ -103,97 +113,143 @@ namespace Spirograph_v1.Controls.SciFiWaveform
         #region .  Public Properties  .
 
         [Category("Sci-Fi"), Browsable(true), Description("The amplitude of the waveform.")]
-        public float Amplitude { get; private set; } = 1f;
+        public int Amplitude
+        {
+            get => _amplitude;
+            set
+            {
+                if (value == _amplitude) return;  // ✅ Now fires on ANY change!
+
+                _amplitude = value;
+                Invalidate();
+
+                AmplitudeSlider_ValueChanged?.Invoke(this, value);
+                _controlBus?.Publish(ControlId, ControlType, "AmplitudeSlider_ValueChanged", value);
+            }
+        }
 
 
         [Category("Sci-Fi"), Browsable(true), Description("The frequency of the waveform in Hz.")]
-        public float Frequency { get; private set; } = 1f;
+        public int Frequency
+        {
+            get => _frequency;
+            set
+            {
+                if (value == _frequency) return;  // ✅ Now fires on ANY change!
+
+                _frequency = value;
+                Invalidate();
+
+                FrequencySlider_ValueChanged?.Invoke(this, value);
+                _controlBus?.Publish(ControlId, ControlType, "FrequencySlider_ValueChanged", value);
+            }
+        }
 
 
-        [Category("Sci-Fi"), Description("The color of glow around the slider."), Browsable(true)]
+        [Category("Sci-Fi"), Browsable(true), Description("The color of glow around the slider.")]
         public Color GlowColor { get; set; } = Color.Cyan;
 
 
-        [Category("Sci-Fi"), Description("The maximum value for the Frequency"), Browsable(true)]
+        [Category("Sci-Fi"), Browsable(true), Description("The maximum value for the Amplitude")]
         public int MaximumAmplitude
         {
             get => _maximumAmplitude;
             set
             {
-                if (value > _maximumAmplitude)
-                {
-                    _maximumAmplitude = value;
-                    Invalidate();
-                    ValueChanged?.Invoke(this, value);
-                }
+                if (value == _maximumAmplitude) return;  // ✅ Now fires on ANY change!
+
+                _maximumAmplitude = value;
+                Invalidate();
+
+                AmplitudeSlider_ValueChanged?.Invoke(this, value);
+                _controlBus?.Publish(ControlId, ControlType, "AmplitudeSlider_ValueChanged", value);
             }
         }
 
 
-        [Category("Sci-Fi"), Description("The maximum value for the Frequency"), Browsable(true)]
+        [Category("Sci-Fi"), Browsable(true), Description("The maximum value for the Frequency")]
         public int MaximumFrequency
         {
             get => _maximumFrequency;
             set
             {
-                if (value > _maximumFrequency)
-                {
-                    _maximumFrequency = value;
-                    Invalidate();
-                    ValueChanged?.Invoke(this, value);
-                }
+                if (value == _maximumFrequency) return;  // ✅ Now fires on ANY change!
+
+                _maximumFrequency = value;
+                Invalidate();
+
+                FrequencySlider_ValueChanged?.Invoke(this, value);
+                _controlBus?.Publish(ControlId, ControlType, "FrequencySlider_ValueChanged", value);
             }
         }
 
 
-        [Category("Sci-Fi"), Description("The minimum value for the Frequency"), Browsable(true)]
+        [Category("Sci-Fi"), Browsable(true), Description("The minimum value for the Frequency")]
         public int MinimumAmplitude
         {
             get => _minimumAmplitude;
             set
             {
-                if (value < _minimumAmplitude)
-                {
-                    _minimumAmplitude = value;
-                    Invalidate();
-                    ValueChanged?.Invoke(this, value);
-                }
+                if (value == _minimumAmplitude) return;  // ✅ Now fires on ANY change!
+
+                _minimumAmplitude = value;
+                Invalidate();
+
+                AmplitudeSlider_ValueChanged?.Invoke(this, value);
+                _controlBus?.Publish(ControlId, ControlType, "AmplitudeSlider_ValueChanged", value);
             }
         }
 
 
-        [Category("Sci-Fi"), Description("The minimum value for the Frequency"), Browsable(true)]
+        [Category("Sci-Fi"), Browsable(true), Description("The minimum value for the Frequency")]
         public int MinimumFrequency
         {
             get => _minimumFrequency;
             set
             {
-                if (value < _minimumFrequency)
-                {
-                    _minimumFrequency = value;
-                    Invalidate();
-                    ValueChanged?.Invoke(this, value);
-                }
+                if (value == _minimumFrequency) return;  // ✅ Now fires on ANY change!
+
+                _minimumFrequency = value;
+                Invalidate();
+
+                FrequencySlider_ValueChanged?.Invoke(this, value);
+                _controlBus?.Publish(ControlId, ControlType, "FrequencySlider_ValueChanged", value);
             }
         }
 
 
         [Category("Sci-Fi"), Browsable(false), Description("The selected waveform function.")]
         // Must be Browsable(false) to avoid serialization issues with Func<>
-        public Func<float, float> SelectedWaveform { get; private set; }
+        public Func<float, float> SelectedWaveform
+        {
+            get => _selectedWaveform;
+            set
+            {
+                if (value == _selectedWaveform) return;  // ✅ Now fires on ANY change!
+
+                _selectedWaveform = value;
+                Invalidate();
+
+                WaveformChanged?.Invoke(this, value);
+                _controlBus?.Publish(ControlId, ControlType, "WaveformChanged", value);
+            }
+        }
 
 
         [Category("Sci-Fi"), Browsable(true), Description("The display mode for the value.")]
-        public ValueDisplayType ValueDisplayMode { get; private set; }
-        //public ValueDisplayType ValueDisplayMode
-        //{
-        //    get => _displayMode;
-        //    set
-        //    {
-        //        _displayMode = value;
-        //        Invalidate();
-        //    }
-        //}
+        //public ValueDisplayType ValueDisplayMode { get; private set; }
+        public ValueDisplayType ValueDisplayMode
+        {
+            get => _displayMode;
+            set
+            {
+                _displayMode = value;
+                Invalidate();
+
+                DisplayMode_ValueChanged?.Invoke(this, value);
+                _controlBus?.Publish(ControlId, ControlType, "DisplayMode_ValueChanged", value);
+            }
+        }
 
 
         [Category("Sci-Fi"), Browsable(true), Description("The type of value display.")]
@@ -211,21 +267,31 @@ namespace Spirograph_v1.Controls.SciFiWaveform
         // ---------------------------------------------------------------------
         // Private Variables:
         // ------------------
-        //   _displayMode
         //   _maximumAmplitude
         //   _minimumAmplitude
         //   _maximumFrequency
         //   _minimumFrequency
+        //   _selectedWaveform
         //   _suppressEvents 
+        //   _displayMode
         //
-        //   _alienSignal   : A complex waveform that combines multiple sine
-        //                    waves to create an otherworldly sound.
+        //   _waveform       : A function that takes a time value (t) and returns
+        //                     the corresponding amplitude of the selected waveform
+        //                     at that time.  This is the core of the waveform
+        //                     generation, and is updated when the user selects a
+        //                     different waveform from the ComboBox.  It is defined
+        //                     as a Func<float, float> to allow for dynamic waveform
+        //                     generation based on the selected waveform and the
+        //                     current Amplitude and Frequency settings.
         //
-        //   _harmonicStack : A complex waveform created by stacking multiple
-        //                    sine waves of different frequencies and amplitudes.
+        //   _alienSignal   : A complex waveform that combines multiple sine waves
+        //                    to create an otherworldly sound.
         //
-        //   _heartbeat     : A waveform that mimics the sound of a heartbeat,
-        //                    with a sharp peak followed by a gradual decay.
+        //   _harmonicStack : A complex waveform created by stacking multiple sine
+        //                    waves of different frequencies and amplitudes.
+        //
+        //   _heartbeat     : A waveform that mimics the sound of a heartbeat, with
+        //                    a sharp peak followed by a gradual decay.
         //
         //   _interference  : A waveform that simulates the effect of signal
         //                    interference, with random fluctuations and noise.
@@ -243,8 +309,8 @@ namespace Spirograph_v1.Controls.SciFiWaveform
         //   _sine          : A waveform that simulates a sine wave, with smooth
         //                    oscillations.
         //
-        //   _square        : A waveform that simulates a square wave, with
-        //                    abrupt transitions between high and low values.
+        //   _square        : A waveform that simulates a square wave, with abrupt
+        //                    transitions between high and low values.
         //
         //   _triangle      : A waveform that simulates a triangle wave, with
         //                    linear rises and falls.
@@ -256,6 +322,8 @@ namespace Spirograph_v1.Controls.SciFiWaveform
 
         #region .  Private Variables  .
 
+        private int  _amplitude        =   0;
+        private int  _frequency        =   0;
         private int  _maximumAmplitude =  10;
         private int  _minimumAmplitude = -10;
         private int  _maximumFrequency =  10;
@@ -263,16 +331,20 @@ namespace Spirograph_v1.Controls.SciFiWaveform
         private bool _suppressEvents   = false;
 
         private ValueDisplayType _displayMode = ValueDisplayType.Both;
-                                                                  
+
+        private Func<float, float> _selectedWaveform = t => 0f;  // Default to a flat line waveform.
+
+
+
         private static readonly Func<float, float> _alienSignal   = t => (float)(Math.Sin(t * 5 + Math.Sin(t * 0.5)) * Math.Cos(t * 0.2));
-                                                                  
+
         private static readonly Func<float, float> _harmonicStack = t => (float)
                                                                   (
                                                                       0.6 * Math.Sin(t * 2 * Math.PI) +
                                                                       0.3 * Math.Sin(t * 4 * Math.PI) +
                                                                       0.1 * Math.Sin(t * 8 * Math.PI)
                                                                   );
-                                                                  
+
         private static readonly Func<float, float> _heartbeat     = t =>
                                                                   {
                                                                       float x = t % 1f;
@@ -280,25 +352,25 @@ namespace Spirograph_v1.Controls.SciFiWaveform
                                                                       return (x < 0.1f) ? 1f - x * 10f
                                                                                         : (float)Math.Sin((x - 0.1f) * 10f);
                                                                   };
-                                                                  
+
         private static readonly Func<float, float> _interference  = t => (float)(Math.Sin(t * 6) + Math.Sin(t * 13)) * 0.5f;
-                                                                  
+
         private static readonly Func<float, float> _plasma        = t => (float)(Math.Sin(t * 4) * Math.Cos(t * 7));
-                                                                  
-        private static readonly Func<float, float> _pulsar        = t => (float)Math.Exp(-20 * Math.Abs(Math.Sin(t * Math.PI))) * 2f - 1f;
-                                                                  
+
+        private static readonly Func<float, float> _pulsa         = t => (float)Math.Exp(-20 * Math.Abs(Math.Sin(t * Math.PI))) * 2f - 1f;
+
         private static readonly Func<float, float> _sawtooth      = t => (t % 1f) * 2f - 1f;
-                                                                  
+
         private static readonly Func<float, float> _sine          = t => (float)Math.Sin(t * 2 * Math.PI);
-                                                                  
+
         private static readonly Func<float, float> _square        = t => Math.Sign(Math.Sin(t * 2 * Math.PI));
-                                                                  
+
         private static readonly Func<float, float> _triangle      = t =>
                                                                   {
-                                                                       float v = (t % 1f) * 2f;
-                                                                       return v < 1f ? v : 2f - v;
+                                                                      float v = (t % 1f) * 2f;
+                                                                      return v < 1f ? v : 2f - v;
                                                                   };
-                                                                  
+
         private static readonly Func<float, float> _warpField     = t => (float)(Math.Sin(t * 3) * Math.Sin(t * 17) * Math.Cos(t * 5));
 
         #endregion
@@ -334,30 +406,29 @@ namespace Spirograph_v1.Controls.SciFiWaveform
                 BackColor      = Color.Black;
 
                 // Amplitude  - Slider and NumericUpDown.
-                sliderAmplitude.Maximum    = MaximumAmplitude;
-                sliderAmplitude.Minimum    = MinimumAmplitude;
-                sliderAmplitude.Value      = (int)Amplitude;
-                //sliderAmplitude.ValueChanged += sliderAmplitude_ValueChanged;
-                //sliderAmplitude.ValueChanged += (sender, value) => sliderAmplitude_ValueChanged(value);
+                sliderAmplitude.Maximum            = MaximumAmplitude;
+                sliderAmplitude.Minimum            = MinimumAmplitude;
+                sliderAmplitude.Value              = Amplitude;
+                sliderAmplitude.ValueChanged      += sliderAmplitude_ValueChanged;
 
-                lblAmplitudeValue .Text    = $"{Amplitude:0.0}";
-                numUpDownAmplitude.Value   = (decimal)Amplitude;
-                //numUpDownAmplitude.ValueChanged += (sender, evt) => numUpDownAmplitude_ValueChanged();
+                //lblAmplitudeValue .Text            = $"{Amplitude:0.0}";
+                //numUpDownAmplitude.Value           = (decimal)Amplitude;
+                //numUpDownAmplitude.ValueChanged   += numUpDownAmplitude_ValueChanged;
 
 
                 // Frequency  - Slider and NumericUpDown.
-                sliderFrequency.Maximum    = MaximumFrequency;
-                sliderFrequency.Minimum    = MinimumFrequency;
-                sliderFrequency.Value      = (int)Frequency;
-                //sliderFrequency.ValueChanged += (sender, value) => sliderFrequency_ValueChanged(value);
+                sliderFrequency.Maximum            = MaximumFrequency;
+                sliderFrequency.Minimum            = MinimumFrequency;
+                sliderFrequency.Value              = Frequency;
+                sliderFrequency.ValueChanged      += sliderFrequency_ValueChanged;
 
-                lblFrequencyValue .Text    = $"{Frequency:0.0} Hz";
-                numUpDownFrequency.Value   = (decimal)Frequency;
-                numUpDownFrequency.ValueChanged += (sender, evt) => numUpDownFrequency_ValueChanged();
+                //lblFrequencyValue .Text            = $"{Frequency:0.0} Hz";
+                //numUpDownFrequency.Value           = (decimal)Frequency;
+                //numUpDownFrequency.ValueChanged   += numUpDownFrequency_ValueChanged;
 
                 // Waveform ComboBox.
-                //cmbWaveforms.Width         = 150;
-                cmbWaveforms.SelectedIndex = 0;
+                cmbWaveforms.Width                 = 139;
+                cmbWaveforms.SelectedIndex         =   0;
                 cmbWaveforms.SelectedIndexChanged += (sender, evt) => UpdateWaveform();
 
                 UpdateWaveform();
@@ -406,7 +477,8 @@ namespace Spirograph_v1.Controls.SciFiWaveform
                               _ => t => 0f
             };
 
-            //WaveformChanged?.Invoke(this, SelectedWaveform);
+            WaveformChanged?.Invoke(this, SelectedWaveform);
+            _controlBus?.Publish(ControlId, ControlType, "WaveformChanged", SelectedWaveform);
 
         }   // UpdateWaveform()
         #endregion
@@ -417,78 +489,83 @@ namespace Spirograph_v1.Controls.SciFiWaveform
         // Private Control Events:
         // -----------------------
         //   numUpDownAmplitude_ValueChanged()
+        //
         //   numUpDownFrequency_ValueChanged()
+        //
         //   sliderAmplitude_ValueChanged()
+        //
         //   sliderFrequency_ValueChanged()
         // ---------------------------------------------------------------------
 
         #region .  numUpDownAmplitude_ValueChanged()  .
-        // ---------------------------------------------------------------------
-        //   Method.......:  numUpDownAmplitude_ValueChanged()
-        //
-        //   Description..:  Handles the numUpDownAmplitude_ValueChanged event
-        //                   to synchronize Amplitude property, Label and Slider.
-        //
-        //   Parameters...:  sender - The event source.
-        //                   e      - The event arguments.
-        //
-        //   Returns......:  Nothing
-        // ---------------------------------------------------------------------
-        private void numUpDownAmplitude_ValueChanged()
-        {
-            // Only raise event if not suppressing.
-            if (!_suppressEvents)
-            {
-                _suppressEvents = true;
+        //// ---------------------------------------------------------------------
+        ////   Method.......:  numUpDownAmplitude_ValueChanged()
+        ////
+        ////   Description..:  Handles the numUpDownAmplitude_ValueChanged event
+        ////                   to synchronize Amplitude property, Label and Slider.
+        ////
+        ////   Parameters...:  sender - The event source.
+        ////                   e      - The event arguments.
+        ////
+        ////   Returns......:  Nothing
+        //// ---------------------------------------------------------------------
+        //private void numUpDownAmplitude_ValueChanged(object sender, EventArgs evt)
+        //{
+        //    // Only raise event if not suppressing.
+        //    if (!_suppressEvents)
+        //    {
+        //        _suppressEvents = true;
 
-                int value = (int)numUpDownAmplitude.Value;
+        //        int value = (int)numUpDownAmplitude.Value;
 
-                Amplitude = value;
-                lblAmplitudeValue.Text = $"{value:0.0}";
-                sliderAmplitude.Value = value;
-                sliderAmplitude.Invalidate();
+        //        Amplitude              = value;
+        //        lblAmplitudeValue.Text = $"{value:0.0}";
+        //        sliderAmplitude.Value  = value;
 
-                _bus?.Publish(ControlId, ControlType, "WaveformChanged", SelectedWaveform);
+        //        numUpDownAmplitude.Invalidate();
+        //        sliderAmplitude   .Invalidate();
 
-                _suppressEvents = false;
-            }
+        //        _controlBus?.Publish(ControlId, ControlType, "WaveformChanged", SelectedWaveform);
 
-        }   // numUpDownAmplitude_ValueChanged()
+        //        _suppressEvents = false;
+        //    }
+
+        //}   // numUpDownAmplitude_ValueChanged()
         #endregion
 
 
         #region .  numUpDownFrequency_ValueChanged()  .
-        // ---------------------------------------------------------------------
-        //   Method.......:  numUpDownFrequency_ValueChanged()
-        //
-        //   Description..:  Handles the numUpDownFrequency_ValueChanged event
-        //                   to synchronize Frequency property, Label and Slider.
-        //
-        //   Parameters...:  sender - The event source.
-        //                   e      - The event arguments.
-        //
-        //   Returns......:  Nothing
-        // ---------------------------------------------------------------------
-        private void numUpDownFrequency_ValueChanged()
-        {
-            // Only raise event if not suppressing.
-            if (!_suppressEvents)
-            {
-                _suppressEvents = true;
+        //// ---------------------------------------------------------------------
+        ////   Method.......:  numUpDownFrequency_ValueChanged()
+        ////
+        ////   Description..:  Handles the numUpDownFrequency_ValueChanged event
+        ////                   to synchronize Frequency property, Label and Slider.
+        ////
+        ////   Parameters...:  sender - The event source.
+        ////                   e      - The event arguments.
+        ////
+        ////   Returns......:  Nothing
+        //// ---------------------------------------------------------------------
+        //private void numUpDownFrequency_ValueChanged(object sender, EventArgs evt)
+        //{
+        //    // Only raise event if not suppressing.
+        //    if (!_suppressEvents)
+        //    {
+        //        _suppressEvents = true;
 
-                int value = (int)numUpDownFrequency.Value;
+        //        //int value = (int)numUpDownFrequency.Value;
 
-                Frequency = value;
-                lblFrequencyValue.Text = $"{value:0.0} Hz";
-                sliderFrequency.Value = value;
-                sliderFrequency.Invalidate();
+        //        Frequency = value;
+        //        lblFrequencyValue.Text = $"{value:0.0} Hz";
+        //        sliderFrequency.Value = value;
+        //        sliderFrequency.Invalidate();
 
-                _bus?.Publish(ControlId, ControlType, "WaveformChanged", SelectedWaveform);
+        //        _controlBus?.Publish(ControlId, ControlType, "WaveformChanged", SelectedWaveform);
 
-                _suppressEvents = false;
-            }
+        //        _suppressEvents = false;
+        //    }
 
-        }   // numUpDownFrequency_ValueChanged()
+        //}   // numUpDownFrequency_ValueChanged()
         #endregion
 
 
@@ -505,7 +582,7 @@ namespace Spirograph_v1.Controls.SciFiWaveform
         //
         //   Returns......:  Nothing
         // ---------------------------------------------------------------------
-        private void sliderAmplitude_ValueChanged(object sender, EventArgs evt)
+        private void sliderAmplitude_ValueChanged(object sender, int e)
         {
             // Only raise event if not suppressing.
             if (!_suppressEvents)
@@ -515,12 +592,15 @@ namespace Spirograph_v1.Controls.SciFiWaveform
                 int value = sliderAmplitude.Value;
 
                 Amplitude = value;
-                lblAmplitudeValue.Text = $"{value:0.0}";
-                numUpDownAmplitude.Value = value;
-                numUpDownAmplitude.Invalidate();
+                //lblAmplitudeValue .Text  = $"{value:0.0}";
                 sliderAmplitude.Invalidate();
 
-                _bus?.Publish(ControlId, ControlType, "WaveformChanged", SelectedWaveform);
+                Frequency = value;
+                //numUpDownAmplitude.Value = value;
+                //numUpDownAmplitude.Invalidate();
+
+                AmplitudeSlider_ValueChanged?.Invoke(this, value);
+                _controlBus?.Publish(ControlId, ControlType, "AmplitudeSlider_ValueChanged", value);
 
                 _suppressEvents = false;
             }
@@ -542,7 +622,7 @@ namespace Spirograph_v1.Controls.SciFiWaveform
         //
         //   Returns......:  Nothing
         // ---------------------------------------------------------------------
-        private void sliderFrequency_ValueChanged(object sender, EventArgs evt)
+        private void sliderFrequency_ValueChanged(object sender, int e)
         {
             // Only raise event if not suppressing.
             if (!_suppressEvents)
@@ -551,12 +631,13 @@ namespace Spirograph_v1.Controls.SciFiWaveform
 
                 int value = sliderFrequency.Value;
 
-                Frequency                = value;
-                lblFrequencyValue.Text   = $"{value:0.0} Hz";
-                numUpDownFrequency.Value = value;
-                numUpDownFrequency.Invalidate();
+                Frequency = value;
+                //lblFrequencyValue.Text   = $"{value:0.0} Hz";
+                //numUpDownFrequency.Value = value;
+                //numUpDownFrequency.Invalidate();
 
-                _bus?.Publish(ControlId, ControlType, "WaveformChanged", SelectedWaveform);
+                FrequencySlider_ValueChanged?.Invoke(this, value);
+                _controlBus?.Publish(ControlId, ControlType, "FrequencySlider_ValueChanged", value);
 
                 _suppressEvents = false;
             }

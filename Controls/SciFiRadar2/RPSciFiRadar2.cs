@@ -27,7 +27,7 @@ namespace Spirograph_v1.Controls.RPSciFiRadar2
 
 
         // ---------------------------------------------------------------------
-        //  RPSciFi API Layer : All controls must implement this interface to be
+        //  RPSciFi API Layer : Controls must implement this interface to be
         //                      compatible with the RPSciFi system.
         // ---------------------------------------------------------------------
 
@@ -41,20 +41,20 @@ namespace Spirograph_v1.Controls.RPSciFiRadar2
         public RPSciFiControlType ControlType => RPSciFiControlType.Radar2;
 
 
-        [Category("RPSciFi API Layer"), Description("The RPSciFi control bus for communication."), Browsable(false)]
-        private RPSciFiControlBus _bus;
+        [Category("RPSciFi API Layer"), Description("The RPSciFi control bus."), Browsable(false)]
+        private RPSciFiControlBus _controlBus;
 
 
         [Category("RPSciFi API Layer"), Description("Register the control with the RPSciFi control bus."), Browsable(false)]
         public void Register(RPSciFiControlBus bus)
         {
-            _bus = bus;
+            _controlBus = bus;
             bus.Register(this);
 
             //// Publish events here.
             //ValueChanged += (s, e) =>
             //{
-            //    _bus?.Publish(ControlId, ControlType, "ValueChanged", Value);
+            //    _controlBus?.Publish(ControlId, ControlType, "ValueChanged", Value);
             //};
 
         }   // Register()
@@ -188,7 +188,7 @@ namespace Spirograph_v1.Controls.RPSciFiRadar2
             };
             _contacts.Add(c);
 
-            _bus?.Publish(ControlId, ControlType, "ContactAdded", c.Id);
+            _controlBus?.Publish(ControlId, ControlType, "ContactAdded", c.Id);
 
         }   // AddRandomContact()
         #endregion
@@ -281,7 +281,7 @@ namespace Spirograph_v1.Controls.RPSciFiRadar2
                 // Lock-on event.
                 if (Math.Abs(c.Angle - _sweepAngle) < 2f)
                 {
-                    _bus?.Publish(ControlId, ControlType, "ContactSweep", c.Id);
+                    _controlBus?.Publish(ControlId, ControlType, "ContactSweep", c.Id);
                 }
             }
 

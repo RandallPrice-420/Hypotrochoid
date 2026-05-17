@@ -30,6 +30,7 @@ namespace Spirograph_v1
         //   _centerDock       : The center dock panel.
         //   _leftDock         : The left dock panel.
         //   _rightDock        : The right dock panel.
+        //
         //   _camera           : The camera feed control.
         //   _comms            : The communications panel control.
         //   _holo             : The holographic table control.
@@ -37,7 +38,7 @@ namespace Spirograph_v1
         //   _map              : The tactical map control.
         //   _radar            : The radar control.
         //   _terminal         : The terminal control.
-        //   _bus              : The control bus for inter-control communication.
+        //   _controlBus              : The control bus for inter-control communication.
         // ---------------------------------------------------------------------
 
         #region .  Private Variables  .
@@ -61,7 +62,7 @@ namespace Spirograph_v1
         private RPSciFiRadar          _radar;
         private RPSciFiTerminal       _terminal;
 
-        private readonly RPSciFiControlBus _bus = new();
+        private readonly RPSciFiControlBus _controlBus = new();
 
         #endregion
 
@@ -318,7 +319,7 @@ namespace Spirograph_v1
         // ---------------------------------------------------------------------
         private void HookEvents()
         {
-            _bus.OnEvent += evt =>
+            _controlBus.OnEvent += evt =>
             {
                 // Debug output.
                 Debug.Print($"{evt.ControlType} {evt.ControlId} -> {evt.EventName} = {evt.Value}");
@@ -393,13 +394,13 @@ namespace Spirograph_v1
         // ---------------------------------------------------------------------
         private void RegisterControls()
         {
-            _camera   .Register(_bus);
-            _comms    .Register(_bus);
-            _holo     .Register(_bus);
-            _inventory.Register(_bus);
-            _map      .Register(_bus);
-            _radar    .Register(_bus);
-            _terminal .Register(_bus);
+            _camera   .Register(_controlBus);
+            _comms    .Register(_controlBus);
+            _holo     .Register(_controlBus);
+            _inventory.Register(_controlBus);
+            _map      .Register(_controlBus);
+            _radar    .Register(_controlBus);
+            _terminal .Register(_controlBus);
 
         }   // RegisterControls()
         #endregion

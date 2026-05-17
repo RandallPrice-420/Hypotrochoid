@@ -8,7 +8,6 @@ using Spirograph_v1.Controls.RPSciFiSlider;
 using Spirograph_v1.Controls.RPSciFiToggleSwitch;
 
 using System;
-using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
@@ -297,7 +296,7 @@ namespace Spirograph_v1
             };
             _rightDock.Controls.Add(_sliderPhase);
             //_sliderPhase.ValueChanged += SliderPhase_ValueChanged;
-            //_bus.OnEvent += evt =>
+            //_controlBus.OnEvent += evt =>
             //{
             //    Console.WriteLine($"{evt.ControlId} fired {evt.EventName} = {evt.Value}");
             //};

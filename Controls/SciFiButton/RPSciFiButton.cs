@@ -25,7 +25,7 @@ namespace Spirograph_v1.Controls.RPSciFiButton
 
 
         // ---------------------------------------------------------------------
-        //  RPSciFi API Layer : All controls must implement this interface to be
+        //  RPSciFi API Layer : Controls must implement this interface to be
         //                      compatible with the RPSciFi system.
         // ---------------------------------------------------------------------
 
@@ -39,20 +39,20 @@ namespace Spirograph_v1.Controls.RPSciFiButton
         public RPSciFiControlType ControlType => RPSciFiControlType.Button;
 
 
-        [Category("RPSciFi API Layer"), Description("The RPSciFi control bus for communication."), Browsable(false)]
-        private RPSciFiControlBus _bus;
+        [Category("RPSciFi API Layer"), Description("The RPSciFi control bus."), Browsable(false)]
+        private RPSciFiControlBus _controlBus;
 
 
         [Category("RPSciFi API Layer"), Description("Register the control with the RPSciFi control bus."), Browsable(false)]
         public void Register(RPSciFiControlBus bus)
         {
-            _bus = bus;
+            _controlBus = bus;
             bus.Register(this);
 
             //// Publish events here.
             //Clicked += (s, e) =>
             //{
-            //    _bus?.Publish(ControlId, ControlType, "Clicked", null);
+            //    _controlBus?.Publish(ControlId, ControlType, "Clicked", null);
             //};
 
         }   // Register()
@@ -357,7 +357,7 @@ namespace Spirograph_v1.Controls.RPSciFiButton
         // ---------------------------------------------------------------------
         protected override void OnClick(EventArgs e)
         {
-            _bus?.Publish(ControlId, ControlType, "Click");
+            _controlBus?.Publish(ControlId, ControlType, "Click");
 
             base.OnClick(e);
 

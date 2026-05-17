@@ -12,52 +12,53 @@ namespace Spirograph_v1.Controls.RPSciFiSlider
         // ---------------------------------------------------------------------
         // Public Events:
         // --------------
-        //   ValueChanged : EventHandler<int> - Raised when the slider value changes.
+        //   LabelTitleChanged  : Raised when the LabelTitle property changes.
+        //   LabelValueChanged  : Raised when the LabelValue property changes.
+        //   SliderValueChanged : Raised when the slider value changes.
         // ---------------------------------------------------------------------
 
         #region .  Public Events  .
 
-        public event EventHandler<int> ValueChanged;
+        public event EventHandler<string> LabelTitleChanged;
+        public event EventHandler<string> LabelValueChanged;
+        public event EventHandler<int>    ValueChanged;
 
         #endregion
 
 
 
         // ---------------------------------------------------------------------
-        // RPSciFi API Layer : All controls must implement this interface to be
+        // RPSciFi API Layer : Controls must implement this interface to be
         //                     compatible with the RPSciFi system.
         //
-        //   ControlId   : strings - The unique identifier for the control.
+        //   ControlId   : string - The unique identifier for the control.
+        //
         //   ControlType : RPSciFiControlType - The type of the control.
-        //   _bus        : RPSciFiControlBus  - The RPSciFi control bus for communication.
+        //
+        //   _controlBus : RPSciFiControlBus  - The RPSciFi control bus.
+        //
         //   Register()  : Register the control with the RPSciFi control bus.
         // ---------------------------------------------------------------------
 
         #region . RPSciFi API Layer  .
 
-        [Category("RPSciFi API Layer"), Description(""), Browsable(true)]
+        [Category("RPSciFi API Layer"), Browsable(true), Description("The unique identifier for the control.")]
         public string ControlId { get; set; } = Guid.NewGuid().ToString();
 
 
-        [Category("RPSciFi API Layer"), Description("The type of the control."), Browsable(true)]
-        public  RPSciFiControlType ControlType => RPSciFiControlType.Slider;
+        [Category("RPSciFi API Layer"), Browsable(true), Description("The type of the control.")]
+        public RPSciFiControlType ControlType => RPSciFiControlType.Slider;
 
 
-        [Category("RPSciFi API Layer"), Description("The RPSciFi control bus for communication."), Browsable(false)]
-        private RPSciFiControlBus _bus;
+        [Category("RPSciFi API Layer"), Browsable(true), Description("The RPSciFi control bus.")]
+        private RPSciFiControlBus _controlBus;
 
 
-        [Category("RPSciFi API Layer"), Description("Register the control with the RPSciFi control bus."), Browsable(false)]
+        [Category("RPSciFi API Layer"), Browsable(true), Description("Register the control with the RPSciFi control bus.")]
         public void Register(RPSciFiControlBus bus)
         {
-            _bus = bus;
+            _controlBus = bus;
             bus.Register(this);
-
-            // Publish events here.
-            ValueChanged += (s, e) =>
-            {
-                _bus?.Publish(ControlId, ControlType, "ValueChanged", Value);
-            };
 
         }   // Register()
 
@@ -68,84 +69,141 @@ namespace Spirograph_v1.Controls.RPSciFiSlider
         // ---------------------------------------------------------------------
         // Public Properties:
         // ------------------
-        //   GlowColor : Color - The color of the glow around the slider.
-        //   Maximum   : int   - The maximum value for the slider.
-        //   Minimum   : int   - The minimum value for the slider.
-        //   Value     : int   - The current value of the slider.
+        //   Border_Style  : BorderStyle - The border style around the slider.
+        //   GlowColor     : Color  - The color of the glow around the slider.
+        //   LabelTitle    : string - The title label of the slider.
+        //   LabelValue    : string - The value label of the slider.
+        //   Maximum       : int    - The maximum value for the slider.
+        //   Minimum       : int    - The minimum value for the slider.
+        //   TickFrequency : int    - The frequency of the ticks on the slider.
+        //   Value         : int    - The current value of the slider.
         // ---------------------------------------------------------------------
 
         #region .  Public Properties  .
 
-        [Category("Sci-Fi"), Description("The color of glow around the slider."), Browsable(true)]
+        [Category("Sci-Fi"), Browsable(true), Description("The border style around the slider.")]
+        public BorderStyle Border_Style
+        {
+            get => this.BorderStyle;
+            set
+            {
+                if (value == this.BorderStyle) return;
+
+                this.BorderStyle = value;
+                this.Invalidate();
+
+                _controlBus?.Publish(ControlId, ControlType, "BorderStyleChanged", value);
+            }
+        }
+
+
+        [Category("Sci-Fi"), Browsable(true), Description("The color of glow around the slider.")]
         public Color GlowColor { get; set; } = Color.Cyan;
 
 
-        [Category("Sci-Fi"), Description("The maximum value for the slider"), Browsable(true)]
+        [Category("Sci-Fi"), Browsable(true), Description("The title label of the slider.")]
+        public string LabelTitle
+        {
+            get => lblTitle.Text;
+            set
+            {
+                if (value == lblTitle.Text) return;
+
+                lblTitle.Text = value;
+                lblTitle.Invalidate();
+
+                //LabelTitleChanged?.Invoke(this, value);
+                //_controlBus?.Publish(ControlId, ControlType, "LabelTitleChanged", value);
+            }
+        }
+
+
+        [Category("Sci-Fi"), Browsable(true), Description("The value label of the slider.")]
+        public string LabelValue
+
+        {
+            get => lblValue.Text;
+            set
+            {
+                if (value == lblValue.Text) return;
+
+                lblValue.Text = value;
+                lblValue.Invalidate();
+
+                //LabelValueChanged?.Invoke(this, value);
+                //_controlBus?.Publish(ControlId, ControlType, "LabelValueChanged", value);
+            }
+        }
+
+
+        [Category("Sci-Fi"), Browsable(true), Description("The maximum value for the slider")]
         public int Maximum
         {
             get => _maximum;
             set
             {
-                if (value > _minimum)
-                {
-                    _maximum = value;
-                    Invalidate();
-                    ValueChanged?.Invoke(this, value);
-                }
+                if ((value == _maximum) || (value < _minimum)) return;
+
+                _maximum = value;
+                this.Invalidate();
+
+                ValueChanged?.Invoke(this, value);
+                _controlBus?.Publish(ControlId, ControlType, "ValueChanged", value);
             }
         }
 
 
-        [Category("Sci-Fi"), Description("The minimum value for the slider"), Browsable(true)]
+        [Category("Sci-Fi"), Browsable(true), Description("The minimum value for the slider")]
         public int Minimum
         {
             get => _minimum;
             set
             {
-                if (value < _maximum)
-                {
-                    _minimum = value;
-                    Invalidate();
-                    ValueChanged?.Invoke(this, value);
-                }
+                if ((value == _minimum) || (value > _maximum)) return;
+
+                _minimum = value;
+                this.Invalidate();
+
+                ValueChanged?.Invoke(this, value);
+                _controlBus?.Publish(ControlId, ControlType, "ValueChanged", value);
             }
         }
 
 
-        [Category("Sci-Fi"), Description("The current value of the slider."), Browsable(true)]
-        public int Value { get; set; }
-        //public int Value
-        //{
-        //    get => _value;
-        //    set
-        //    {
-        //        int v = Math.Max(_minimum, Math.Min(_maximum, value));
-        //        if (_value != v)
-        //        {
-        //            _value = v;
-        //            Invalidate();
-        //            ValueChanged?.Invoke(this, value);
-        //        }
-        //    }
-        //}
-
-
-        [Category("Sci-Fi"), Description("The current value of the slider."), Browsable(true)]
+        [Category("Sci-Fi"), Browsable(true), Description("The current value of the slider.")]
         public int TickFrequency
         {
             get => _tickFrequency;
             set
             {
+                if ((value == _tickFrequency) || (value < _minimum) || (value > _maximum)) return;
+
                 _tickFrequency = value;
-                int v = Math.Max(_minimum, Math.Min(_maximum, value));
-                if (_value != v)
-                {
-                    _value = v;
-                    Invalidate();
-                    ValueChanged?.Invoke(this, value);
-                }
+                 this.Invalidate();
+
+                ValueChanged?.Invoke(this, value);
+                _controlBus?.Publish(ControlId, ControlType, "ValueChanged", value);
             }
         }
+
+
+        [Category("Sci-Fi"), Browsable(true), Description("The current value of the slider.")]
+        public int Value
+        {
+            get => _value;
+            set
+            {
+                if ((value == _value) || (value < _minimum) || (value > _maximum)) return;
+
+                _value        = value;
+                lblValue.Text = value.ToString();
+                lblValue.Invalidate();
+
+                ValueChanged?.Invoke(this, value);
+                _controlBus?.Publish(ControlId, ControlType, "ValueChanged", value);
+            }
+        }
+
         #endregion
 
 
@@ -153,20 +211,25 @@ namespace Spirograph_v1.Controls.RPSciFiSlider
         // ---------------------------------------------------------------------
         // Private Variables:
         // ------------------
-        //   _dragging      : bool - Indicates if the slider is being dragged.
-        //   _maximum       : int  - The maximum value for the slider.
-        //   _minimum       : int  - The minimum value for the slider.
-        //   _tickFrequency : int  - The frequency of the ticks on the slider.
-        //   _value         : int  - The current value of the slider.
+        //   _dragging      : bool   - Indicates if the slider is being dragged.
+        //   _labelTitle    : string - The title label of the slider.
+        //   _labelValue    : string - The value label of the slider.
+        //   _maximum       : int    - The maximum value for the slider.
+        //   _minimum       : int    - The minimum value for the slider.
+        //   _tickFrequency : int    - The frequency of the ticks on the slider.
+        //   _value         : int    - The current value of the slider.
         // ---------------------------------------------------------------------
 
-        #region .  Public Properties  .
+        #region .  Private Properties  .
+        private bool        _dragging;
+        private int         _tickFrequency;
 
-        private bool _dragging;
-        private int  _maximum;
-        private int  _minimum;
-        private int  _tickFrequency;
-        private int  _value;
+        private BorderStyle _borderStyle;
+        private string      _labelTitle;
+        private string      _labelValue;
+        private int         _maximum;
+        private int         _minimum;
+        private int         _value;
 
         #endregion
 
@@ -190,22 +253,16 @@ namespace Spirograph_v1.Controls.RPSciFiSlider
         // ---------------------------------------------------------------------
         public RPSciFiSlider()
         {
-            DoubleBuffered = true;
-            Height         = 32;
-            ValueChanged  += RPSciFiSlider_ValueChanged;
-            //{
-            //    // Publish the ValueChanged event to the RPSciFi control bus.
-            //    _bus?.Publish(ControlId, ControlType, "ValueChanged", Value);
-            //};
+            InitializeComponent();
+
+            DoubleBuffered  = true;
+            BorderStyle     = BorderStyle.None;
+            Minimum         = -10;
+            Maximum         =  10;
+            Value           =   0;
+            numUpDown.Value = Value;
 
         }   // RPSciFiSlider()
-
-        private void RPSciFiSlider_ValueChanged(object s, int e)
-        {
-            // Publish the ValueChanged event to the RPSciFi control bus.
-            _bus?.Publish(ControlId, ControlType, "ValueChanged", e);
-
-        }
         #endregion
 
 
@@ -231,7 +288,7 @@ namespace Spirograph_v1.Controls.RPSciFiSlider
         // ---------------------------------------------------------------------
         private Rectangle GetTrackRect()
         {
-            return new Rectangle(10, (Height / 2) - 4, Width - 20, 8);
+            return new Rectangle(10, (Height / 2) + 2, Width - 90, 8);
 
         }   // GetTrackRect()
         #endregion
@@ -244,7 +301,7 @@ namespace Spirograph_v1.Controls.RPSciFiSlider
         //   Description..:  Set the slider value based on the X position of the
         //                   mouse click.
         //
-        //   Parameters...:  x - The X position of the mouse click.
+        //   Parameters...:  x : int - The X position of the mouse click.
         //
         //   Returns......:  Nothing
         // ---------------------------------------------------------------------
@@ -253,9 +310,11 @@ namespace Spirograph_v1.Controls.RPSciFiSlider
             if (Value != x)
             {
                 Rectangle rect = GetTrackRect();
-                float     pos  = (float)(x - rect.Left) / Math.Max(1, rect.Width);
+                float pos = (float)(x - rect.Left) / Math.Max(1, rect.Width);
 
                 Value = Minimum + (int)(pos * (Maximum - Minimum));
+                numUpDown.Value = Value;
+
                 Invalidate();
             }
 
@@ -267,16 +326,51 @@ namespace Spirograph_v1.Controls.RPSciFiSlider
         // ---------------------------------------------------------------------
         // Protected Override Methods:
         // ---------------------------
-        //   OnMouseDown() : Handle the MouseDown event to start dragging the
-        //                   slider and update the value based on mouse position.
+        //   numUpDown_ValueChanged() : Handle the numUpDown_ValueChanged event to
+        //                              update the Value and LabelValue properties,
+        //                              and publish the ValueChanged event to the
+        //                              RPSciFi control bus.
         //
-        //   OnMouseMove() : Handle the MouseMove event to update the slider
-        //                   value while dragging.
+        //   OnMouseDown()    : Handle the MouseDown event to start dragging the
+        //                      slider and updating the value using the based on
+        //                      the X position of the mouse click.
         //
-        //   OnMouseUp()   : Handle the MouseUp event to stop dragging the slider.
+        //   OnMouseMove()    : Handle the MouseMove event to update the slider
+        //                      value while dragging.
         //
-        //   OnPaint()     : Handle the Paint event to draw the slider.
+        //   OnMouseUp()      : Handle the MouseUp event to stop dragging the
+        //                      slider.
+        //
+        //   OnPaint()        : Handle the Paint event to draw the slider.
+        //
+        //   OnValueChanged() : Handle the ValueChanged event to publish the
+        //                      event to the RPSciFi control bus.
+        //
+        //   Note:  These methods are overridden to provide custom behavior for
+        //          the slider control.
         // ---------------------------------------------------------------------
+
+        #region .  numUpDown_ValueChanged()  .
+        // ---------------------------------------------------------------------
+        //   Method.......:  numUpDown_ValueChanged()
+        //
+        //   Description..:  Handle the numUpDown_ValueChanged event.  Raise the
+        //                   public ValueChanged event for listening subscribers.
+        //
+        //   Parameters...:  e - The event arguments.
+        //
+        //   Returns......:  Nothing
+        // ---------------------------------------------------------------------
+        private void numUpDown_ValueChanged(object sender, EventArgs e)
+        {
+            Value      = (int)numUpDown.Value;
+            LabelValue = $"{Value:0.0}";
+
+            _controlBus?.Publish(ControlId, ControlType, "ValueChanged", Value);
+
+        }   // numUpDown_ValueChanged()
+        #endregion
+
 
         #region .  OnMouseDown()  .
         // ---------------------------------------------------------------------
@@ -361,37 +455,37 @@ namespace Spirograph_v1.Controls.RPSciFiSlider
 
             e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
 
-            BackColor = Color.Transparent;
+            BackColor = Color.Black;
 
-            Rectangle track = GetTrackRect();
+            Rectangle rect = GetTrackRect();
 
             using (LinearGradientBrush bg = new
             (
-                track,
+                rect,
                 Color.FromArgb(40, 40, 60),
                 Color.FromArgb(10, 10, 20),
                 0f)
             )
             {
-                e.Graphics.FillRectangle(bg, track);
+                e.Graphics.FillRectangle(bg, rect);
             }
 
             using (Pen p = new(Color.FromArgb(120, GlowColor), 2))
             {
-                e.Graphics.DrawRectangle(p, track);
+                e.Graphics.DrawRectangle(p, rect);
             }
 
-            float t     = (float)(Value - Minimum) / Math.Max(1, (Maximum - Minimum));
-            int   knobX = track.Left + (int)(t * track.Width);
+            float t = (float)(Value - Minimum) / Math.Max(1, (Maximum - Minimum));
+            int knobX = rect.Left + (int)(t * rect.Width);
 
-            Rectangle knob = new(knobX - 8, track.Top - 6, 16, track.Height + 12);
+            Rectangle knob = new(knobX - 8, rect.Top - 6, 16, rect.Height + 12);
 
             using GraphicsPath gp = new();
             gp.AddEllipse(knob);
 
             using (PathGradientBrush pgb = new(gp))
             {
-                pgb.CenterColor    = Color.FromArgb(180, GlowColor);
+                pgb.CenterColor = Color.FromArgb(180, GlowColor);
                 pgb.SurroundColors = [Color.FromArgb(0, GlowColor)];
                 e.Graphics.FillEllipse(pgb, knob);
             }

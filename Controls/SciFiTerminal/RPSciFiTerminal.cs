@@ -25,7 +25,7 @@ namespace Spirograph_v1.Controls.RPSciFiTerminal
 
 
         // ---------------------------------------------------------------------
-        //  RPSciFi API Layer : All controls must implement this interface to be
+        //  RPSciFi API Layer : Controls must implement this interface to be
         //                      compatible with the RPSciFi system.
         // ---------------------------------------------------------------------
 
@@ -39,21 +39,15 @@ namespace Spirograph_v1.Controls.RPSciFiTerminal
         public RPSciFiControlType ControlType => RPSciFiControlType.Terminal;
 
 
-        [Category("RPSciFi API Layer"), Description("The RPSciFi control bus for communication."), Browsable(false)]
-        private RPSciFiControlBus _bus;
+        [Category("RPSciFi API Layer"), Description("The RPSciFi control bus."), Browsable(false)]
+        private RPSciFiControlBus _controlBus;
 
 
         [Category("RPSciFi API Layer"), Description("Register the control with the RPSciFi control bus."), Browsable(false)]
         public void Register(RPSciFiControlBus bus)
         {
-            _bus = bus;
+            _controlBus = bus;
             bus.Register(this);
-
-            //// Publish events here.
-            //ValueChanged += (s, e) =>
-            //{
-            //    _bus?.Publish(ControlId, ControlType, "ValueChanged", Value);
-            //};
 
         }   // Register()
 
@@ -216,7 +210,7 @@ namespace Spirograph_v1.Controls.RPSciFiTerminal
             else if (e.KeyCode == Keys.Enter)
             {
                 _lines.Add("> " + _currentInput);
-                _bus?.Publish(ControlId, ControlType, "Command", _currentInput);
+                _controlBus?.Publish(ControlId, ControlType, "Command", _currentInput);
                 _currentInput = "";
             }
             else

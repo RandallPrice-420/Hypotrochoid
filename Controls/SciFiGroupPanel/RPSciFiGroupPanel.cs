@@ -11,22 +11,7 @@ namespace Spirograph_v1.Controls.RPSciFiGroupPanel
     public partial class RPSciFiGroupPanel : UserControl, IRPSciFiControl
     {
         // ---------------------------------------------------------------------
-        // Public Events:
-        // --------------
-        //   ValueChanged  --  Not needed for this control, but included for
-        //                     consistency with other controls.
-        // ---------------------------------------------------------------------
-
-        #region .  Public Events  .
-
-        //public event EventHandler ValueChanged;
-
-        #endregion
-
-
-
-        // ---------------------------------------------------------------------
-        //  RPSciFi API Layer : All controls must implement this interface to be
+        //  RPSciFi API Layer : Controls must implement this interface to be
         //                      compatible with the RPSciFi system.
         // ---------------------------------------------------------------------
 
@@ -40,14 +25,14 @@ namespace Spirograph_v1.Controls.RPSciFiGroupPanel
         public RPSciFiControlType ControlType => RPSciFiControlType.GroupPanel;
 
 
-        [Category("RPSciFi API Layer"), Description("The RPSciFi control bus for communication."), Browsable(false)]
-        private RPSciFiControlBus _bus;
+        [Category("RPSciFi API Layer"), Description("The RPSciFi control bus."), Browsable(false)]
+        private RPSciFiControlBus _controlBus;
 
 
         [Category("RPSciFi API Layer"), Description("Register the control with the RPSciFi control bus."), Browsable(false)]
         public void Register(RPSciFiControlBus bus)
         {
-            _bus = bus;
+            _controlBus = bus;
             bus.Register(this);
 
         }   // Register()

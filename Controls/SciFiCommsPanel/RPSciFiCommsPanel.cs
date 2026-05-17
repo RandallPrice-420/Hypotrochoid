@@ -24,7 +24,7 @@ namespace Spirograph_v1.Controls.RPSciFiCommsPanel
 
 
         // ---------------------------------------------------------------------
-        //  RPSciFi API Layer : All controls must implement this interface to be
+        //  RPSciFi API Layer : Controls must implement this interface to be
         //                      compatible with the RPSciFi system.
         // ---------------------------------------------------------------------
 
@@ -38,14 +38,14 @@ namespace Spirograph_v1.Controls.RPSciFiCommsPanel
         public RPSciFiControlType ControlType => RPSciFiControlType.CommsPanel;
 
 
-        [Category("RPSciFi API Layer"), Description("The RPSciFi control bus for communication."), Browsable(false)]
-        private RPSciFiControlBus _bus;
+        [Category("RPSciFi API Layer"), Description("The RPSciFi control bus."), Browsable(false)]
+        private RPSciFiControlBus _controlBus;
 
 
         [Category("RPSciFi API Layer"), Description("Register the control with the RPSciFi control bus."), Browsable(false)]
         public void Register(RPSciFiControlBus bus)
         {
-            _bus = bus;
+            _controlBus = bus;
             bus.Register(this);
 
         }   // Register()

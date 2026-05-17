@@ -26,7 +26,7 @@ namespace Spirograph_v1.Controls.RPSciFiMap
 
 
         // ---------------------------------------------------------------------
-        //  RPSciFi API Layer : All controls must implement this interface to be
+        //  RPSciFi API Layer : Controls must implement this interface to be
         //                      compatible with the RPSciFi system.
         // ---------------------------------------------------------------------
 
@@ -40,20 +40,20 @@ namespace Spirograph_v1.Controls.RPSciFiMap
         public RPSciFiControlType ControlType => RPSciFiControlType.Map;
 
 
-        [Category("RPSciFi API Layer"), Description("The RPSciFi control bus for communication."), Browsable(false)]
-        private RPSciFiControlBus _bus;
+        [Category("RPSciFi API Layer"), Description("The RPSciFi control bus."), Browsable(false)]
+        private RPSciFiControlBus _controlBus;
 
 
         [Category("RPSciFi API Layer"), Description("Register the control with the RPSciFi control bus."), Browsable(false)]
         public void Register(RPSciFiControlBus bus)
         {
-            _bus = bus;
+            _controlBus = bus;
             bus.Register(this);
 
             //// Publish events here.
             //ValueChanged += (s, e) =>
             //{
-            //    _bus?.Publish(ControlId, ControlType, "ValueChanged", Value);
+            //    _controlBus?.Publish(ControlId, ControlType, "ValueChanged", Value);
             //};
 
         }   // Register()
@@ -146,7 +146,7 @@ namespace Spirograph_v1.Controls.RPSciFiMap
         public void AddMarker(string id, float x, float y)
         {
             _markers.Add(new MapMarker { Id = id, Position = new PointF(x, y) });
-            _bus?.Publish(ControlId, ControlType, "MarkerAdded", id);
+            _controlBus?.Publish(ControlId, ControlType, "MarkerAdded", id);
 
             Invalidate();
 
@@ -240,7 +240,7 @@ namespace Spirograph_v1.Controls.RPSciFiMap
             _zoom += e.Delta > 0 ? 0.1f : -0.1f;
             _zoom  = Math.Max(0.2f, Math.Min(3f, _zoom));
 
-            _bus?.Publish(ControlId, ControlType, "ZoomChanged", _zoom);
+            _controlBus?.Publish(ControlId, ControlType, "ZoomChanged", _zoom);
 
             Invalidate();
             base.OnMouseWheel(e);
